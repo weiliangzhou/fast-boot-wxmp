@@ -32,14 +32,15 @@ public class StatisticsByDayController {
     }
 
     /**
-     * 根据id获取对象
+     * 根据条件获取对象
      *
      * @param statisticsByDay
      * @return
      */
     @GetMapping("/getByParams")
     public Result getByParams(StatisticsByDay statisticsByDay) throws Exception {
-        return ResultUtil.ok(new StatisticsByDay().selectOne(new QueryWrapper<StatisticsByDay>().allEq(MapUtil.objectToUnderlineMap(statisticsByDay), false)));
+        return ResultUtil.ok(new StatisticsByDay().selectOne(new QueryWrapper<StatisticsByDay>()
+                .allEq(MapUtil.objectToUnderlineMap(statisticsByDay), false)));
     }
 
 
