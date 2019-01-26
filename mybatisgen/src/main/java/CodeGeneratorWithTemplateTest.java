@@ -44,7 +44,7 @@ public class CodeGeneratorWithTemplateTest {
 
     private static void generateByTables(String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://47.98.55.127:3306/mall_test";
+        String dbUrl = "jdbc:mysql://localhost:3306/mall_test";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

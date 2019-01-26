@@ -1,0 +1,14 @@
+server:
+  port: 9111
+spring:
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+# 本地环境
+api2doc:
+  title: 测试——by二师兄超级帅
+  icon: https://spring.io/img/homepage/icon-spring-framework.svg
+
+
