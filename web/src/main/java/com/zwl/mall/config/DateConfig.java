@@ -18,7 +18,6 @@ import java.util.Locale;
  * @ProjectName mall
  * @Description: TODO
  * @date 2019/1/2614:05
- * @author wangqingguo 2017/9/25
  */
 @Configuration
 public class DateConfig {

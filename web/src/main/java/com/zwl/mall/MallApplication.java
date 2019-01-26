@@ -5,7 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author 二师兄
+ * @author 二师兄超级帅
+ * @Title:
+ * @ProjectName mall
+ * @Description: TODO
+ * @date 2019/1/2614:05
  */
 @SpringBootApplication
 @MapperScan("com.zwl.mall.mapper")

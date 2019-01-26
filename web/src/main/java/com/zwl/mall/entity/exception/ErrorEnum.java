@@ -1,10 +1,11 @@
 package com.zwl.mall.entity.exception;
 
 /**
- * 错误信息
- *
- * @author paul <wagzhi@gmail.com>
- * @since 2018/11/24 4:19 PM
+ * @author 二师兄超级帅
+ * @Title:
+ * @ProjectName mall
+ * @Description: TODO
+ * @date 2019/1/2614:05
  */
 public enum ErrorEnum {
 

@@ -14,14 +14,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 自定义模板
- *
- * </p>
- * 自定义属性注入abc=
- *
  * @author 二师兄超级帅
- * @since 2019-01-25
+ * @Title:
+ * @ProjectName mall
+ * @Description: TODO
+ * @date 2019/1/2614:05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

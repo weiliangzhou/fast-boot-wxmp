@@ -1,8 +1,11 @@
 package com.zwl.mall.entity;
 
 /**
- * @author paul <wagzhi@gmail.com>
- * @since 2018/11/15 5:09 PM
+ * @author 二师兄超级帅
+ * @Title:
+ * @ProjectName mall
+ * @Description: TODO
+ * @date 2019/1/2614:05
  */
 public class Result<T> {
 

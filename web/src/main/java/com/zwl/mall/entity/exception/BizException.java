@@ -1,10 +1,11 @@
 package com.zwl.mall.entity.exception;
 
 /**
- * 业务异常，用于统一处理
- *
- * @author paul <wagzhi@gmail.com>
- * @since 2018/11/22 5:18 PM
+ * @author 二师兄超级帅
+ * @Title:
+ * @ProjectName mall
+ * @Description: TODO
+ * @date 2019/1/2614:05
  */
 public class BizException extends RuntimeException {
 
