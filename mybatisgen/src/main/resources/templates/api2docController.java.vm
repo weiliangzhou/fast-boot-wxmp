@@ -1,0 +1,52 @@
+package ${package.Controller};
+import com.terran4j.commons.api2doc.annotations.Api2Doc;
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.zwl.mall.entity.${entity};
+import java.util.List;
+/**
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Api2Doc(name = "111", order = 1)
+@RestController
+@RequestMapping("/api#if(${package.ModuleName})/${package.ModuleName}#end/${table.entityPath}")
+public class ${table.controllerName}{
+@Api2Doc(order = 1)
+@ApiComment("分页查询数据")
+@RequestMapping(name = "分页查询数据", value = "/getPage", method = {RequestMethod.GET})
+public List<${entity}> getPage(@ApiComment(value = "pageNum") @RequestParam(required = true) Integer pageNum,
+                @ApiComment(value = "pageSize") @RequestParam(required = true) Integer pageSize){
+                        return null;
+                        }
+                @Api2Doc(order = 2)                @ApiComment("条件查询对象")
+                @RequestMapping(name = "条件查询对象", value = "/getByParams", method = {RequestMethod.GET})
+                public  ${entity} getByParams(@ApiComment(value = "${table.entityPath}") ${entity} ${table.entityPath}){
+                        return null;
+                        }
+                @Api2Doc(order = 3)
+                @ApiComment("保存")
+                @RequestMapping(name = "保存", value = "/save", method = {RequestMethod.GET})
+                public ${entity} save(@ApiComment(value = "${table.entityPath}") ${entity} ${table.entityPath}){
+                        return null;
+                        }
+                @Api2Doc(order = 4)
+                @ApiComment("更新")
+                @RequestMapping(name = "更新", value = "/update", method = {RequestMethod.GET})
+                public ${entity} update(@ApiComment(value = "${table.entityPath}") ${entity} ${table.entityPath}){
+                        return null;
+                        }
+                @Api2Doc(order = 5)
+                @ApiComment("保存或更新")
+                @RequestMapping(name = "保存或更新", value = "/saveOrUpdate", method = {RequestMethod.GET})
+                public ${entity} saveOrUpdate(@ApiComment(value = "${table.entityPath}") ${entity} ${table.entityPath}){
+                        return null;
+                        }
+
+
+        }
+
