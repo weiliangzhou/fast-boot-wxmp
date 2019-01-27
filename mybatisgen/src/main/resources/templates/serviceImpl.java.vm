@@ -1,9 +1,18 @@
-package ${package.ServiceImpl};
+##package ${package.ServiceImpl};
+####
+####import ${package.Entity}.${entity};
+####import ${package.Mapper}.${table.mapperName};
+####import ${package.Service}.${table.serviceName};
+####import ${superServiceImplClassPackage};
+####import org.springframework.stereotype.Service;
 
-import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
+package com.zwl.mall.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zwl.mall.api.${table.serviceName};
+import com.zwl.mall.dao.model. ${entity};
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**

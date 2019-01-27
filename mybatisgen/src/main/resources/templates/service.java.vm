@@ -1,6 +1,11 @@
-package ${package.Service};
-import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
+##package ${package.Service};
+##import ${package.Entity}.${entity};
+##import ${superServiceClassPackage};
+
+package com.zwl.mall.api;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zwl.mall.dao.model.${table.serviceName};
 
 /**
  * <p>

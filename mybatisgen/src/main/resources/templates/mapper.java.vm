@@ -1,8 +1,14 @@
-package ${package.Mapper};
+##package ${package.Mapper};
+##
+##import ${package.Entity}.${entity};
+##import ${superMapperClassPackage};
 
-import ${package.Entity}.${entity};
-import ${superMapperClassPackage};
 
+
+package  com.zwl.mall.dao.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zwl.mall.dao.model.${entity};
 /**
  * <p>
  * $!{table.comment} Mapper 接口
