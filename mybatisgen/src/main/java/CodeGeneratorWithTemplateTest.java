@@ -34,17 +34,17 @@ public class CodeGeneratorWithTemplateTest {
 
     public static void main(String[] args) {
         // TODO: 2019/1/26  生成包名
-        String packageName = "com.zwl.api2doc";
+        String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "statistics_by_day");
+        generateByTables(packageName + ".tmp", "user_base");
 //        generateByTables(packageName, "statistics_by_day");
     }
 
 
     private static void generateByTables(String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/mall_test";
+        String dbUrl = "jdbc:mysql://47.98.55.127:3306/mall_test";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
@@ -65,7 +65,7 @@ public class CodeGeneratorWithTemplateTest {
                 .setIdType(tableIdType)
                 .setAuthor("二师兄超级帅")
                 // TODO: 2019/1/26  输出路径
-                .setOutputDir("F:\\mall\\api2doc\\src\\main\\java")
+                .setOutputDir("F:\\mall\\web\\src\\main\\java")
                 .setFileOverride(true)
                 .setEnableCache(false)// XML 二级缓存
                 .setBaseResultMap(true)// XML ResultMap

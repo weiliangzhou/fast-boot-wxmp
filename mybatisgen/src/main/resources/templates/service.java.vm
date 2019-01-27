@@ -5,7 +5,7 @@
 package com.zwl.mall.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zwl.mall.dao.model.${table.serviceName};
+import com.zwl.mall.dao.model.${entity};
 
 /**
  * <p>

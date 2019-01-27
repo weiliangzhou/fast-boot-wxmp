@@ -1,5 +1,11 @@
 ##package ${package.Controller};
 package com.zwl.mall.controller;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zwl.mall.base.Result;
+import com.zwl.mall.base.ResultUtil;
+import com.zwl.mall.utils.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +40,12 @@ public ${table.serviceName} i${entity}Service;
 @GetMapping("/getPage")
 public Result getPage(${entity} ${table.entityPath},int pageNum,int pageSize)throws Exception{
         return ResultUtil.ok(new ${entity}().selectPage(new Page<>(pageNum,pageSize),
-        new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));
+        new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));}
 
 /**
  * 根据id获取对象
  *
- * @param id
+ * @param ${table.entityPath} 传递的实体
  * @return
  */
 ##@ResponseBody
@@ -84,7 +90,7 @@ public Result getByParams(${entity} ${table.entityPath})throws Exception{
 /**
 * 保存
 *
-* @param statisticsByDay 传递的实体
+* @param ${table.entityPath} 传递的实体
 * @return 0 失败  1 成功
 */
 @GetMapping("/save")
@@ -95,18 +101,18 @@ public Result save(${entity} ${table.entityPath})throws Exception{
 /**
  * 更新
  *
- * @param statisticsByDay 传递的实体
+ * @param ${table.entityPath} 传递的实体
  * @return 0 失败  1 成功
  */
 @GetMapping("/update")
 public Result update(${entity} ${table.entityPath})throws Exception{
-        return ResultUtil.ok(${table.entityPath}.update(new QueryWrapper<StatisticsByDay>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));
+        return ResultUtil.ok(${table.entityPath}.update(new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));
         }
 
 /**
  * 保存或更新
  *
- * @param statisticsByDay 传递的实体
+ * @param ${table.entityPath} 传递的实体
  * @return 0 失败  1 成功
  */
 @GetMapping("/saveOrUpdate")

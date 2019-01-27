@@ -1,11 +1,3 @@
-##package ${package.ServiceImpl};
-####
-####import ${package.Entity}.${entity};
-####import ${package.Mapper}.${table.mapperName};
-####import ${package.Service}.${table.serviceName};
-####import ${superServiceImplClassPackage};
-####import org.springframework.stereotype.Service;
-
 package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,6 +6,9 @@ import com.zwl.mall.api.${table.serviceName};
 import com.zwl.mall.dao.model. ${entity};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.zwl.mall.dao.mapper.${table.mapperName};
+
+
 
 /**
  * <p>
@@ -28,3 +23,12 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
 }
 
+
+
+##package ${package.ServiceImpl};
+####
+####import ${package.Entity}.${entity};
+####import ${package.Mapper}.${table.mapperName};
+####import ${package.Service}.${table.serviceName};
+####import ${superServiceImplClassPackage};
+####import org.springframework.stereotype.Service;
