@@ -1,13 +1,12 @@
-package ${package.Controller}import com.zwl.Result;
+package ${package.Controller};
+import com.zwl.Result;
 import com.zwl.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-;
-${package.Service}
-.${table.serviceName}; ${package.Entity}.${entity};
+import ${package.Service}.t${table.serviceName};
+import ${package.Entity}.${entity};
 /**
  *
  * @author ${author}
