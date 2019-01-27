@@ -3,7 +3,7 @@
 <mapper namespace="com.zwl.com.zwl.mall.mapper.StatisticsByDayMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zwl.com.zwl.mall.entity.StatisticsByDay">
+    <resultMap id="BaseResultMap" type="com.zwl.com.zwl.dao.model.StatisticsByDay">
         <id column="id" property="id"/>
         <result column="send_card_num" property="sendCardNum"/>
         <result column="activate_card_num" property="activateCardNum"/>

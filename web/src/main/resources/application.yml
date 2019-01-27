@@ -7,10 +7,25 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/mall_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 123
-    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      write:
+        url: jdbc:mysql://47.98.55.127:3306/mall_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: weigu2018
+        driver-class-name: com.mysql.jdbc.Driver
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+      read:
+        url: jdbc:mysql://47.98.55.127:3306/mall_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: weigu2018
+        driver-class-name: com.mysql.jdbc.Driver
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+      read-key: get,select,count,list,query,find
+      write-key: add,create,update,delete,remove,insert
   redis:
     host: 127.0.0.1
     port: 6379
@@ -34,10 +49,6 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true
+    jdbcTypeForNull: null
+    multipleResultSetsEnabled: true
 
-#pagehelper分页插件配置
-pagehelper:
-  helperDialect: postgresql #设置sql语言
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql

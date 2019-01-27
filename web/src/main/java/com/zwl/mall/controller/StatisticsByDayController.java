@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.mall.entity.Result;
 import com.zwl.mall.entity.ResultUtil;
 import com.zwl.mall.entity.StatisticsByDay;
+import com.zwl.mall.service.IStatisticsByDayService;
 import com.zwl.mall.utils.MapUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/statisticsByDay")
 public class StatisticsByDayController {
+    @Autowired
+    private IStatisticsByDayService statisticsByDayService;
 
     /**
      * 分页查询数据
@@ -46,6 +50,16 @@ public class StatisticsByDayController {
                 .allEq(MapUtil.objectToUnderlineMap(statisticsByDay), false)));
     }
 
+    /**
+     * 根据id获取对象
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/getById")
+    public Result getById(Long id) {
+        return ResultUtil.ok(statisticsByDayService.test(id));
+    }
 
     /**
      * 保存

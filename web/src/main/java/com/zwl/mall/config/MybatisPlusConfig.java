@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Description: TODO
  * @date 2019/1/2611:30
  */
-@EnableTransactionManagement(proxyTargetClass = true)
+
 @Configuration
 public class MybatisPlusConfig {
 
