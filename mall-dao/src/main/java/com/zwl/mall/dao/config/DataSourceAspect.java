@@ -24,7 +24,7 @@ import java.util.List;
 public class DataSourceAspect {
 
 
-    @Pointcut("execution(* com.zwl.mall.mapper.*.*(..))")//切点
+    @Pointcut("execution(* com.zwl.mall.dao.mapper.*.*(..))")//切点
     public void aspect() {
 
     }

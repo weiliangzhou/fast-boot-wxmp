@@ -7,8 +7,10 @@
         <module>mybatisgen</module>
         <module>api2doc</module>
         <module>web</module>
-        <module>dao</module>
+        <module>mall-dao</module>
         <module>common</module>
+        <module>mall-api</module>
+        <module>mall-sevice</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

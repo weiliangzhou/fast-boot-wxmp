@@ -1,4 +1,4 @@
-package com.zwl.mall.entity;
+package com.zwl.mall.dao.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

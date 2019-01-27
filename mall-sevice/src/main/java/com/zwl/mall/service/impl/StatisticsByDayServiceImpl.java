@@ -2,9 +2,9 @@ package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zwl.mall.entity.StatisticsByDay;
-import com.zwl.mall.mapper.StatisticsByDayMapper;
-import com.zwl.mall.service.IStatisticsByDayService;
+import com.zwl.mall.api.IStatisticsByDayService;
+import com.zwl.mall.dao.mapper.StatisticsByDayMapper;
+import com.zwl.mall.dao.model.StatisticsByDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

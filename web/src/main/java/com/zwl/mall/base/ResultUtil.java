@@ -1,7 +1,7 @@
-package com.zwl.mall.entity;
+package com.zwl.mall.base;
 
-import com.zwl.mall.entity.exception.BizException;
-import com.zwl.mall.entity.exception.ErrorEnum;
+import com.zwl.mall.base.exception.BizException;
+import com.zwl.mall.base.exception.ErrorEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 

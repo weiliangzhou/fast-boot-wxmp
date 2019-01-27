@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @EnableTransactionManagement(proxyTargetClass = true)
 @Configuration
-@MapperScan("com.zwl.mall.mapper*")
+@MapperScan("com.zwl.mall.dao.mapper*")
 public class MybatisPlusConfiguration {
 
     @Autowired

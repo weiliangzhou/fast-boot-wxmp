@@ -1,4 +1,4 @@
-package com.zwl.mall.entity.exception;
+package com.zwl.mall.base.exception;
 
 /**
  * @author 二师兄超级帅

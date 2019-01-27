@@ -1,7 +1,7 @@
-package com.zwl.mall.service;
+package com.zwl.mall.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zwl.mall.entity.StatisticsByDay;
+import com.zwl.mall.dao.model.StatisticsByDay;
 
 /**
  * <p>

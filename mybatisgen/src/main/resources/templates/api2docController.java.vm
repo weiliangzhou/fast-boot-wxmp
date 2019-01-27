@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.zwl.mall.entity.${entity};
-import java.util.List;
+import com.zwl.mall.base.${entity};
 /**
  *
  * @author ${author}

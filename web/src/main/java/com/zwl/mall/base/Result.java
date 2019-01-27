@@ -1,4 +1,4 @@
-package com.zwl.mall.entity;
+package com.zwl.mall.base;
 
 /**
  * @author 二师兄超级帅
