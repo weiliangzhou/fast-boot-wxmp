@@ -1,5 +1,8 @@
 package com.zwl.mall.dao.config;
 
+/**
+ * @author 二师兄超级帅
+ */
 public enum DataSourceEnum {
 
     Write("write"), Read("read");

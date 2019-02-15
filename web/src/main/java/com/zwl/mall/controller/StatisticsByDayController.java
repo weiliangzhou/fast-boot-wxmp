@@ -80,7 +80,7 @@ public class StatisticsByDayController {
      */
     @GetMapping("/update")
     public Result update(StatisticsByDay statisticsByDay) throws Exception {
-        return ResultUtil.ok(statisticsByDay.update(new QueryWrapper<StatisticsByDay>().allEq(MapUtil.objectToUnderlineMap(statisticsByDay), false)));
+        return ResultUtil.ok(statisticsByDay.updateById());
     }
 
     /**

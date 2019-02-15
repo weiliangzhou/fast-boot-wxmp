@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @MapperScan("com.zwl.mall.dao.mapper")
+@ComponentScan("com.zwl.*")
 public class MallApplication {
 
     public static void main(String[] args) {

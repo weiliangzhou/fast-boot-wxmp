@@ -68,7 +68,7 @@ public class UserBaseController {
      */
     @GetMapping("/update")
     public Result update(UserBase userBase) throws Exception {
-        return ResultUtil.ok(userBase.update(new QueryWrapper<UserBase>().allEq(MapUtil.objectToUnderlineMap(userBase), false)));
+        return ResultUtil.ok(userBase.updateById());
     }
 
     /**

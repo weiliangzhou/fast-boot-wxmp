@@ -106,7 +106,7 @@ public Result save(${entity} ${table.entityPath})throws Exception{
  */
 @GetMapping("/update")
 public Result update(${entity} ${table.entityPath})throws Exception{
-        return ResultUtil.ok(${table.entityPath}.update(new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));
+        return ResultUtil.ok(${table.entityPath}.updateById());
         }
 
 /**
