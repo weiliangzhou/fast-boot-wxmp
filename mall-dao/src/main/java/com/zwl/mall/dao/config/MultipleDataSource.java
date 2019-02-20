@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 二师兄超级帅
+ */
 public class MultipleDataSource extends AbstractRoutingDataSource {
     public static final Map<DataSourceEnum, List<String>> METHOD_TYPE_MAP = new HashMap<>();
 

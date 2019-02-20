@@ -45,9 +45,10 @@ public class MybatisPlusConfiguration {
 
     /**
      * SQL执行效率插件
+     * 设置 dev test 环境开启
      */
     @Bean
-    @Profile({"dev", "qa"})// 设置 dev test 环境开启
+    @Profile({"dev", "qa"})
     public PerformanceInterceptor performanceInterceptor() {
         PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
         performanceInterceptor.setMaxTime(1000);
@@ -96,30 +97,15 @@ public class MybatisPlusConfiguration {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(multipleDataSource(db1(), db2()));
-        //sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:/mapper/*/*Mapper.xml"));
-
         MybatisConfiguration configuration = new MybatisConfiguration();
-        //configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.setJdbcTypeForNull(JdbcType.NULL);
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setCacheEnabled(false);
         sqlSessionFactory.setConfiguration(configuration);
-        sqlSessionFactory.setPlugins(new Interceptor[]{ //PerformanceInterceptor(),OptimisticLockerInterceptor()
-                paginationInterceptor() //添加分页功能
+        sqlSessionFactory.setPlugins(new Interceptor[]{
+                //添加分页功能
+                paginationInterceptor()
         });
-        //sqlSessionFactory.setGlobalConfig(globalConfiguration());
         return sqlSessionFactory.getObject();
     }
-
-    /*@Bean
-    public GlobalConfiguration globalConfiguration() {
-        GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
-        conf.setLogicDeleteValue("-1");
-        conf.setLogicNotDeleteValue("1");
-        conf.setIdType(0);
-        //conf.setMetaObjectHandler(new MyMetaObjectHandler());
-        conf.setDbColumnUnderline(true);
-        conf.setRefresh(true);
-        return conf;
-    }*/
 }

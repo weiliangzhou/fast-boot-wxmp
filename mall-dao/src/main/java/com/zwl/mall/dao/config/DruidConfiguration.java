@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
+/**
+ * @author 二师兄超级帅
+ */
 @Configuration
 public class DruidConfiguration {
 

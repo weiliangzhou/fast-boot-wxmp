@@ -24,14 +24,14 @@ import java.util.List;
 public class DataSourceAspect {
 
 
-    @Pointcut("execution(* com.zwl.mall.dao.mapper.*.*(..))")//切点
+    @Pointcut("execution(* com.zwl.mall.dao.mapper.*.*(..))")
     public void aspect() {
 
     }
 
 
     @Before("aspect()")
-    public void before(JoinPoint point) { //在指定切点的方法之前执行
+    public void before(JoinPoint point) {
         String className = point.getTarget().getClass().getName();
         String method = point.getSignature().getName();
         String args = StringUtils.join(point.getArgs(), ",");
