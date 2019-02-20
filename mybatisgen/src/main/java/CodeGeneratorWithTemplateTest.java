@@ -59,17 +59,21 @@ public class CodeGeneratorWithTemplateTest {
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setColumnNaming(NamingStrategy.underline_to_camel)
                 .entityTableFieldAnnotationEnable(enableTableFieldAnnotation)
-                .setFieldPrefix(fieldPrefix)//test_id -> id, test_type -> type
-                .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
+                .setFieldPrefix(fieldPrefix)
+                //修改替换成你需要的表名，多个表名传数组
+                .setInclude(tableNames);
         config.setActiveRecord(true)
                 .setIdType(tableIdType)
                 .setAuthor("二师兄超级帅")
                 // TODO: 2019/1/26  输出路径
                 .setOutputDir("F:\\mall\\web\\src\\main\\java")
                 .setFileOverride(true)
-                .setEnableCache(false)// XML 二级缓存
-                .setBaseResultMap(true)// XML ResultMap
-                .setBaseColumnList(true);// XML columList;
+                // XML 二级缓存
+                .setEnableCache(false)
+                // XML ResultMap
+                .setBaseResultMap(true)
+                // XML columList;
+                .setBaseColumnList(true);
         if (!serviceClassNameStartWithI) {
             config.setServiceName("%sService");
         }

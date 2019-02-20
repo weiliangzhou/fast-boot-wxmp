@@ -7,7 +7,7 @@ package com.zwl.mall.dao.config;
  */
 public class DataSourceContextHolder {
 
-    private static final ThreadLocal<String> contextHolder = new InheritableThreadLocal<>();
+    private static final ThreadLocal<String> CONTEXT_HOLDER = new InheritableThreadLocal<>();
 
     /**
      * 设置数据源
@@ -15,7 +15,7 @@ public class DataSourceContextHolder {
      * @param db
      */
     public static void setDataSource(String db) {
-        contextHolder.set(db);
+        CONTEXT_HOLDER.set(db);
     }
 
     /**
@@ -24,13 +24,13 @@ public class DataSourceContextHolder {
      * @return
      */
     public static String getDataSource() {
-        return contextHolder.get();
+        return CONTEXT_HOLDER.get();
     }
 
     /**
      * 清除上下文数据
      */
     public static void clear() {
-        contextHolder.remove();
+        CONTEXT_HOLDER.remove();
     }
 }
