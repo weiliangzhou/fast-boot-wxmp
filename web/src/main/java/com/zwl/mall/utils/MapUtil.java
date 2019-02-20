@@ -59,7 +59,7 @@ public class MapUtil {
         Field[] declaredFields = obj.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
             field.setAccessible(true);
-            map.put(HumpToUnderline(field.getName()), field.get(obj));
+            map.put(HumpToUnderLine(field.getName()), field.get(obj));
         }
 
         return map;
@@ -73,10 +73,10 @@ public class MapUtil {
      *        下划线命名的字符串
      */
 
-    public static String UnderlineToHump(String para) {
+    public static String UnderLineToHump(String para) {
         StringBuilder result = new StringBuilder();
-        String a[] = para.split("_");
-        for (String s : a) {
+        String[] arr = para.split("_");
+        for (String s : arr) {
             if (!para.contains("_")) {
                 result.append(s);
                 continue;
@@ -99,9 +99,12 @@ public class MapUtil {
      *        驼峰命名的字符串
      */
 
-    public static String HumpToUnderline(String para) {
+    public static String HumpToUnderLine(String para) {
         StringBuilder sb = new StringBuilder(para);
-        int temp = 0;//定位
+        /**
+         *  定位
+         */
+        int temp = 0;
         if (!para.contains("_")) {
             for (int i = 0; i < para.length(); i++) {
                 if (Character.isUpperCase(para.charAt(i))) {

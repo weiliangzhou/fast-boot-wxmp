@@ -12,5 +12,10 @@ import com.zwl.mall.dao.model.StatisticsByDay;
  * @since 2019-01-25
  */
 public interface IStatisticsByDayService extends IService<StatisticsByDay> {
+    /**
+     * 测试
+     * @param id
+     * @return
+     */
     StatisticsByDay test(Long id);
 }
