@@ -27,7 +27,7 @@ public class AdminLogAspect {
     /**
      * 日志切入点
      */
-    @Pointcut("@annotation(com.xc.mall.web.syslogconfig.AdminLog)")
+    @Pointcut("@annotation(com.zwl.mall.system.annotation.AdminLog)")
     public void logPointCut() {
     }
 
