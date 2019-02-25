@@ -1,4 +1,4 @@
-package com.zwl.mall.config;
+package com.zwl.mall.system.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

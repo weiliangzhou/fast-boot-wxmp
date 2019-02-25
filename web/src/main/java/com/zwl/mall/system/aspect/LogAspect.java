@@ -1,4 +1,4 @@
-package com.zwl.mall.config;
+package com.zwl.mall.system.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 @Slf4j
-public class LogAspectServiceApi {
+public class LogAspect {
     /**
      * 申明一个切点 里面是 execution表达式
      */
