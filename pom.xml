@@ -10,7 +10,7 @@
         <module>mall-dao</module>
         <module>common</module>
         <module>mall-api</module>
-        <module>mall-sevice</module>
+        <module>mall-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
