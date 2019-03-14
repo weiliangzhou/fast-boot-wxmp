@@ -6,6 +6,7 @@ import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.base.Result;
 import com.zwl.mall.base.ResultUtil;
 import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.system.annotation.AdminLog;
 import com.zwl.mall.utils.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class UserBaseController {
      * @return
      */
     @GetMapping("/getPage")
+    @AdminLog(module = "用户分页查询", description = "用户分页查询")
     public Result getPage(UserBase userBase, int pageNum, int pageSize) throws Exception {
         return ResultUtil.ok(new UserBase().selectPage(new Page<>(pageNum, pageSize),
                 new QueryWrapper<UserBase>().allEq(MapUtil.objectToUnderlineMap(userBase), false)));

@@ -74,6 +74,20 @@
                 <version>${druid.version}</version>
             </dependency>
 
+            <!--&lt;!&ndash;JWT&ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>com.auth0</groupId>-->
+                <!--<artifactId>java-jwt</artifactId>-->
+                <!--<version>3.4.0</version>-->
+            <!--</dependency>-->
+            <!--&lt;!&ndash;shiro &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.shiro</groupId>-->
+                <!--<artifactId>shiro-spring-boot-starter</artifactId>-->
+                <!--<version>1.4.0</version>-->
+            <!--</dependency>-->
+
+
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
