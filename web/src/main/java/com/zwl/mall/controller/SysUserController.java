@@ -17,6 +17,7 @@ import com.zwl.mall.dao.model.vo.SysUserVo;
 import com.zwl.mall.utils.MapUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -130,7 +131,7 @@ public class SysUserController {
                 sysUser.setAccount(account);
                 try {
                     SysUser selectOne = sysUser.selectOne(new QueryWrapper<SysUser>().allEq(MapUtil.objectToUnderlineMap(sysUser), false));
-                    sysUserVo = (SysUserVo) selectOne;
+                    BeanUtils.copyProperties(selectOne, sysUserVo);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
