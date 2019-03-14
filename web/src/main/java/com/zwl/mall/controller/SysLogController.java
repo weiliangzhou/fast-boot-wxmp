@@ -2,11 +2,13 @@ package com.zwl.mall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zwl.common.base.Result;
+import com.zwl.common.base.ResultUtil;
 import com.zwl.mall.api.ISysLogService;
-import com.zwl.mall.base.Result;
-import com.zwl.mall.base.ResultUtil;
 import com.zwl.mall.dao.model.SysLog;
 import com.zwl.mall.utils.MapUtil;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,7 @@ public class SysLogController {
      * @return
      */
     @GetMapping("/getPage")
+    @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result getPage(SysLog sysLog, int pageNum, int pageSize) throws Exception {
         return ResultUtil.ok(new SysLog().selectPage(new Page<>(pageNum, pageSize),
                 new QueryWrapper<SysLog>().allEq(MapUtil.objectToUnderlineMap(sysLog), false)));

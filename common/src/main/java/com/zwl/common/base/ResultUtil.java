@@ -1,7 +1,8 @@
-package com.zwl.mall.base;
+package com.zwl.common.base;
 
-import com.zwl.mall.base.exception.BizException;
-import com.zwl.mall.base.exception.ErrorEnum;
+import com.zwl.common.exception.BizException;
+import com.zwl.common.exception.ErrorEnum;
+import com.zwl.common.exception.SysException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
@@ -15,27 +16,26 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 @Slf4j
 public class ResultUtil {
 
-    public static final Integer SUCCESS_NO = 0;
-    public static final Integer UNKNOW_ERR = 10000;
+    public static final int SUCCESS_NO = 0;
     public static final String SUCCESS_MSG = "success";
 
     public static <T> Result<T> ok(T data) {
         return new Result<T>(SUCCESS_NO, SUCCESS_MSG, data);
     }
 
-    public static <T> Result<T> fail(Integer errno, String errmsg) {
-        return new Result<T>(errno, errmsg, null);
+    public static <T> Result<T> fail(int code, String msg) {
+        return new Result<T>(code, msg, null);
     }
 
     public static Result fail(Exception e) {
         if (BizException.class.isInstance(e)) {
             BizException be = (BizException) e;
-            return ResultUtil.fail(be.getCode(), be.getErrmsg());
+            return ResultUtil.fail(be.getCode(), be.getMsg());
         } else if (MissingServletRequestParameterException.class.isInstance(e)) {
-            BizException be = new BizException(ErrorEnum.ArgumentError, e);
+            SysException be = new SysException(com.zwl.common.exception.ErrorEnum.ARGUMENT_ERROR, e);
             return ResultUtil.fail(be);
         } else {
-            BizException be = new BizException(ErrorEnum.UnknownError, e);
+            SysException be = new SysException(ErrorEnum.UNKNOWN_ERROR, e);
             return ResultUtil.fail(be);
         }
     }

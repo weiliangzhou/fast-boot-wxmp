@@ -37,14 +37,14 @@ public class CodeGeneratorWithTemplateTest {
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "sys_log");
+        generateByTables(packageName + ".tmp", "sys_role_permission");
 //        generateByTables(packageName, "statistics_by_day");
     }
 
 
     private static void generateByTables(String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/zwl_test";
+        String dbUrl = "jdbc:mysql://localhost:3306/mall_test";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

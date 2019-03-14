@@ -2,6 +2,7 @@ package com.zwl.mall.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.StatisticsByDay;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>

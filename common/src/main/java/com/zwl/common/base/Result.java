@@ -1,4 +1,4 @@
-package com.zwl.mall.base;
+package com.zwl.common.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
