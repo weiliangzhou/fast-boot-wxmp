@@ -1,4 +1,4 @@
-package com.zwl.mall.dao.config;
+package com.zwl.mall.system.datasource;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;

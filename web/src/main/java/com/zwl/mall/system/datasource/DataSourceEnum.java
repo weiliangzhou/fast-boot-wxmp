@@ -1,4 +1,4 @@
-package com.zwl.mall.dao.config;
+package com.zwl.mall.system.datasource;
 
 /**
  * @author 二师兄超级帅

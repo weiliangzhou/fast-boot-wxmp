@@ -1,4 +1,4 @@
-package com.zwl.mall.dao.config;
+package com.zwl.mall.system.datasource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
