@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -155,7 +156,7 @@ public class SysUserController {
      * @date 2018/8/30 16:21
      */
     @PostMapping("/pub/user/login")
-    public Result login(@Validated(UserLoginValidGroup.class) @RequestBody SysUser sysUser) {
+    public Result login(@Validated(UserLoginValidGroup.class) @RequestBody SysUser sysUser, HttpServletResponse httpServletResponse) {
         // 查询数据库中的帐号信息
         SysUser userDtoTemp = new SysUser();
         userDtoTemp.setAccount(sysUser.getAccount());
@@ -180,8 +181,8 @@ public class SysUserController {
             JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + sysUser.getAccount(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
             // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
             String token = JwtUtil.sign(sysUser.getAccount(), currentTimeMillis);
-//            httpServletResponse.setHeader("Authorization", token);
-//            httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
+            httpServletResponse.setHeader("Authorization", token);
+            httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
             return new Result(HttpStatus.OK.value(), "登录成功(Login Success.)", token);
         } else {
             throw new BizException(ErrorEnum.ACCOUNT_PWD_ERROR);
