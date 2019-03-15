@@ -70,7 +70,11 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         // 自定义url规则
         Map<String, String> filterRuleMap = new HashMap<>(16);
-
+        // 访问401和404页面不通过我们的Filter
+        //通过http://127.0.0.1:9527/druid/index.html 访问 liugh/liugh
+        filterRuleMap.put("/druid/**", "anon");
+        //放行/pub/
+        filterRuleMap.put("/api/pub/*", "anon");
 
         // 所有请求通过我们自己的JWTFilter
         filterRuleMap.put("/**", "jwt");

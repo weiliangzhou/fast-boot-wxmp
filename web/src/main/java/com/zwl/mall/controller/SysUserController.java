@@ -36,7 +36,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/api/sys/user")
+@RequestMapping("/api")
 @PropertySource("classpath:config.properties")
 public class SysUserController {
     /**
@@ -54,7 +54,7 @@ public class SysUserController {
      * @param sysUser 查询条件
      * @return
      */
-    @GetMapping("/getPage")
+    @GetMapping("/admin/user/getPage")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result getPage(SysUser sysUser, int pageNum, int pageSize) throws Exception {
         return ResultUtil.ok(new SysUser().selectPage(new Page<>(pageNum, pageSize),
@@ -67,7 +67,7 @@ public class SysUserController {
      * @param sysUser 传递的实体
      * @return
      */
-    @GetMapping("/getByParams")
+    @GetMapping("/admin/user/getByParams")
     public Result getByParams(SysUser sysUser) throws Exception {
         return ResultUtil.ok(new SysUser().selectOne(new QueryWrapper<SysUser>().allEq(MapUtil.objectToUnderlineMap(sysUser), false)));
     }
@@ -79,7 +79,7 @@ public class SysUserController {
      * @param sysUser 传递的实体
      * @return 0 失败  1 成功
      */
-    @GetMapping("/save")
+    @GetMapping("/admin/user/save")
     public Result save(SysUser sysUser) throws Exception {
         return ResultUtil.ok(sysUser.insert());
     }
@@ -90,7 +90,7 @@ public class SysUserController {
      * @param sysUser 传递的实体
      * @return 0 失败  1 成功
      */
-    @GetMapping("/update")
+    @GetMapping("/admin/user/update")
     public Result update(SysUser sysUser) throws Exception {
         return ResultUtil.ok(sysUser.updateById());
     }
@@ -101,7 +101,7 @@ public class SysUserController {
      * @param sysUser 传递的实体
      * @return 0 失败  1 成功
      */
-    @GetMapping("/saveOrUpdate")
+    @GetMapping("/admin/user/saveOrUpdate")
     public Result saveOrUpdate(SysUser sysUser) throws Exception {
         return ResultUtil.ok(sysUser.insertOrUpdate());
     }
@@ -114,7 +114,7 @@ public class SysUserController {
      * @author 二师兄超级帅
      * @date 2018/9/6 9:58
      */
-    @GetMapping("/online")
+    @GetMapping("/admin/user/online")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result online() {
         List<Object> userDtos = new ArrayList<Object>();
@@ -154,7 +154,7 @@ public class SysUserController {
      * @author 二师兄超级帅
      * @date 2018/8/30 16:21
      */
-    @PostMapping("/login")
+    @PostMapping("/pub/user/login")
     public Result login(@Validated(UserLoginValidGroup.class) @RequestBody SysUser sysUser) {
         // 查询数据库中的帐号信息
         SysUser userDtoTemp = new SysUser();
