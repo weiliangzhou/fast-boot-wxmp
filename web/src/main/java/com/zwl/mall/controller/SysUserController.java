@@ -325,25 +325,26 @@ public class SysUserController {
 //        return new Result(HttpStatus.OK.value(), "删除成功(Delete Success)", null);
 //    }
 //
-//    /**
-//     * 剔除在线用户
-//     *
-//     * @param id
-//     * @return com.wang.model.common.Result
-//     * @author 二师兄超级帅
-//     * @date 2018/9/6 10:20
-//     */
-//    @DeleteMapping("/online/{id}")
-//    @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
-//    public Result deleteOnline(@PathVariable("id") Integer id) {
-//        UserDto userDto = userService.selectByPrimaryKey(id);
-//        if (JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + userDto.getAccount())) {
-//            if (JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + userDto.getAccount()) > 0) {
-//                return new Result(HttpStatus.OK.value(), "剔除成功(Delete Success)", null);
-//            }
-//        }
-//        throw new CustomException("剔除失败，Account不存在(Deletion Failed. Account does not exist.)");
-//    }
+
+    /**
+     * 剔除在线用户
+     *
+     * @param id
+     * @return com.wang.model.common.Result
+     * @author 二师兄超级帅
+     * @date 2018/9/6 10:20
+     */
+    @DeleteMapping("/admin/user/online/{id}")
+    @RequiresPermissions(logical = Logical.AND, value = {"user:edit"})
+    public Result deleteOnline(@PathVariable("id") Integer id) {
+        SysUser sysUser = new SysUser().selectById(id);
+        if (JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + sysUser.getAccount())) {
+            if (JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + sysUser.getAccount()) > 0) {
+                return new Result(HttpStatus.OK.value(), "剔除成功(Delete Success)", null);
+            }
+        }
+        throw new BizException(ErrorEnum.KICK_OUT_ERROR);
+    }
 
 
 }

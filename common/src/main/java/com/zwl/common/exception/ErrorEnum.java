@@ -17,7 +17,8 @@ public enum ErrorEnum {
     IO_ERROR(10005, "IO错误"),
     QUERY_ERROR(10006, "查询失败(Query Failure)"),
     NO_ACCOUNT_ERROR(10007, "该帐号不存在(The account does not exist.)"),
-    ACCOUNT_PWD_ERROR(10008, "帐号或密码错误(Account or Password Error.)");
+    ACCOUNT_PWD_ERROR(10008, "帐号或密码错误(Account or Password Error.)"),
+    KICK_OUT_ERROR(10009, "剔除失败，Account不存在(Deletion Failed. Account does not exist.)");
 
 
     private int code;
