@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zwl.com.zwl.mall.dao.mapper.StatisticsByDayMapper">
+<mapper namespace="com.zwl.mall.dao.mapper.StatisticsByDayMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zwl.com.zwl.mall.dao.model.StatisticsByDay">
+    <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.StatisticsByDay">
         <id column="id" property="id"/>
         <result column="send_card_num" property="sendCardNum"/>
         <result column="activate_card_num" property="activateCardNum"/>

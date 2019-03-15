@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 @EnableTransactionManagement(proxyTargetClass = true)
 @Configuration
-@MapperScan("com.zwl.mall.dao.mapper*")
+@MapperScan("com.zwl.mall.dao.mapper")
 public class MybatisPlusConfiguration {
 
     @Autowired
@@ -101,6 +102,10 @@ public class MybatisPlusConfiguration {
         configuration.setJdbcTypeForNull(JdbcType.NULL);
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setCacheEnabled(false);
+        //多模块设置mapper.XML的路径
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        String mapperLocationPattern = env.getProperty("mybatis-plus.mapper-locations");
+        sqlSessionFactory.setMapperLocations(resolver.getResources(mapperLocationPattern));
         sqlSessionFactory.setConfiguration(configuration);
         sqlSessionFactory.setPlugins(new Interceptor[]{
                 //添加分页功能

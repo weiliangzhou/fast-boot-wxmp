@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2019/1/2614:05
  */
 @SpringBootApplication
-@ComponentScan("com.zwl.*")
+@ComponentScan("com.zwl")
 public class MallApplication {
 
     public static void main(String[] args) {

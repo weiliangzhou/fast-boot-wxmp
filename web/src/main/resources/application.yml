@@ -88,18 +88,7 @@ spring:
     database: 0
 
 mybatis-plus:
-  mapper-locations: classpath:/mapper/*Mapper.xml
-  typeAliasesPackage: com.zwl.mall.dao.model
-  global-config:
-    id-type: 2
-    field-strategy: 0
-    db-column-underline: true
-    refresh-mapper: true
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: true
-    jdbcTypeForNull: null
-    multipleResultSetsEnabled: true
+  mapper-locations: classpath*:mapper/*.xml
 
 pagehelper:
   params: count=countSql

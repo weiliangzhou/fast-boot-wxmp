@@ -12,5 +12,24 @@
     <sql id="Base_Column_List">
                         id, `name`
     </sql>
+    <select id="findRoleByUser" resultType="com.zwl.mall.dao.model.SysRole"
+            parameterType="String">
+        SELECT
+        r.id as id,
+        r.name as name
+        FROM
+        sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN sys_role r ON r.id = ur.role_id
+        <where>
+            1 = 1
+            <if test="account != null and account != '' ">
+                AND u.account = #{account}
+            </if>
+            <!--<if test="username != null and username != '' ">-->
+                <!--AND u.username LIKE CONCAT('%',#{username},'%')-->
+            <!--</if>-->
+        </where>
+    </select>
 
 </mapper>

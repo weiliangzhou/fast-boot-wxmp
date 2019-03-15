@@ -330,7 +330,6 @@ public class SysUserController {
      * 剔除在线用户
      *
      * @param id
-     * @return com.wang.model.common.Result
      * @author 二师兄超级帅
      * @date 2018/9/6 10:20
      */
