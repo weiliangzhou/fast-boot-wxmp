@@ -2,6 +2,7 @@ package com.zwl.mall.dao.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -39,6 +40,21 @@ public class MybatisPlusConfiguration {
     @Autowired
     private Environment env;
 
+    /**
+     * 乐观锁设置
+     *
+     * @return
+     */
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
+    }
+
+    /**
+     * 分页
+     *
+     * @return
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
