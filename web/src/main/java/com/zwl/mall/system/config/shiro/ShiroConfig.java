@@ -73,8 +73,9 @@ public class ShiroConfig {
         // 访问401和404页面不通过我们的Filter
         //通过http://127.0.0.1:9527/druid/index.html 访问 liugh/liugh
         filterRuleMap.put("/druid/**", "anon");
-        //放行/pub/
+        //放行/pub/ /auth
         filterRuleMap.put("/api/pub/*", "anon");
+        filterRuleMap.put("/api/auth/*", "anon");
 
         // 所有请求通过我们自己的JWTFilter
         filterRuleMap.put("/**", "jwt");
