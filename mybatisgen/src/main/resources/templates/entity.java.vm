@@ -29,7 +29,7 @@ import java.io.Serializable;
 #end
 @Accessors(chain = true)
 #end
-##@TableName("${table.name}")
+@TableName("${table.name}")
 public class ${entity} extends Model<${entity}>{
 
 ## ----------  BEGIN 字段循环遍历  ----------

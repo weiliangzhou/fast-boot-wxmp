@@ -37,7 +37,7 @@ public class CodeGeneratorWithTemplateTest {
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "sys_role_permission");
+        generateByTables(packageName + ".tmp", "sys_operation_log");
 //        generateByTables(packageName, "statistics_by_day");
     }
 
@@ -49,7 +49,7 @@ public class CodeGeneratorWithTemplateTest {
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
-                .setPassword("123456")
+                .setPassword("123")
                 .setDriverName("com.mysql.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
@@ -66,7 +66,7 @@ public class CodeGeneratorWithTemplateTest {
                 .setIdType(tableIdType)
                 .setAuthor("二师兄超级帅")
                 // TODO: 2019/1/26  输出路径
-                .setOutputDir("F:\\mall_plus\\web\\src\\main\\java")
+                .setOutputDir("D:\\mall_plus\\web\\src\\main\\java\\com\\zwl\\mall")
                 .setFileOverride(true)
                 // XML 二级缓存
                 .setEnableCache(false)
