@@ -262,4 +262,22 @@ INSERT INTO `sys_log` VALUES (133, '2019-02-26 20:20:51', '绑定当前用户微
 INSERT INTO `sys_log` VALUES (134, '2019-02-26 20:22:04', '绑定当前用户微信信息的其它账号的手机', 'X11887', NULL, '商城-前台-用户', '[类名]:com.xc.mall.web.controller.UserController,[方法]:bindCurrentWxUserToCellphoneUser,[参数]:{\"areaCode\":\"86\",\"code\":\"0251\",\"phone\":\"18705298858\"}');
 
 
+
+DROP TABLE IF EXISTS `sys_operation_log`;
+CREATE TABLE `sys_operation_log` (
+  `operation_log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `log_description` varchar(64) DEFAULT NULL COMMENT '日志描述',
+  `action_args` varchar(300) DEFAULT NULL COMMENT '方法参数',
+  `user_no` varchar(50) DEFAULT NULL COMMENT '用户主键',
+  `class_name` varchar(300) DEFAULT NULL COMMENT '类名称',
+  `method_name` varchar(64) DEFAULT NULL COMMENT '方法名称',
+  `ip` varchar(32) DEFAULT NULL,
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `model_name` varchar(50) DEFAULT NULL COMMENT '模块名称',
+  `action` varchar(50) DEFAULT NULL COMMENT '操作',
+  `succeed` int(2) DEFAULT NULL COMMENT '是否成功 1:成功 2异常',
+  `message` longtext COMMENT '异常堆栈信息',
+  PRIMARY KEY (`operation_log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COMMENT='操作日志表';
+
 SET FOREIGN_KEY_CHECKS = 1;
