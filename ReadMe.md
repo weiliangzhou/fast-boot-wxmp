@@ -5,6 +5,8 @@
 4. Redis(Jedis)缓存框架
 5. api2doc超级好看的接口文档生成
 6. 自定义模版生成mybatis-plus AC模式的各种CRUD代码
+7. 加入Ddos、Xss防护
+8. 增加Cors跨域支持
 ### 项目相关
 1. 启动api2doc项目
 2. 接口文档 http://localhost:9111/api2doc/home.html
