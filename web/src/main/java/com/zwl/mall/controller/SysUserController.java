@@ -14,6 +14,7 @@ import com.zwl.common.valid.group.UserLoginValidGroup;
 import com.zwl.mall.api.ISysUserService;
 import com.zwl.mall.dao.model.SysUser;
 import com.zwl.mall.dao.model.vo.SysUserVo;
+import com.zwl.mall.system.annotation.AccessLimit;
 import com.zwl.mall.utils.MapUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -156,6 +157,7 @@ public class SysUserController {
      * @date 2018/8/30 16:21
      */
     @PostMapping("/pub/user/login")
+    @AccessLimit(perSecond = 1, timeOut = 1000)//1秒钟登陆一次
     public Result login(@Validated(UserLoginValidGroup.class) @RequestBody SysUser sysUser, HttpServletResponse httpServletResponse) {
         // 查询数据库中的帐号信息
         SysUser userDtoTemp = new SysUser();
