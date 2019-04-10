@@ -1,10 +1,10 @@
 ### 软件架构
-1. SpringBoot + Mybatis核心框架
+1. SpringBoot + MybatisPlus核心框架
 2. PageHelper插件 + 通用Mapper插件
 3. Shiro + Java-JWT无状态鉴权认证机制
 4. Redis(Jedis)缓存框架
 5. api2doc超级好看的接口文档生成
-6. 自定义模版生成mybatis-plus AC模式的各种CRUD代码
+6. 自定义模版生成mybatis-plus AR模式的各种CRUD代码
 7. 加入Ddos、Xss防护
 8. 增加Cors跨域支持
 ### 项目相关

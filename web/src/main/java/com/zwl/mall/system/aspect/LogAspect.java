@@ -51,8 +51,10 @@ public class LogAspect {
             log.info("请求地址:" + request.getRequestURL().toString());
             log.info("请求方式:" + request.getMethod());
             log.info("请求类方法:" + joinPoint.getSignature());
-            // 过滤upload
-            if (!request.getRequestURL().toString().contains("upload")) {
+            // 过滤
+            String upload = "upload";
+            String download = "download";
+            if (!request.getRequestURL().toString().contains(upload) && !request.getRequestURL().toString().contains(download)) {
                 log.info("请求类方法参数:" + getParams(joinPoint));
             }
         } catch (Exception e) {
@@ -92,7 +94,7 @@ public class LogAspect {
         JSONObject params = new JSONObject();
         //对象接收参数
         try {
-            String data = JSON.toJSONString(joinPoint.getArgs()[0]);
+            String data = JSON.toJSONString(joinPoint.getArgs());
             params = JSON.parseObject(data);
         }
         //普通参数传入
