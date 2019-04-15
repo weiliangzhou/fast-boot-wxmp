@@ -54,7 +54,11 @@ public class LogAspect {
             // 过滤
             String upload = "upload";
             String download = "download";
-            if (!request.getRequestURL().toString().contains(upload) && !request.getRequestURL().toString().contains(download)) {
+            String login = "login";
+            if (!request.getRequestURL().toString().contains(upload)
+                    && !request.getRequestURL().toString().contains(download)
+                    && !request.getRequestURL().toString().contains(login)
+            ) {
                 log.info("请求类方法参数:" + getParams(joinPoint));
             }
         } catch (Exception e) {
