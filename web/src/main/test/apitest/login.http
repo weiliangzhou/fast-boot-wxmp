@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/pub/user/login
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+
+{"account":"admin","password":"admin"}
+
+###
+

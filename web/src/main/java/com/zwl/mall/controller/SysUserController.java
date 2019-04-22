@@ -16,6 +16,10 @@ import com.zwl.mall.dao.model.SysUser;
 import com.zwl.mall.dao.model.vo.SysUserVo;
 import com.zwl.mall.system.annotation.AccessLimit;
 import com.zwl.mall.utils.MapUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +44,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api")
 @PropertySource("classpath:config.properties")
+@Api("后台-用户")
 public class SysUserController {
     /**
      * RefreshToken过期时间
@@ -117,6 +122,7 @@ public class SysUserController {
      * @date 2018/9/6 9:58
      */
     @GetMapping("/admin/user/online")
+    @ApiOperation(value = "获取在线用户", notes = "获取在线用户")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result online() {
         List<Object> userDtos = new ArrayList<Object>();
@@ -158,6 +164,10 @@ public class SysUserController {
      */
     @PostMapping("/pub/user/login")
     @AccessLimit(perSecond = 1, timeOut = 1000)//1秒钟登陆一次
+    @ApiOperation(value = "登录", notes = "登录", response = SysUser.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysUser", value = "用户实体user", required = true, dataType = "SysUser")
+    })
     public Result login(@Validated(UserLoginValidGroup.class) @RequestBody SysUser sysUser, HttpServletResponse httpServletResponse) {
         // 查询数据库中的帐号信息
         SysUser userDtoTemp = new SysUser();

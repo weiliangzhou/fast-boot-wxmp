@@ -28,6 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 @Slf4j
 public class LogAspect {
+    private final static String upload = "upload";
+    private final static String download = "download";
+    private final static String login = "login";
+
     /**
      * 申明一个切点 里面是 execution表达式
      */
@@ -52,12 +56,11 @@ public class LogAspect {
             log.info("请求方式:" + request.getMethod());
             log.info("请求类方法:" + joinPoint.getSignature());
             // 过滤
-            String upload = "upload";
-            String download = "download";
-            String login = "login";
-            if (!request.getRequestURL().toString().contains(upload)
-                    && !request.getRequestURL().toString().contains(download)
-                    && !request.getRequestURL().toString().contains(login)
+
+            String requestUrl = request.getRequestURL().toString();
+            if (!requestUrl.contains(upload)
+                    && !requestUrl.contains(download)
+                    && !requestUrl.contains(login)
             ) {
                 log.info("请求类方法参数:" + getParams(joinPoint));
             }
