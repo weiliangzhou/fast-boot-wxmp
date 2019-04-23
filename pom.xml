@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>mybatisgen</module>
+        <!--<module>mybatisgen</module>-->
         <module>api2doc</module>
         <module>web</module>
         <module>mall-dao</module>
