@@ -1,6 +1,7 @@
 package com.zwl.mall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.common.base.Constant;
 import com.zwl.common.base.Result;
@@ -8,11 +9,13 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.AesCipherUtil;
+import com.zwl.common.utils.DoDtoUtils;
 import com.zwl.common.utils.JedisUtil;
 import com.zwl.common.utils.JwtUtil;
 import com.zwl.common.valid.group.UserLoginValidGroup;
 import com.zwl.mall.api.ISysUserService;
 import com.zwl.mall.dao.model.SysUser;
+import com.zwl.mall.dao.model.dto.SysUserDto;
 import com.zwl.mall.dao.model.vo.SysUserVo;
 import com.zwl.mall.system.annotation.AccessLimit;
 import com.zwl.mall.utils.MapUtil;
@@ -64,8 +67,11 @@ public class SysUserController {
     @GetMapping("/admin/user/getPage")
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result getPage(SysUser sysUser, int pageNum, int pageSize) throws Exception {
-        return ResultUtil.ok(new SysUser().selectPage(new Page<>(pageNum, pageSize),
-                new QueryWrapper<SysUser>().allEq(MapUtil.objectToUnderlineMap(sysUser), false)));
+
+        IPage<SysUser> sysUserIPage = new SysUser().selectPage(new Page<>(pageNum, pageSize),
+                new QueryWrapper<SysUser>().allEq(MapUtil.objectToUnderlineMap(sysUser), false));
+        IPage<SysUserDto> sysUserDtoIPage = DoDtoUtils.pageDoToDto(sysUserIPage, SysUserDto.class);
+        return ResultUtil.ok(sysUserDtoIPage);
     }
 
     /**

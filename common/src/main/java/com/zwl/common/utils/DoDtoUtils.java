@@ -1,5 +1,7 @@
 package com.zwl.common.utils;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.BeanUtils;
@@ -83,6 +85,21 @@ public class DoDtoUtils<Dto, Do> {
      */
     public static <S, D> List<D> listDoToDto(Iterable<S> source, Class<D> destinationClass) {
         return mapperFactory.getMapperFacade().mapAsList(source, destinationClass);
+    }
+
+    /**
+     * do 转换为Dto 工具类 支持分页集合类型
+     *
+     * @param iPage
+     * @param destinationClass
+     * @return
+     */
+    public static <S, D> IPage<D> pageDoToDto(IPage<S> iPage, Class<D> destinationClass) {
+        List<D> records = DoDtoUtils.listDoToDto(iPage.getRecords(), destinationClass);
+        IPage<D> dtoIPage = new Page();
+        BeanUtils.copyProperties(iPage, dtoIPage);
+        dtoIPage.setRecords(records);
+        return dtoIPage;
     }
 
 }
