@@ -1,7 +1,7 @@
 # Config Server
 server:
   address: localhost
-  port: 8080
+  port: 8200
 spring:
   datasource:
     druid:
@@ -103,8 +103,10 @@ logging:
 wx:
   mp:
     configs:
-    - mp-app-id: wx32966989d0bc098d
-      mp-app-secret: b6ec9acfe8834c5f132ec94872f91996
+    - mp-app-id: wx5f7a8f54615b48ed
+      mp-app-secret: 486ff8593f861387d0dc423ee330220c
+    - mp-app-id: wx9eaed98794b0c756
+      mp-app-secret: 78d0c446d996ce22fcff6a32c59ebc90
   pay:
     configs:
     - mch-app-id: wxf8ea8924daff365d

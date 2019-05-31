@@ -1,0 +1,9 @@
+GET http://zwl.natapp1.cc/wechat/authorize?returnUrl=http://zwl.natapp1.cc
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+
+
+
+###
+

@@ -16,10 +16,6 @@
             <artifactId>mall-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.terran4j</groupId>
-            <artifactId>terran4j-commons-api2doc</artifactId>
-        </dependency>
         <!--swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -82,7 +78,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>

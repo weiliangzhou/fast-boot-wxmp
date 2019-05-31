@@ -65,6 +65,10 @@ public class SysUserController {
      * @return
      */
     @GetMapping("/admin/user/getPage")
+    @ApiOperation(value = "分页查询数据", notes = "分页查询数据", response = SysUser.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sysUser", value = "用户实体user", required = true, dataType = "SysUser")
+    })
     @RequiresPermissions(logical = Logical.AND, value = {"user:view"})
     public Result getPage(SysUser sysUser, int pageNum, int pageSize) throws Exception {
 
