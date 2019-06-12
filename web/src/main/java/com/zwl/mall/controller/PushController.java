@@ -15,18 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class PushController {
-
-
     /*
      * 微信测试账号推送
      * */
     @GetMapping("/push")
     public void push() {
-        WxMpService mpService = WxMpConfiguration.getMpServices().get("wx5f7a8f54615b48ed");
+        WxMpService mpService = WxMpConfiguration.getMpServices().get("wx9eaed98794b0c756");
 
         //2,推送消息
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .toUser("o0h5h1Vvlmp7Z4leij7gnuTg65ak")//要推送的用户openid
+                .toUser("o0h5h1UxrR7nYcyiIO8iPrrrstJ8")//要推送的用户openid
                 .templateId("LpqRcqB3CSUKYXSvQ7r4NDBEBLzIMIiSgqqe6n_6xgs")//模版id
                 .url("baidu.com")//点击模版消息要访问的网址
                 .build();

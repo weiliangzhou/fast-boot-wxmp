@@ -1,7 +1,7 @@
 # Config Server
 server:
   address: localhost
-  port: 8200
+  port: 8080
 spring:
   datasource:
     druid:
@@ -113,6 +113,13 @@ wx:
       mch-id: 1512288181
       mch-key: gphc63Ny72T8YmgqF6rwKR3h8ySFK8J3
       notify-url: http://mall.xc2018.com.cn/api/pub/wx/notify
+  miniapp:
+    configs:
+    - appid: wxac78501a4c65492c
+      secret: d35156b9f9ce2f275cafbf2b68f3838d
+      token: #微信小程序消息服务器配置的token
+      aesKey: pdecnfHJ78n5XjuikYIAMHmRhI4TXbTsipanzq7KvQN
+      msgDataFormat: JSON
 swagger:
   show: true
 

@@ -1,0 +1,12 @@
+POST {{host}}/wx/user/login
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "appid":"wxac78501a4c65492c",
+  "code":"011CUotw1H5l8g0eN8sw1Glatw1CUotG"
+}
+
+###
+
