@@ -8,7 +8,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.mall.miniapp.utils.JsonUtils;
-import com.zwl.mall.system.config.wx.WxMaConfiguration;
+import com.zwl.mall.system.config.wx.miniapp.WxMaConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;

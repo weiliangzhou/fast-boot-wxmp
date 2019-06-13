@@ -13,5 +13,10 @@ import com.zwl.mall.dao.model.SysUser;
  * @since 2019-03-14
  */
 public interface ISysUserService extends IService<SysUser> {
-
+    /**
+     *
+     * @param tokenKey
+     * @return
+     */
+    SysUser getUserInfo(String tokenKey);
 }

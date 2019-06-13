@@ -3,7 +3,7 @@ package com.zwl.mall.miniapp.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaMessage;
 import cn.binarywang.wx.miniapp.constant.WxMaConstants;
-import com.zwl.mall.system.config.wx.WxMaConfiguration;
+import com.zwl.mall.system.config.wx.miniapp.WxMaConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

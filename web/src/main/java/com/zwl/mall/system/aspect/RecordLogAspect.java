@@ -1,15 +1,17 @@
 package com.zwl.mall.system.aspect;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zwl.common.base.Constant;
 import com.zwl.common.utils.ComUtil;
-import com.zwl.common.utils.JwtUtil;
+import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.dao.model.SysOperationLog;
+import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.service.impl.RedisUtil;
 import com.zwl.mall.system.annotation.Log;
 import com.zwl.mall.system.config.security.AspectApi;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,6 +28,10 @@ import java.util.Map;
  * @since on 2018/5/10.
  */
 public class RecordLogAspect extends AbstractAspectManager {
+    @Autowired
+    private IUserBaseService iUserBaseService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     public RecordLogAspect(AspectApi aspectApi) {
         super(aspectApi);
@@ -78,8 +84,9 @@ public class RecordLogAspect extends AbstractAspectManager {
         String token = request.getHeader("Authorization");
         SysOperationLog operationLog = new SysOperationLog();
         if (!ComUtil.isEmpty(token)) {
-            String account = JwtUtil.getClaim(token, Constant.ACCOUNT);
-            operationLog.setUserNo(account);
+            String unionId = redisUtil.getString(token);
+            UserBase userBase = iUserBaseService.selectOneWithCacheByUnionId(unionId);
+            operationLog.setUserNo(userBase.getUnionId());
         }
         operationLog.setIp(getIpAddress(request));
         operationLog.setClassName(joinPoint.getTarget().getClass().getName());

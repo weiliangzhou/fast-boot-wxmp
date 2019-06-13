@@ -19,7 +19,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Configuration
 @EnableAutoConfiguration
-@PropertySource("classpath:config.properties")
+@PropertySource("classpath:application.yml")
 @ConfigurationProperties(prefix = "redis")
 @Slf4j
 public class JedisConfig {
@@ -31,16 +31,16 @@ public class JedisConfig {
 
     private int timeout;
 
-    @Value("${redis.pool.max-active}")
+    @Value("${redis.jedis.pool.max-active}")
     private int maxActive;
 
-    @Value("${redis.pool.max-wait}")
+    @Value("${redis.jedis.pool.max-wait}")
     private int maxWait;
 
-    @Value("${redis.pool.max-idle}")
+    @Value("${redis.jedis.pool.max-idle}")
     private int maxIdle;
 
-    @Value("${redis.pool.min-idle}")
+    @Value("${redis.jedis.pool.min-idle}")
     private int minIdle;
 
     @Bean

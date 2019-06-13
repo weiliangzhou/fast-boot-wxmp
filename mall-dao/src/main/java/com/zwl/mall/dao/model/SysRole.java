@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.terran4j.commons.api2doc.annotations.ApiComment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -28,11 +27,9 @@ import java.io.Serializable;
 public class SysRole extends Model<SysRole> {
 
 
-    @ApiComment(value = "ID", sample = "1")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiComment(value = "角色名称", sample = "1")
     private String name;
 
 

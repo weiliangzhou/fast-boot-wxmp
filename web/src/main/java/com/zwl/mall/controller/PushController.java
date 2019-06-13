@@ -1,6 +1,6 @@
 package com.zwl.mall.controller;
 
-import com.zwl.mall.system.config.wx.WxMpConfiguration;
+import com.zwl.mall.system.config.wx.mp.WxMpConfiguration;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.web.bind.annotation.GetMapping;

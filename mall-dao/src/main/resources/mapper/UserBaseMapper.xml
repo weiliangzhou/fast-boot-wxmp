@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwl.mall.dao.mapper.UserBaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.UserBase">
+        <id column="id" property="id"/>
+        <result column="cellphone" property="cellphone"/>
+        <result column="head_img_url" property="headImgUrl"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="gzh_open_id" property="gzhOpenId"/>
+        <result column="xcx_open_id" property="xcxOpenId"/>
+        <result column="union_id" property="unionId"/>
+        <result column="register_from" property="registerFrom"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+                        id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, union_id, register_from, create_time, update_time, version, deleted
+    </sql>
+
+
+</mapper>

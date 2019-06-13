@@ -2,9 +2,8 @@ package com.zwl.mall.dao.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -15,31 +14,44 @@ import java.time.LocalDateTime;
 /**
  * <p>
  * 自定义模板
- * 用户表
+ *
  * </p>
  * 自定义属性注入abc=
  *
  * @author 二师兄超级帅
- * @since 2019-03-14
+ * @since 2019-06-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysUser extends Model<SysUser> {
+@TableName("user_base")
+public class UserBase extends Model<UserBase> {
 
-    @JsonIgnore
+
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
-    @ApiModelProperty(value = "标题")
-    private String account;
+    private String cellphone;
 
-    @ApiModelProperty(value = "密码")
-    private String password;
-    @JsonIgnore
-    private String username;
-    @JsonIgnore
-    private LocalDateTime regTime;
+    private String headImgUrl;
+
+    private String nickName;
+
+    private String gzhOpenId;
+
+    private String xcxOpenId;
+
+    private String unionId;
+
+    private Integer registerFrom;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
+    private Integer version;
+
+    private Boolean deleted;
 
 
     @Override
