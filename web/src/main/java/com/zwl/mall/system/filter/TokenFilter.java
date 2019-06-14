@@ -1,7 +1,7 @@
 package com.zwl.mall.system.filter;
 
-import com.alibaba.fastjson.JSON;
-import com.zwl.common.base.Result;
+import com.zwl.common.exception.BizException;
+import com.zwl.common.exception.ErrorEnum;
 import com.zwl.mall.api.ISysUserService;
 import com.zwl.mall.dao.model.SysUser;
 import com.zwl.mall.service.impl.RedisUtil;
@@ -49,31 +49,20 @@ public class TokenFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        // 验证token
-        // 这里token如果接收有空格的地方，，那就是+号没有处理好。。可以考虑变成%2B
         if (StringUtils.isBlank(token)) {
-            Result result = new Result(900, "请重新登录", null);
-            response.getWriter().println(JSON.toJSONString(result));
-            return;
+            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
         }
+        // 这里token如果接收有空格的地方，，那就是+号没有处理好。。可以考虑变成%2B
         token = token.replaceAll(" ", "+");
         String tokenKey = redisUtil.getString(token);
         if (StringUtils.isBlank(tokenKey)) {
-            Result result = new Result(900, "请重新登录", null);
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().println(JSON.toJSONString(result));
-            return;
-        } else {
-            SysUser userInfo = iSysUserService.getUserInfo(tokenKey);
-            if (null == userInfo) {
-                Result result = new Result(900, "请重新登录", null);
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().println(JSON.toJSONString(result));
-                return;
-            } else {
-                chain.doFilter(request, response);
-            }
+            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
         }
+        SysUser userInfo = iSysUserService.getUserInfo(tokenKey);
+        if (null == userInfo) {
+            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
+        }
+        chain.doFilter(request, response);
 
     }
 
