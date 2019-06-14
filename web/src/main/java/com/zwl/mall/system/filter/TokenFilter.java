@@ -1,6 +1,7 @@
 package com.zwl.mall.system.filter;
 
-import com.zwl.common.exception.BizException;
+import com.alibaba.fastjson.JSON;
+import com.zwl.common.base.Result;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.mall.api.ISysUserService;
 import com.zwl.mall.dao.model.SysUser;
@@ -50,17 +51,20 @@ public class TokenFilter implements Filter {
             return;
         }
         if (StringUtils.isBlank(token)) {
-            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
+            response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
+            return;
         }
         // 这里token如果接收有空格的地方，，那就是+号没有处理好。。可以考虑变成%2B
         token = token.replaceAll(" ", "+");
         String tokenKey = redisUtil.getString(token);
         if (StringUtils.isBlank(tokenKey)) {
-            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
+            response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
+            return;
         }
         SysUser userInfo = iSysUserService.getUserInfo(tokenKey);
         if (null == userInfo) {
-            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
+            response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
+            return;
         }
         chain.doFilter(request, response);
 
