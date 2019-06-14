@@ -2,8 +2,8 @@ package com.zwl.mall.system.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
-import com.zwl.mall.api.IUserBaseService;
-import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.api.ISysUserService;
+import com.zwl.mall.dao.model.SysUser;
 import com.zwl.mall.service.impl.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,14 +23,14 @@ import java.io.IOException;
  * @date 2018/7/615:26
  */
 @Order(1)
-// 重点
 @WebFilter(filterName = "tokenFilter", urlPatterns = "/*")
 @Slf4j
 public class TokenFilter implements Filter {
     @Autowired
-    private IUserBaseService iUserBaseService;
+    private ISysUserService iSysUserService;
     @Autowired
     private RedisUtil redisUtil;
+    private final String TOKEN_HEADER = "Authorization";
 
     @Override
     public void destroy() {
@@ -41,7 +41,7 @@ public class TokenFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest h_request = (HttpServletRequest) request;
-        String token = request.getParameter("token");
+        String token = h_request.getHeader(TOKEN_HEADER);
         String requestURL = h_request.getRequestURL().toString();
         log.info("<<token>>请求url:" + requestURL + "  token:" + token);
         // TODO: 2019/6/13 过滤url 不需要登录  做一个静态list
@@ -64,7 +64,7 @@ public class TokenFilter implements Filter {
             response.getWriter().println(JSON.toJSONString(result));
             return;
         } else {
-            UserBase userInfo = iUserBaseService.selectOneWithCacheByUnionId(tokenKey);
+            SysUser userInfo = iSysUserService.getUserInfo(tokenKey);
             if (null == userInfo) {
                 Result result = new Result(900, "请重新登录", null);
                 response.setCharacterEncoding("UTF-8");

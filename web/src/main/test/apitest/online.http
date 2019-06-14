@@ -1,4 +1,4 @@
-GET {{host}}/api/admin/user/getPage?pageNum=1&pageSize=10
+GET {{host}}/api/sysUserRole/getPage?pageNum=1&pageSize=10
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8

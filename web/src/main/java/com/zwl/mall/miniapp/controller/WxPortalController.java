@@ -41,51 +41,51 @@ public class WxPortalController {
         return "非法请求";
     }
 
-    @PostMapping(produces = "application/xml; charset=UTF-8")
-    public String post(@PathVariable String appid,
-                       @RequestBody String requestBody,
-                       @RequestParam(name = "msg_signature", required = false) String msgSignature,
-                       @RequestParam(name = "encrypt_type", required = false) String encryptType,
-                       @RequestParam(name = "signature", required = false) String signature,
-                       @RequestParam("timestamp") String timestamp,
-                       @RequestParam("nonce") String nonce) {
-        this.logger.info("\n接收微信请求：[msg_signature=[{}], encrypt_type=[{}], signature=[{}]," +
-                        " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
-                msgSignature, encryptType, signature, timestamp, nonce, requestBody);
-
-        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
-
-        final boolean isJson = Objects.equals(wxService.getWxMaConfig().getMsgDataFormat(),
-                WxMaConstants.MsgDataFormat.JSON);
-        if (StringUtils.isBlank(encryptType)) {
-            // 明文传输的消息
-            WxMaMessage inMessage;
-            if (isJson) {
-                inMessage = WxMaMessage.fromJson(requestBody);
-            } else {//xml
-                inMessage = WxMaMessage.fromXml(requestBody);
-            }
-
-            this.route(inMessage, appid);
-            return "success";
-        }
-
-        if ("aes".equals(encryptType)) {
-            // 是aes加密的消息
-            WxMaMessage inMessage;
-            if (isJson) {
-                inMessage = WxMaMessage.fromEncryptedJson(requestBody, wxService.getWxMaConfig());
-            } else {//xml
-                inMessage = WxMaMessage.fromEncryptedXml(requestBody, wxService.getWxMaConfig(),
-                        timestamp, nonce, msgSignature);
-            }
-
-            this.route(inMessage, appid);
-            return "success";
-        }
-
-        throw new RuntimeException("不可识别的加密类型：" + encryptType);
-    }
+//    @PostMapping(produces = "application/xml; charset=UTF-8")
+//    public String post(@PathVariable String appid,
+//                       @RequestBody String requestBody,
+//                       @RequestParam(name = "msg_signature", required = false) String msgSignature,
+//                       @RequestParam(name = "encrypt_type", required = false) String encryptType,
+//                       @RequestParam(name = "signature", required = false) String signature,
+//                       @RequestParam("timestamp") String timestamp,
+//                       @RequestParam("nonce") String nonce) {
+//        this.logger.info("\n接收微信请求：[msg_signature=[{}], encrypt_type=[{}], signature=[{}]," +
+//                        " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
+//                msgSignature, encryptType, signature, timestamp, nonce, requestBody);
+//
+//        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
+//
+//        final boolean isJson = Objects.equals(wxService.getWxMaConfig().getMsgDataFormat(),
+//                WxMaConstants.MsgDataFormat.JSON);
+//        if (StringUtils.isBlank(encryptType)) {
+//            // 明文传输的消息
+//            WxMaMessage inMessage;
+//            if (isJson) {
+//                inMessage = WxMaMessage.fromJson(requestBody);
+//            } else {//xml
+//                inMessage = WxMaMessage.fromXml(requestBody);
+//            }
+//
+//            this.route(inMessage, appid);
+//            return "success";
+//        }
+//
+//        if ("aes".equals(encryptType)) {
+//            // 是aes加密的消息
+//            WxMaMessage inMessage;
+//            if (isJson) {
+//                inMessage = WxMaMessage.fromEncryptedJson(requestBody, wxService.getWxMaConfig());
+//            } else {//xml
+//                inMessage = WxMaMessage.fromEncryptedXml(requestBody, wxService.getWxMaConfig(),
+//                        timestamp, nonce, msgSignature);
+//            }
+//
+//            this.route(inMessage, appid);
+//            return "success";
+//        }
+//
+//        throw new RuntimeException("不可识别的加密类型：" + encryptType);
+//    }
 
     private void route(WxMaMessage message, String appid) {
         try {

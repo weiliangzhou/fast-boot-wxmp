@@ -24,7 +24,7 @@ public class PushController {
 
         //2,推送消息
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .toUser("o0h5h1UxrR7nYcyiIO8iPrrrstJ8")//要推送的用户openid
+                .toUser("o0h5h1Vvlmp7Z4leij7gnuTg65ak")//要推送的用户openid
                 .templateId("LpqRcqB3CSUKYXSvQ7r4NDBEBLzIMIiSgqqe6n_6xgs")//模版id
                 .url("baidu.com")//点击模版消息要访问的网址
                 .build();
