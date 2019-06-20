@@ -31,7 +31,8 @@ public class AccessTokenController {
      * @return
      */
     @RequestMapping("/access_token/{mid}/{pwd}")
-    public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid, @PathVariable("pwd") String pwd) {
+    public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid,
+                                            @PathVariable("pwd") String pwd) {
 
         // TODO: 2019/6/20 判断帐号密码
         if ("kj".equals(mid) && "123".equals(pwd)) {
