@@ -2,6 +2,7 @@ package com.zwl.mall.system.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
+import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.mall.api.ISysUserService;
 import com.zwl.mall.dao.model.SysUser;
@@ -15,6 +16,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 二师兄超级帅
@@ -46,9 +49,16 @@ public class TokenFilter implements Filter {
         String requestURL = h_request.getRequestURL().toString();
         log.info("<<token>>请求url:" + requestURL + "  token:" + token);
         // TODO: 2019/6/13 过滤url 不需要登录  做一个静态list
-        if (requestURL.contains("/wx")) {
-            chain.doFilter(request, response);
-            return;
+        List<String> excludeList = new ArrayList<>();
+        excludeList.add("/wx");
+        excludeList.add("/pub");
+        excludeList.add("/out");
+        for (String url : excludeList) {
+            if (requestURL.contains(url)) {
+                chain.doFilter(request, response);
+                return;
+            }
+
         }
         if (StringUtils.isBlank(token)) {
             response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));

@@ -13,7 +13,8 @@ public enum ErrorEnum {
     ARGUMENT_ERROR(10001, "参数错误"),
     SYS_ERROR(10002, "系统错误"),
     IO_ERROR(10003, "IO错误"),
-    LOGON_EXPIRATION(-1, "登录过期，请重新登录");
+    LOGON_EXPIRATION(-1, "登录过期，请重新登录"),
+    ACCESSTOKEN_EXPIRATION(-10, "accesstoken无效");
 
 
     private int code;
