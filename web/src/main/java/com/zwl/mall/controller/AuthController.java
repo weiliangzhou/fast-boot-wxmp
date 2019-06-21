@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.system.config.wx.mp.WxMpConfiguration;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -24,10 +26,12 @@ import java.net.URLEncoder;
 @RestController
 @RequestMapping("/wx")
 @Slf4j
+@Api("公众号授权")
 public class AuthController {
     @Autowired
     private IUserBaseService iUserBaseService;
 
+    @ApiOperation(value = "公众号授权", notes = "公众号授权")
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         String url = "http://zwl.natapp1.cc/wx/userInfo";

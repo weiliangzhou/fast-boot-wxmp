@@ -53,12 +53,14 @@ public class TokenFilter implements Filter {
         excludeList.add("/wx");
         excludeList.add("/pub");
         excludeList.add("/out");
+        excludeList.add("docs");
+        excludeList.add("layui");
+        excludeList.add(".ico");
         for (String url : excludeList) {
             if (requestURL.contains(url)) {
                 chain.doFilter(request, response);
                 return;
             }
-
         }
         if (StringUtils.isBlank(token)) {
             response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));

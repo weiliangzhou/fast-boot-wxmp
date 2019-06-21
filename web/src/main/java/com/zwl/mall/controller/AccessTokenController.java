@@ -7,8 +7,11 @@ import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.UUIDUtil;
 import com.zwl.mall.service.impl.RedisUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/api/pub")
+@Api(value = "api接口访问授权")
 public class AccessTokenController {
     @Autowired
     private RedisUtil redisUtil;
@@ -30,7 +34,8 @@ public class AccessTokenController {
      * @param pwd
      * @return
      */
-    @RequestMapping("/access_token/{mid}/{pwd}")
+    @ApiOperation(value = "授权", notes = "授权")
+    @GetMapping("/access_token/{mid}/{pwd}")
     public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid,
                                             @PathVariable("pwd") String pwd) {
 

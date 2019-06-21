@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.mall.miniapp.utils.JsonUtils;
 import com.zwl.mall.system.config.wx.miniapp.WxMaConfiguration;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
@@ -24,12 +26,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/wx/user")
 @Slf4j
+@Api("小程序")
 public class WxMaUserController {
 
     /**
      * 登陆接口
      */
     @PostMapping("/login")
+    @ApiOperation(value = "授权登录", notes = "授权登录")
     public String login(@RequestBody JSONObject jsonObject) {
         String appid = jsonObject.getString("appid");
         String code = jsonObject.getString("code");
@@ -57,6 +61,7 @@ public class WxMaUserController {
      * </pre>
      */
     @GetMapping("/info")
+    @ApiOperation(value = "获取用户信息接口", notes = "获取用户信息接口")
     public String info(@PathVariable String appid, String sessionKey,
                        String signature, String rawData, String encryptedData, String iv) {
         final WxMaService wxService = WxMaConfiguration.getMaService(appid);
@@ -72,28 +77,30 @@ public class WxMaUserController {
         return JsonUtils.toJson(userInfo);
     }
 
-    /**
-     * <pre>
-     * 获取用户绑定手机号信息
-     * </pre>
-     */
-    @GetMapping("/phone")
-    public String phone(@PathVariable String appid, String sessionKey, String signature,
-                        String rawData, String encryptedData, String iv) {
-        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
-
-        // 用户信息校验
-        if (!wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
-            return "user check failed";
-        }
-
-        // 解密
-        WxMaPhoneNumberInfo phoneNoInfo = wxService.getUserService().getPhoneNoInfo(sessionKey, encryptedData, iv);
-
-        return JsonUtils.toJson(phoneNoInfo);
-    }
+//    /**
+//     * <pre>
+//     * 获取用户绑定手机号信息
+//     * </pre>
+//     */
+//    @GetMapping("/phone")
+//    @ApiOperation(value = "获取用户绑定手机号信息", notes = "获取用户绑定手机号信息")
+//    public String phone(@PathVariable String appid, String sessionKey, String signature,
+//                        String rawData, String encryptedData, String iv) {
+//        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
+//
+//        // 用户信息校验
+//        if (!wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+//            return "user check failed";
+//        }
+//
+//        // 解密
+//        WxMaPhoneNumberInfo phoneNoInfo = wxService.getUserService().getPhoneNoInfo(sessionKey, encryptedData, iv);
+//
+//        return JsonUtils.toJson(phoneNoInfo);
+//    }
 
     @PostMapping("/getRunInfo")
+    @ApiOperation(value = "获取微信运动信息", notes = "获取微信运动信息")
     public String getRunInfo(@RequestBody JSONObject jsonObject) {
         String appid = jsonObject.getString("appid");
         String sessionKey = jsonObject.getString("sessionKey");
