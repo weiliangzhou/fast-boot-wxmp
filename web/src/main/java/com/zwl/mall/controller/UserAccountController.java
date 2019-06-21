@@ -3,11 +3,11 @@ package com.zwl.mall.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
-import com.zwl.common.utils.EncryptUtil;
 import com.zwl.common.utils.SignUtil;
 import com.zwl.mall.api.IAccessTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,10 @@ public class UserAccountController {
     private IAccessTokenService iAccessTokenService;
 
     @ApiOperation(value = "第三方获取账户信息")
-    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-            "\"phone\":\"13000000000\",\n" +
-            "\"mid\":\"13000000000\",\n" +
-            "\"access_token\":\"13000000000\"\n" +
-            "}", dataType = "int", paramType = "path")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "jsonObject", value = "用户数据", required = true, paramType = "body", dataType = "JSONObject")
+    })
+
     @PostMapping("/info")
     public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
     ) {
@@ -63,7 +62,7 @@ public class UserAccountController {
             "\t\"mid\": \"kj\",\n" +
             "\t\"accesss_token\": \"dsdasdas\",\n" +
             "\t\"sign\": \"dsfsd\"\n" +
-            "}", dataType = "int", paramType = "path")
+            "}", dataType = "string", paramType = "path")
     @PostMapping("/reduce")
     public Result reduce(@RequestBody JSONObject jsonObject) {
         String data = jsonObject.getString("data");

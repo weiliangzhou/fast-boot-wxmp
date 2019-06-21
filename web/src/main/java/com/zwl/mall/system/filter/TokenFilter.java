@@ -53,9 +53,13 @@ public class TokenFilter implements Filter {
         excludeList.add("/wx");
         excludeList.add("/pub");
         excludeList.add("/out");
-        excludeList.add("docs");
-        excludeList.add("layui");
+        excludeList.add(".html");
+        excludeList.add(".css");
         excludeList.add(".ico");
+        excludeList.add(".js");
+        excludeList.add("docs");
+        excludeList.add("/swagger-resources");
+        excludeList.add("/error");
         for (String url : excludeList) {
             if (requestURL.contains(url)) {
                 chain.doFilter(request, response);

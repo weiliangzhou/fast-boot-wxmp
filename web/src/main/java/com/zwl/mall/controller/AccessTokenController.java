@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccessTokenController {
     @Autowired
     private RedisUtil redisUtil;
+    final static String KJ_PWD = "2bdff757f974464faa073ddb6b97c805";
+    final static String KJ_MID = "kj";
 
     /**
      * 根据mid，pwd获取accessToken
@@ -38,13 +40,14 @@ public class AccessTokenController {
     @GetMapping("/access_token/{mid}/{pwd}")
     public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid,
                                             @PathVariable("pwd") String pwd) {
-
         // TODO: 2019/6/20 判断帐号密码
-        if ("kj".equals(mid) && "123".equals(pwd)) {
+        if (KJ_MID.equals(mid) && KJ_PWD.equals(pwd)) {
             String uuid32 = UUIDUtil.getUUID32();
             redisUtil.setString(Constants.ACCESS_TOKEN + mid, uuid32, Constants.EXRP_HOUR * 2);
             return ResultUtil.ok(uuid32);
         }
+        // TODO: 2019/6/21 密码5分钟内错误5次则锁定登录24小时
+
         throw new BizException(ErrorEnum.ACCESSTOKEN_EXPIRATION);
 
     }

@@ -39,7 +39,8 @@ public class ${entity} extends Model<${entity}>{
         #set($keyPropertyName=${field.propertyName})
     #end
     #if("$!field.comment" != "")
-        @ApiComment(value = "${field.comment}", sample = "1")
+##        @ApiComment(value = "${field.comment}", sample = "1")
+    @ApiModelProperty(value = "${field.comment}")
     #end
     #if(${field.keyFlag})
     ## 主键

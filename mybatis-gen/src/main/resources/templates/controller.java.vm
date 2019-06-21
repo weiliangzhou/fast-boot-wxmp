@@ -5,13 +5,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
-import com.zwl.mall.utils.MapUtil;
+import com.zwl.common.utils.MapUtil;
+import com.zwl.mall.api.${table.serviceName};
+import com.zwl.mall.dao.model.UserEnergy;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.zwl.mall.api.${table.serviceName};
-import com.zwl.mall.dao.model.${entity};
+
+${table.serviceName}
+        ;
+    ${entity}
+        ;
 /**
  *
  * @author ${author}
@@ -37,7 +45,13 @@ public ${table.serviceName} i${entity}Service;
  * @return
  */
 ##@ResponseBody
-@GetMapping("/getPage")
+@PostMapping("/getPage")
+@ApiOperation(value = "分页查询")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "${table.entityPath}", value = "分页查询", required = true, paramType = "query", dataType = "${entity}"),
+        @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
+        @ApiImplicitParam(name = "pageSize", value = "10", required = true, paramType = "query", dataType = "int")
+})
 public Result getPage(${entity} ${table.entityPath},int pageNum,int pageSize)throws Exception{
         return ResultUtil.ok(new ${entity}().selectPage(new Page<>(pageNum,pageSize),
         new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));}
@@ -49,7 +63,11 @@ public Result getPage(${entity} ${table.entityPath},int pageNum,int pageSize)thr
  * @return
  */
 ##@ResponseBody
-@GetMapping("/getByParams")
+@PostMapping("/getByParams")
+@ApiOperation(value = "详情查询")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "${table.entityPath}", value = "查询数据", required = true, paramType = "query", dataType = "${entity}")
+})
 public Result getByParams(${entity} ${table.entityPath})throws Exception{
         return ResultUtil.ok(new ${entity}().selectOne(new QueryWrapper<${entity}>().allEq(MapUtil.objectToUnderlineMap(${table.entityPath}),false)));
         }
@@ -88,12 +106,15 @@ public Result getByParams(${entity} ${table.entityPath})throws Exception{
 
 
 /**
-* 保存
-*
-* @param ${table.entityPath} 传递的实体
-* @return 0 失败  1 成功
-*/
-@GetMapping("/save")
+ * 保存
+ *
+ * @param ${table.entityPath} 传递的实体
+ * @return 0 失败  1 成功
+ */
+@PostMapping("/save")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "${table.entityPath}", value = "保存", required = true, paramType = "query", dataType = "${entity}")
+})
 public Result save(${entity} ${table.entityPath})throws Exception{
         return ResultUtil.ok(${table.entityPath}.insert());
         }
@@ -104,7 +125,10 @@ public Result save(${entity} ${table.entityPath})throws Exception{
  * @param ${table.entityPath} 传递的实体
  * @return 0 失败  1 成功
  */
-@GetMapping("/update")
+@PostMapping("/update")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "${table.entityPath}", value = "更新", required = true, paramType = "query", dataType = "${entity}")
+})
 public Result update(${entity} ${table.entityPath})throws Exception{
         return ResultUtil.ok(${table.entityPath}.updateById());
         }
@@ -115,7 +139,10 @@ public Result update(${entity} ${table.entityPath})throws Exception{
  * @param ${table.entityPath} 传递的实体
  * @return 0 失败  1 成功
  */
-@GetMapping("/saveOrUpdate")
+@PostMapping("/saveOrUpdate")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "${table.entityPath}", value = "保存或更新", required = true, paramType = "query", dataType = "${entity}")
+})
 public Result saveOrUpdate(${entity} ${table.entityPath})throws Exception{
         return ResultUtil.ok(${table.entityPath}.insertOrUpdate());
         }
@@ -156,4 +183,4 @@ public Result saveOrUpdate(${entity} ${table.entityPath})throws Exception{
 ##
 ##
 ##        }
-          }
+        }

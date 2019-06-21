@@ -37,7 +37,7 @@ public class CodeGeneratorWithTemplateTest {
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "user_base");
+        generateByTables(packageName + ".tmp", "user_energy");
 //        generateByTables(packageName, "statistics_by_day");
     }
 
@@ -66,7 +66,7 @@ public class CodeGeneratorWithTemplateTest {
                 .setIdType(tableIdType)
                 .setAuthor("二师兄超级帅")
                 // TODO: 2019/1/26  输出路径
-                .setOutputDir("C:\\Users\\dell\\Desktop\\生成代码")
+                .setOutputDir("C:\\Users\\zwl\\Desktop\\生成代码")
                 .setFileOverride(true)
                 // XML 二级缓存
                 .setEnableCache(false)
