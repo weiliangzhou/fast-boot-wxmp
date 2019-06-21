@@ -72,6 +72,7 @@ public class UserEnergyController {
      * @return 0 失败  1 成功
      */
     @PostMapping("/save")
+    @ApiOperation(value = "保存")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userEnergy", value = "保存", required = true, paramType = "query", dataType = "UserEnergy")
     })
@@ -86,6 +87,7 @@ public class UserEnergyController {
      * @return 0 失败  1 成功
      */
     @PostMapping("/update")
+    @ApiOperation(value = "更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userEnergy", value = "更新", required = true, paramType = "query", dataType = "UserEnergy")
     })
@@ -100,6 +102,7 @@ public class UserEnergyController {
      * @return 0 失败  1 成功
      */
     @PostMapping("/saveOrUpdate")
+    @ApiOperation(value = "保存或更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userEnergy", value = "保存或更新", required = true, paramType = "query", dataType = "UserEnergy")
     })

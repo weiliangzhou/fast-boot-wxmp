@@ -112,6 +112,7 @@ public Result getByParams(${entity} ${table.entityPath})throws Exception{
  * @return 0 失败  1 成功
  */
 @PostMapping("/save")
+@ApiOperation(value = "保存")
 @ApiImplicitParams({
         @ApiImplicitParam(name = "${table.entityPath}", value = "保存", required = true, paramType = "query", dataType = "${entity}")
 })
@@ -126,6 +127,7 @@ public Result save(${entity} ${table.entityPath})throws Exception{
  * @return 0 失败  1 成功
  */
 @PostMapping("/update")
+@ApiOperation(value = "更新")
 @ApiImplicitParams({
         @ApiImplicitParam(name = "${table.entityPath}", value = "更新", required = true, paramType = "query", dataType = "${entity}")
 })
@@ -140,6 +142,7 @@ public Result update(${entity} ${table.entityPath})throws Exception{
  * @return 0 失败  1 成功
  */
 @PostMapping("/saveOrUpdate")
+@ApiOperation(value = "保存或更新")
 @ApiImplicitParams({
         @ApiImplicitParam(name = "${table.entityPath}", value = "保存或更新", required = true, paramType = "query", dataType = "${entity}")
 })

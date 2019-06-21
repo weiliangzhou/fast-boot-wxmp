@@ -19,17 +19,17 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
     @Override
     public void check(String mid, String accessToken) {
         if (StringUtils.isBlank(mid)) {
-            throw new BizException(ErrorEnum.ACCESSTOKEN_EXPIRATION);
+            throw new BizException(ErrorEnum.ACCESS_TOKEN_EXPIRATION);
         }
         if (StringUtils.isBlank(accessToken) || StringUtils.isBlank(mid)) {
-            throw new BizException(ErrorEnum.ACCESSTOKEN_EXPIRATION);
+            throw new BizException(ErrorEnum.ACCESS_TOKEN_EXPIRATION);
         }
 
         // TODO: 2019/6/20 校验accessToken
         String redisAccessToken = redisUtil.getString(Constants.ACCESS_TOKEN + mid);
         if (StringUtils.isNotBlank(redisAccessToken)) {
             if (!accessToken.equals(redisAccessToken)) {
-                throw new BizException(ErrorEnum.ACCESSTOKEN_EXPIRATION);
+                throw new BizException(ErrorEnum.ACCESS_TOKEN_EXPIRATION);
             }
         }
     }
