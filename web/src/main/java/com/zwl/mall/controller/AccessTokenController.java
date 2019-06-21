@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccessTokenController {
     @Autowired
     private RedisUtil redisUtil;
-    final static String KJ_PWD = "2bdff757f974464faa073ddb6b97c805";
-    final static String KJ_MID = "kj";
+    private static String KJ_PWD = "2bdff757f974464faa073ddb6b97c805";
+    private static String KJ_MID = "kj";
 
     /**
      * 根据mid，pwd获取accessToken
@@ -36,7 +36,7 @@ public class AccessTokenController {
      * @param pwd
      * @return
      */
-    @ApiOperation(value = "授权", notes = "授权")
+    @ApiOperation(value = "授权", notes = "授权mid=kj,pwd=2bdff757f974464faa073ddb6b97c805")
     @GetMapping("/access_token/{mid}/{pwd}")
     public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid,
                                             @PathVariable("pwd") String pwd) {
