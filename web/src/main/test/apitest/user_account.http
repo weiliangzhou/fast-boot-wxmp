@@ -1,7 +1,0 @@
-GET {{host}}/api/out/user_account/info/17682333183/kj/ab4fe2cd2a044b44a99175abcb6740db
-Accept: */*
-Cache-Control: no-cache
-Content-Type: application/json;charset=UTF-8
-
-###
-

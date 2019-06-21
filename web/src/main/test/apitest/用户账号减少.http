@@ -1,0 +1,18 @@
+POST {{host}}/api/out/user_account/reduce
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+
+
+{
+  "data": {
+    "phone": "17682333183",
+    "money": "0.0000219"
+  },
+  "mid": "kj",
+  "access_token": "d8d2be8143024962ae05990127245b35",
+  "sign": "E5QR0EbQ+ni3cVxW8J/KTw=="
+}
+
+###
+

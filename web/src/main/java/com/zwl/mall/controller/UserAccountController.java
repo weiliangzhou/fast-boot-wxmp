@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +35,11 @@ public class UserAccountController {
             "\"access_token\":\"13000000000\"\n" +
             "}", dataType = "int", paramType = "path")
     @PostMapping("/info")
-    public Result getUserAccountInfo(JSONObject jsonObject
+    public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
     ) {
-        String accesss_token = jsonObject.getString("accesss_token");
+        String access_token = jsonObject.getString("access_token");
         String mid = jsonObject.getString("mid");
-        iAccessTokenService.check(mid, accesss_token);
+        iAccessTokenService.check(mid, access_token);
         // TODO: 2019/6/20 获取账户信息
         log.info("调用成功");
 
@@ -53,7 +54,7 @@ public class UserAccountController {
      * @param jsonObject
      * @return
      */
-    @ApiOperation(value = "对应账户减少",notes = "sign=(data+accesss_token)通过工具类加密生成")
+    @ApiOperation(value = "对应账户减少", notes = "sign=(data+accesss_token)通过工具类加密生成")
     @ApiImplicitParam(name = "jsonObject", value = "{\n" +
             "\t\"data\": {\n" +
             "\t\t\"phone\": \"17682333183\",\n" +
@@ -64,19 +65,13 @@ public class UserAccountController {
             "\t\"sign\": \"dsfsd\"\n" +
             "}", dataType = "int", paramType = "path")
     @PostMapping("/reduce")
-    public Result reduce(
-            JSONObject jsonObject
-    ) {
+    public Result reduce(@RequestBody JSONObject jsonObject) {
         String data = jsonObject.getString("data");
-        String accesss_token = jsonObject.getString("accesss_token");
+        String access_token = jsonObject.getString("access_token");
         String mid = jsonObject.getString("mid");
         String sign = jsonObject.getString("sign");
-        iAccessTokenService.check(mid, accesss_token);
-        SignUtil.checkSign(data, accesss_token, sign);
-        String md5Sign = EncryptUtil.getInstance().MD5(data, accesss_token);
-        if (md5Sign == null) {
-
-        }
+        iAccessTokenService.check(mid, access_token);
+        SignUtil.checkSign(data, access_token, sign);
         // TODO: 2019/6/20 业务逻辑
         return ResultUtil.ok("");
 

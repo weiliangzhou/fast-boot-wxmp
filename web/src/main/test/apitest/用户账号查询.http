@@ -1,0 +1,13 @@
+POST {{host}}/api/out/user_account/info
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+
+{
+"phone":"17682333183",
+"mid":"kj",
+"access_token":"d8d2be8143024962ae05990127245b35"
+}
+
+###
+
