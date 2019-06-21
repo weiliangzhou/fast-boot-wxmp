@@ -42,7 +42,7 @@ public class SwaggerConfig {
     private ApiInfo productApiInfo() {
         ApiInfo apiInfo = new ApiInfo("二师兄接口文档",
                 "二师兄接口文档",
-                "1.8.0",
+                "1.0.0",
                 "API TERMS URL",
                 "382308664@qq.com",
                 "license",
