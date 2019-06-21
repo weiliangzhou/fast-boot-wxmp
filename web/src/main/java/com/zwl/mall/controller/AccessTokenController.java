@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/api/pub")
-@Api(value = "api接口访问授权")
+@Api(tags = "api接口访问授权")
 public class AccessTokenController {
     @Autowired
     private RedisUtil redisUtil;
@@ -48,7 +48,7 @@ public class AccessTokenController {
         }
         // TODO: 2019/6/21 密码5分钟内错误5次则锁定登录24小时
 
-        throw new BizException(ErrorEnum.ACCESSTOKEN_EXPIRATION);
+        throw new BizException(ErrorEnum.MERCHANT_ERROR);
 
     }
 }

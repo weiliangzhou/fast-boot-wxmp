@@ -7,6 +7,7 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.dao.model.UserEnergy;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/userEnergy")
+@Api(tags = "电力")
 public class UserEnergyController {
 
 

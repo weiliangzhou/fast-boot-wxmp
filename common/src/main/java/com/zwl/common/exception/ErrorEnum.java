@@ -15,7 +15,8 @@ public enum ErrorEnum {
     IO_ERROR(10003, "IO错误"),
     LOGON_EXPIRATION(-1, "登录过期，请重新登录"),
     ACCESSTOKEN_EXPIRATION(-10, "accesstoken无效"),
-    SIGN_ERROR(-11, "签名错误");
+    SIGN_ERROR(-11, "签名错误"),
+    MERCHANT_ERROR(-12, "商户信息有误");
 
 
     private int code;

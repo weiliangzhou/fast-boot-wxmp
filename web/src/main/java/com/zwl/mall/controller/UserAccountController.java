@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@Api("第三方")
+@Api(value = "第三方", tags = "第三方")
 @RequestMapping("/api/out/user_account")
 public class UserAccountController {
 
     @Autowired
     private IAccessTokenService iAccessTokenService;
 
-    @ApiOperation(value = "第三方获取账户信息")
+    @ApiOperation(value = "获取账户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "jsonObject", value = "用户数据", required = true, paramType = "body", dataType = "JSONObject")
     })
