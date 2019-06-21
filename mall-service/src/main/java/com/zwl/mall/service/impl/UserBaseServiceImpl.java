@@ -99,6 +99,18 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         return null;
     }
 
+    @Override
+    public UserBase getUserInfo(String tokenKey) {
+        //先查询redis
+        //如果不存在 则返回null
+        //如果存在 则返回userInfo
+        String json = redisUtil.getString(tokenKey);
+        if (StringUtils.isBlank(json)) {
+            return null;
+        }
+        return JSON.parseObject(json, UserBase.class);
+    }
+
     private UserBase getUsableUser(String unionId) {
         return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("union_id", unionId).eq("deleted", 0));
     }

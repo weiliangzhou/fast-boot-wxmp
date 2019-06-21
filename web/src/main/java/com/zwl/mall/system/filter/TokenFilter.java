@@ -2,11 +2,11 @@ package com.zwl.mall.system.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
-import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
-import com.zwl.mall.api.ISysUserService;
-import com.zwl.mall.dao.model.SysUser;
+import com.zwl.mall.api.IUserBaseService;
+import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.service.impl.RedisUtil;
+import com.zwl.mall.service.impl.UserBaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ import java.util.List;
 @Slf4j
 public class TokenFilter implements Filter {
     @Autowired
-    private ISysUserService iSysUserService;
+    private IUserBaseService iUserBaseService;
     @Autowired
     private RedisUtil redisUtil;
     private final String TOKEN_HEADER = "Authorization";
@@ -77,7 +77,7 @@ public class TokenFilter implements Filter {
             response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
             return;
         }
-        SysUser userInfo = iSysUserService.getUserInfo(tokenKey);
+        UserBase userInfo = iUserBaseService.getUserInfo(tokenKey);
         if (null == userInfo) {
             response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
             return;
