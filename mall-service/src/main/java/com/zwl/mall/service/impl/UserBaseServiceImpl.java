@@ -39,7 +39,8 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
         // FIXME: 2019/6/24 需要修改
-        redisUtil.setString(uuid32, "111111", Constants.EXRP_MONTH);
+        unionId = "111111";
+        redisUtil.setString(uuid32, unionId, Constants.EXRP_MONTH);
         if (null == userBaseData) {
             UserBase userBase = new UserBase();
             userBase.setHeadImgUrl(headImgUrl);
@@ -51,6 +52,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             redisUtil.setString(unionId, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBase);
         } else {
+            redisUtil.setString(unionId, JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBaseData);
         }
     }

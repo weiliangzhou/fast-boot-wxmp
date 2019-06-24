@@ -1,7 +1,7 @@
 POST {{host}}/api/out/user_account/info
 Accept: */*
 Cache-Control: no-cache
-Authorization: "86002c488b77415892301ac2d7202691"
+Authorization: e7588eb90c304d6189131d136cf2ce9e
 Content-Type: application/json
 
 { "phone":"13000000000", "mid":"kj", "access_token":"d97e50d8d1cf43b8a6a193c9df57ca2d" }
