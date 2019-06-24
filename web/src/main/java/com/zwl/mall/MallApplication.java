@@ -27,5 +27,6 @@ public class MallApplication {
         SpringApplication.run(MallApplication.class, args);
     }
 
+
 }
 

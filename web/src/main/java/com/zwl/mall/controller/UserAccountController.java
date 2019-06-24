@@ -1,10 +1,13 @@
 package com.zwl.mall.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.utils.SignUtil;
 import com.zwl.mall.api.IAccessTokenService;
+import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,11 +37,12 @@ public class UserAccountController {
     })
 
     @PostMapping("/info")
-    public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
+    public Result getUserAccountInfo(@CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject
     ) {
         String access_token = jsonObject.getString("access_token");
         String mid = jsonObject.getString("mid");
         iAccessTokenService.check(mid, access_token);
+        log.info(JSON.toJSONString(userBase));
         // TODO: 2019/6/20 获取账户信息
         log.info("调用成功");
 

@@ -4,7 +4,8 @@ Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8
 
 
-> {% client.global.set("token", response.body.data); %}
+> {% client.global.set("token", response.body.AccessToken.token); %}
+
 
 ###
 

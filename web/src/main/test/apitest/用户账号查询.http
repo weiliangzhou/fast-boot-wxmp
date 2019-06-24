@@ -1,10 +1,10 @@
 POST {{host}}/api/out/user_account/info
 Accept: */*
 Cache-Control: no-cache
-Content-Type: application/json;charset=UTF-8
+Authorization: "86002c488b77415892301ac2d7202691"
+Content-Type: application/json
 
-
-{ "phone":"13000000000", "mid":"kj", "access_token":"27e830ffbe484a4181e7d02b9e2f0750" }
+{ "phone":"13000000000", "mid":"kj", "access_token":"d97e50d8d1cf43b8a6a193c9df57ca2d" }
 
 
 ###

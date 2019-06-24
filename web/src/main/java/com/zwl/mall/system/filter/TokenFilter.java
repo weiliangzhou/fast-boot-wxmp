@@ -6,7 +6,6 @@ import com.zwl.common.exception.ErrorEnum;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.service.impl.RedisUtil;
-import com.zwl.mall.service.impl.UserBaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class TokenFilter implements Filter {
         List<String> excludeList = new ArrayList<>();
         excludeList.add("/wx");
         excludeList.add("/pub");
-        excludeList.add("/out");
+//        excludeList.add("/out");
         excludeList.add(".html");
         excludeList.add(".css");
         excludeList.add(".ico");
@@ -82,6 +81,7 @@ public class TokenFilter implements Filter {
             response.getWriter().println(JSON.toJSONString(new Result(ErrorEnum.LOGON_EXPIRATION.getCode(), ErrorEnum.LOGON_EXPIRATION.getMsg())));
             return;
         }
+        request.setAttribute("currentUser", userInfo);
         chain.doFilter(request, response);
 
     }
