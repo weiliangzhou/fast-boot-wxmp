@@ -37,7 +37,7 @@ public class CodeGeneratorWithTemplateTest {
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "user_calculation_power");
+        generateByTables(packageName + ".tmp", "user_energy_expire_time");
 //        generateByTables(packageName, "statistics_by_day");
     }
 

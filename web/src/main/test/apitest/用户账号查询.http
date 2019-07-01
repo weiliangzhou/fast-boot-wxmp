@@ -9,3 +9,14 @@ Content-Type: application/json
 
 ###
 
+#POST {{host}}/api/out/user_account/info
+POST {{host}}/api/user/user_account/info
+Accept: */*
+Cache-Control: no-cache
+Authorization: 240f24406b4f4e4eb8e973948d907112
+Content-Type: application/json
+
+###
+
+
+

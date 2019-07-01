@@ -20,17 +20,13 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-typehandlers-jsr310</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-        </dependency>
-        <!--接口文档-->
-        <dependency>
-            <groupId>com.github.terran4j</groupId>
-            <artifactId>terran4j-commons-api2doc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
