@@ -40,7 +40,7 @@ public class AuthController {
     @ApiOperation(value = "公众号授权", notes = "公众号授权")
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
-        String url = "http://zwl.natapp1.cc/wx/userInfo";
+        String url = "http://zwl.natapp1.cc/wx/userInfo?referUid=8";
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx9eaed98794b0c756");
         String redirectURL = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
@@ -48,8 +48,10 @@ public class AuthController {
     }
 
     @GetMapping("/userInfo")
-    public String userInfo(@RequestParam("code") String code,
-                           @RequestParam("state") String returnUrl) throws Exception {
+    public String userInfo(
+            @RequestParam("code") String code,
+            @RequestParam(value = "referUid", required = false) Long referUid,
+            @RequestParam("state") String returnUrl) throws Exception {
         log.info("【微信网页授权】code={}", code);
         log.info("【微信网页授权】state={}", returnUrl);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
@@ -63,7 +65,7 @@ public class AuthController {
         String openId = wxMpOAuth2AccessToken.getOpenId();
         WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
-        AccessToken login = iUserBaseService.login(wxMpUser);
+        AccessToken login = iUserBaseService.login(wxMpUser, referUid);
         log.info(JSON.toJSONString(login));
         log.info("【微信网页授权】openId={}", openId);
         return "redirect:" + returnUrl + "?openid=" + openId;

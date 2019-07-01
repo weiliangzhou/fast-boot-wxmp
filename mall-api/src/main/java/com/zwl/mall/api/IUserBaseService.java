@@ -19,9 +19,10 @@ public interface IUserBaseService extends IService<UserBase> {
      * 公众号授权登录
      *
      * @param wxMpUser
+     * @param referUid
      * @return
      */
-    AccessToken login(WxMpUser wxMpUser);
+    AccessToken login(WxMpUser wxMpUser, Long referUid);
 
 
     /**

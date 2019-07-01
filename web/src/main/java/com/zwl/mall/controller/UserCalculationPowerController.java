@@ -7,7 +7,9 @@ import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserCalculationPowerService;
+import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserCalculationPower;
+import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/api/userCalculationPower")
+@RequestMapping("/api/user/CalculationPower")
 @Api(tags = "算力")
 @Slf4j
 public class UserCalculationPowerController {
@@ -77,18 +79,20 @@ public class UserCalculationPowerController {
     @ApiOperation(value = "赠送算力")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-                    "\"channel\":\"渠道来源:1:XX应用 2:XX应用\",\n" +
+//                    "\"channel\":\"渠道来源:1:XX应用 2:XX应用\",\n" +
                     "\"type\":\"1:邀请好友\"\n" +
                     "}", required = true, paramType = "body", dataType = "JSONObject")
     })
-    public Result add(@RequestBody JSONObject jsonObject) {
+    public Result add(
+            @CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject) {
         // TODO: 2019/6/24 不同的channel,使用不同的策略
-        Integer channel = jsonObject.getInteger("channel");
+//        Integer channel = jsonObject.getInteger("channel");
         Integer type = jsonObject.getInteger("type");
         switch (type) {
             case 1:
                 //邀请好友
                 log.info("邀请好友");
+                iUserCalculationPowerService.add(userBase.getId(), 1);
                 break;
         }
         return ResultUtil.ok("ok");

@@ -13,4 +13,12 @@ import com.zwl.mall.dao.model.UserEnergy;
  * @since 2019-06-21
  */
 public interface IUserEnergyService extends IService<UserEnergy> {
+    /**
+     * 增加电力
+     *
+     * @param uid
+     * @param type
+     */
+    void add(Long uid, Integer type);
+
 }

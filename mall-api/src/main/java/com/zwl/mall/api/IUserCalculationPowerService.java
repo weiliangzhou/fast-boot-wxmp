@@ -12,4 +12,12 @@ import com.zwl.mall.dao.model.UserCalculationPower;
  * @author 二师兄超级帅
  * @since 2019-06-24
  */
-public interface IUserCalculationPowerService extends IService<UserCalculationPower> {}
+public interface IUserCalculationPowerService extends IService<UserCalculationPower> {
+    /**
+     * 增加算力
+     *
+     * @param uid
+     * @param type
+     */
+    void add(Long uid, Integer type);
+}

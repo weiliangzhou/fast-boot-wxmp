@@ -7,6 +7,7 @@ import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.RegisterFrom;
 import com.zwl.common.utils.UUIDUtil;
 import com.zwl.mall.api.IUserBaseService;
+import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.dao.mapper.UserBaseMapper;
 import com.zwl.mall.dao.model.UserBase;
@@ -28,9 +29,11 @@ import org.springframework.stereotype.Service;
 public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> implements IUserBaseService {
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
-    public AccessToken login(WxMpUser wxMpUser) {
+    public AccessToken login(WxMpUser wxMpUser, Long referUid) {
         String headImgUrl = wxMpUser.getHeadImgUrl();
         String nickname = wxMpUser.getNickname();
         String unionId = wxMpUser.getUnionId();
@@ -50,11 +53,15 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
             userBase.insert();
             redisUtil.setString(unionId, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
+            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
+            iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);
         } else {
             redisUtil.setString(unionId, JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBaseData);
         }
+
+
     }
 
 

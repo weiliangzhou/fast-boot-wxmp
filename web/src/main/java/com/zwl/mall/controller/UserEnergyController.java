@@ -7,7 +7,9 @@ import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserEnergyService;
+import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserEnergy;
+import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -82,21 +84,10 @@ public class UserEnergyController {
                     "\"type\":\"1:新用户注册赠送120电力 2:每天分享app赠送1小时 3:每天登陆赠送2小时\"\n" +
                     "}", required = true, paramType = "body", dataType = "JSONObject")
     })
-    public Result add(@RequestBody JSONObject jsonObject) {
+    public Result add(@CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject) {
         // TODO: 2019/6/24 不同的channel,使用不同的策略
         Integer type = jsonObject.getInteger("type");
-        switch (type) {
-            case 1:
-                //新用户注册赠送120电力
-                log.info("新用户注册赠送120电力");
-                break;
-            case 2:
-                //每天分享app赠送1小时
-                log.info("每天分享app赠送1小时");
-            case 3:
-                //每天登陆赠送2小时
-                log.info("每天登陆赠送2小时");
-        }
+        iUserEnergyService.add(userBase.getId(), type);
         return ResultUtil.ok("ok");
     }
 }

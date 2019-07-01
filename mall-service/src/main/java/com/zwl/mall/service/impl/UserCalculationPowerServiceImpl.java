@@ -17,7 +17,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculationPowerMapper, UserCalculationPower> implements IUserCalculationPowerService {
+    @Override
+    public void add(Long uid, Integer type) {
+        if (null != uid) {
+            switch (type) {
+                case 1:
+                    UserCalculationPower userCalculationPower = new UserCalculationPower();
+                    userCalculationPower.setUid(uid);
+                    userCalculationPower.setType(type);
+                    userCalculationPower.setPowerValue(100);
+                    userCalculationPower.insert();
+                    break;
+            }
+        }
 
+
+    }
 }
 
 
