@@ -8,7 +8,7 @@
 7. 加入Ddos、Xss防护
 8. 增加Cors跨域支持
 9. 集成微信公众号WxJava-mp
-10.集成微信小程序WxJava-miniapp
+10.集成微信小程序WxJava-miniapp（微信运动获取步数）
 11.集成微信支付WxJava-pay
 ### 项目相关
 1. 接口文档 http://localhost:8080/docs.html
@@ -30,22 +30,10 @@
 3. Redis需要自行安装Redis服务，端口密码默认
 4. SpringBoot直接启动即可，测试工具PostMan
 
-### PostMan使用
-1. 登陆地址：localhost:8080/api/pub/user/login   post    json   {"account":"admin", "password":"admin"}
-2. 登陆成功获取data里面的token{
-                      "code": 200,
-                      "msg": "登录成功(Login Success.)",
-                      "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjdXJyZW50VGltZU1pbGxpcyI6IjE1NTI1Njc1ODE4ODEiLCJleHAiOjE1NTI1Njc4ODEsImFjY291bnQiOiJhZG1pbiJ9.7jh5x4fv3j87qqdxyBIZTxPVlg3AFSpeilzAq8z3hr0"
-                  }
+### api测试脚本（test->apitest文件夹下）
+1. 登陆地址：微信授权登陆
+2. 获取到token
 3. 放入Header  格式：Authorization  上面token
-
-```txt
-先设置Content-Type为application/json
-```
-```txt
-然后填写请求参数帐号密码信息
-```
-![image text](https://img.mall.xc2018.com.cn/mall/upload/20190315/144459_27_c0tw.png)
 ```txt
 进行请求访问，请求访问成功
 ```
@@ -58,5 +46,4 @@
 ```txt
 Token的自动刷新也是在Token失效时返回新的Token在Header信息的Authorization属性
 ```
-![image text](https://img.mall.xc2018.com.cn/mall/upload/20190315/144522_60_211b.png)
 
