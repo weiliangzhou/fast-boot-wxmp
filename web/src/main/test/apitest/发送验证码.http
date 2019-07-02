@@ -1,0 +1,6 @@
+GET http://localhost:8080/api/pub/sendCode?cellphone=17682333183
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+###
+

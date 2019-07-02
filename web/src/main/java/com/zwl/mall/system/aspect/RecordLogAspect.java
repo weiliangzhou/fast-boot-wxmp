@@ -8,6 +8,7 @@ import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.service.impl.RedisUtil;
 import com.zwl.mall.system.annotation.Log;
 import com.zwl.mall.system.config.security.AspectApi;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,9 +85,12 @@ public class RecordLogAspect extends AbstractAspectManager {
         String token = request.getHeader("Authorization");
         SysOperationLog operationLog = new SysOperationLog();
         if (!ComUtil.isEmpty(token)) {
-            String unionId = redisUtil.getString(token);
-            UserBase userBase = iUserBaseService.selectOneWithCacheByUnionId(unionId);
-            operationLog.setUserNo(userBase.getUnionId());
+            String tokenKey = redisUtil.getString(token);
+            if (StringUtils.isNotBlank(tokenKey)) {
+                UserBase userInfo = iUserBaseService.getUserInfo(tokenKey);
+                operationLog.setUserNo(userInfo.getId() + "");
+            }
+
         }
         operationLog.setIp(getIpAddress(request));
         operationLog.setClassName(joinPoint.getTarget().getClass().getName());

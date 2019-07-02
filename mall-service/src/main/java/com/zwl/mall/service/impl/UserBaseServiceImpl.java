@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.RegisterFrom;
+import com.zwl.common.exception.BizException;
+import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.UUIDUtil;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.IUserCalculationPowerService;
@@ -31,6 +33,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
     private RedisUtil redisUtil;
     @Autowired
     private IUserCalculationPowerService iUserCalculationPowerService;
+    private final static String USER_INFO = "USER_INFO_";
 
     @Override
     public AccessToken login(WxMpUser wxMpUser, Long referUid) {
@@ -38,12 +41,9 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         String nickname = wxMpUser.getNickname();
         String unionId = wxMpUser.getUnionId();
         String openId = wxMpUser.getOpenId();
-        UserBase userBaseData = selectOneWithCacheByUnionId(unionId);
+        UserBase userBaseData = selectOneByUnionId(unionId);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
-        // FIXME: 2019/6/24 需要修改
-        unionId = "111111";
-        redisUtil.setString(uuid32, unionId, Constants.EXRP_MONTH);
         if (null == userBaseData) {
             UserBase userBase = new UserBase();
             userBase.setHeadImgUrl(headImgUrl);
@@ -52,62 +52,65 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             userBase.setUnionId(unionId);
             userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
             userBase.insert();
-            redisUtil.setString(unionId, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
+            Long uid = userBase.getId();
+            redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
+            redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, 1);
+
             return new AccessToken(uuid32, userBase);
         } else {
-            redisUtil.setString(unionId, JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
+            redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);
+            redisUtil.setString(USER_INFO + userBaseData.getId(), JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBaseData);
         }
 
 
     }
 
+    private UserBase selectOneByUnionId(String unionId) {
+        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("union_id", unionId).eq("deleted", 0));
+    }
+
 
     @Override
-    public UserBase selectOneWithCacheByUnionId(String unionId) {
-        if (StringUtils.isBlank(unionId)) {
-            return null;
+    public AccessToken login(String cellphone, String code, Long referUid) {
+        // TODO: 2019/7/2 校验验证码
+        String msgCode = redisUtil.getString(cellphone);
+        if (StringUtils.isBlank(msgCode)) {
+            throw new BizException(ErrorEnum.CODE_INVALID);
+        } else if (!code.equals(msgCode)) {
+            throw new BizException(ErrorEnum.CODE_ERROR);
         }
-        try {
-            //先查询redis
-            String json = redisUtil.getString(unionId);
-            //如果不存在则查询mysql，并放入redis
-            if (StringUtils.isBlank(json)) {
-                UserBase userBaseData = getUsableUser(unionId);
-                if (null == userBaseData) {
-                    //如果数据库不存在 则返回null
-                    return null;
-                } else {
-                    //存入redis
-                    redisUtil.setString(UUIDUtil.getUUID32(), unionId, Constants.EXRP_MONTH);
-                    return userBaseData;
-                }
-            } else {
-                UserBase userBaseData = JSON.parseObject(json, UserBase.class);
-                if (null == userBaseData) {
-                    //如果redis不存在 则返回null
-                    UserBase usableUser = getUsableUser(unionId);
-                    if (null == usableUser) {
-                        //如果数据库不存在 则返回null
-                        return null;
-                    } else {
-                        //存入redis
-                        redisUtil.setString(UUIDUtil.getUUID32(), unionId, Constants.EXRP_MONTH);
-                        return usableUser;
-                    }
-                } else {
-                    return userBaseData;
-                }
-            }
+        // TODO: 2019/7/2 检查该手机号是否注册过   未注册则需要新增一个新用户 并且赠送120小时
+        UserBase userBaseData = selectOneByCellphone(cellphone);
+        //创建token
+        String uuid32 = UUIDUtil.getUUID32();
+        if (null == userBaseData) {
+            UserBase userBase = new UserBase();
+            userBase.setCellphone(cellphone);
+            userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
+            userBase.insert();
+            Long uid = userBase.getId();
+            redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
+            redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
+            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
+            iUserCalculationPowerService.add(referUid, 1);
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            return new AccessToken(uuid32, userBase);
+        } else {
+            redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);
+            redisUtil.setString(USER_INFO + userBaseData.getId(), JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
+            return new AccessToken(uuid32, userBaseData);
         }
-        return null;
+
     }
+
+    private UserBase selectOneByCellphone(String cellphone) {
+        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("cellphone", cellphone).eq("deleted", 0));
+
+    }
+
 
     @Override
     public UserBase getUserInfo(String tokenKey) {
@@ -121,9 +124,6 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         return JSON.parseObject(json, UserBase.class);
     }
 
-    private UserBase getUsableUser(String unionId) {
-        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("union_id", unionId).eq("deleted", 0));
-    }
 }
 
 

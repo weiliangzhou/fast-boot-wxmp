@@ -6,6 +6,10 @@ public interface Constants {
      */
     Long EXRP_MINUTE = 60L;
     /**
+     * redis过期时间，以秒为单位，一分钟
+     */
+    Long EXRP_FIVE_MINUTE = 60L * 5;
+    /**
      * redis过期时间，以秒为单位，一小时
      */
     Long EXRP_HOUR = 60 * 60L;
@@ -36,5 +40,5 @@ public interface Constants {
     // 用户信息不存在
     Integer HTTP_RES_CODE_NOTUSER_203 = 203;
     String OK = "OK";
-    String ACCESS_TOKEN="access_token_";
+    String ACCESS_TOKEN = "access_token_";
 }

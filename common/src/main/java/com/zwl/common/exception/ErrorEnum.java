@@ -17,6 +17,11 @@ public enum ErrorEnum {
     //用户错误
     ALREADY_TYPE_1(1001,"已经签到过"),
     ALREADY_TYPE_2(1002,"已经分享过"),
+    CODE_INVALID(1003,"验证码无效"),
+    CODE_ERROR(1004,"验证码错误"),
+
+
+
     LOGON_EXPIRATION(-1, "登录过期，请重新登录"),
     ACCESS_TOKEN_EXPIRATION(-10, "accesstoken无效"),
     SIGN_ERROR(-11, "签名错误"),

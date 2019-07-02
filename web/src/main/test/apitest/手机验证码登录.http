@@ -1,9 +1,7 @@
-POST http://localhost:8080/api/pub/user/login
+GET http://localhost:8080/api/pub/loginWithPhoneCode?cellphone=17682333183&code=123
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8
-
-{"account":"admin","password":"admin"}
 
 
 > {% client.global.set("token", response.body.data); %}

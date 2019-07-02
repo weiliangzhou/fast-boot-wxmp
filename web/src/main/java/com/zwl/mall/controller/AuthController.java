@@ -6,6 +6,10 @@ import cn.binarywang.wx.miniapp.bean.WxMaRunStepInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zwl.common.base.Result;
+import com.zwl.common.base.ResultUtil;
+import com.zwl.common.constants.Constants;
+import com.zwl.mall.api.IMessageService;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.miniapp.utils.JsonUtils;
@@ -30,12 +34,14 @@ import java.util.List;
  * Created by 二师兄超级帅 on 2019/3/22.
  */
 @RestController
-@RequestMapping("/wx")
+@RequestMapping("/api/pub/")
 @Slf4j
 @Api(tags = "登录")
 public class AuthController {
     @Autowired
     private IUserBaseService iUserBaseService;
+    @Autowired
+    private IMessageService iMessageService;
 
     @ApiOperation(value = "公众号授权", notes = "公众号授权")
     @GetMapping("/authorize")
@@ -130,6 +136,20 @@ public class AuthController {
         final WxMaService wxService = WxMaConfiguration.getMaService(appid);
         List<WxMaRunStepInfo> runStepInfo = wxService.getRunService().getRunStepInfo(sessionKey, encryptedData, ivStr);
         return JSON.toJSONString(runStepInfo);
+    }
+
+    @GetMapping("/loginWithPhoneCode")
+    @ApiOperation(value = "手机验证码注册或登陆", notes = "手机验证码注册或登陆")
+    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone, @RequestParam("code") String code, @RequestParam(value = "referUid", required = false) Long referUid) {
+        AccessToken accessToken = iUserBaseService.login(cellphone, code, referUid);
+        return ResultUtil.ok(accessToken);
+    }
+
+    @GetMapping("/sendCode")
+    @ApiOperation(value = "发送验证码", notes = "发送验证码")
+    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone) {
+        iMessageService.sendCode(cellphone);
+        return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }
 
 
