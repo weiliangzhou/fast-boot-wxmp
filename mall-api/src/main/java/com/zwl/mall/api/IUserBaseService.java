@@ -26,18 +26,20 @@ public interface IUserBaseService extends IService<UserBase> {
 
 
     /**
-     * 根据unionId获取用户信息
-     *
-     * @param unionId
-     * @return
-     */
-    UserBase selectOneWithCacheByUnionId(String unionId);
-
-    /**
      * 根据token查询用户基本信息
      *
      * @param tokenKey
      * @return
      */
     UserBase getUserInfo(String tokenKey);
+
+    /**
+     * 手机验证码注册或登陆
+     *
+     * @param cellphone
+     * @param code
+     * @param referUid
+     * @return
+     */
+    AccessToken login(String cellphone, String code, Long referUid);
 }
