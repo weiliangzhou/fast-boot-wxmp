@@ -16,11 +16,6 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
-        <!-- JWT -->
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-        </dependency>
         <!--excel操作-->
         <dependency>
             <groupId>cn.afterturn</groupId>

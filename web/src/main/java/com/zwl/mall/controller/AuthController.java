@@ -47,7 +47,7 @@ public class AuthController {
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         String url = "http://zwl.natapp1.cc/wx/userInfo?referUid=8";
-        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx9eaed98794b0c756");
+        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         String redirectURL = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
         return "redirect:" + redirectURL;
@@ -61,7 +61,7 @@ public class AuthController {
         log.info("【微信网页授权】code={}", code);
         log.info("【微信网页授权】state={}", returnUrl);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
-        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx9eaed98794b0c756");
+        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {

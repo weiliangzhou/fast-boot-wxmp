@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/pub/loginWithPhoneCode?cellphone=17682333183&code=123
+GET {{host}}/api/pub/loginWithPhoneCode?cellphone=17682333183&code=123
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8
