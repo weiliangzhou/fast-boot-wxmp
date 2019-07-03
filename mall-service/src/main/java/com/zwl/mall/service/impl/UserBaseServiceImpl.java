@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
+import com.zwl.common.constants.EnergyType;
 import com.zwl.common.constants.RegisterFrom;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.UUIDUtil;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.IUserCalculationPowerService;
+import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.dao.mapper.UserBaseMapper;
 import com.zwl.mall.dao.model.UserBase;
@@ -33,6 +35,8 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
     private RedisUtil redisUtil;
     @Autowired
     private IUserCalculationPowerService iUserCalculationPowerService;
+    @Autowired
+    private IUserEnergyService iUserEnergyService;
     private final static String USER_INFO = "USER_INFO_";
 
     @Override
@@ -57,7 +61,8 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, 1);
-
+            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
+            iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);
         } else {
             redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);
@@ -94,9 +99,10 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             Long uid = userBase.getId();
             redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
+            // TODO: 2019/7/3 增加120小时电力
+            iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, 1);
-
             return new AccessToken(uuid32, userBase);
         } else {
             redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);

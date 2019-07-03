@@ -2,6 +2,7 @@ package com.zwl.mall.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.UserEnergy;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -19,5 +20,13 @@ public interface UserEnergyMapper extends BaseMapper<UserEnergy> {
      * @param uid
      * @return
      */
-    int alReadySignIn(Integer type, Long uid);
+    int alReadySignIn(@Param("type") Integer type, @Param("uid") Long uid);
+
+    /**
+     * 获取可用电力
+     *
+     * @param uid
+     * @return
+     */
+    int getAbleEnergyByUid(Long uid);
 }

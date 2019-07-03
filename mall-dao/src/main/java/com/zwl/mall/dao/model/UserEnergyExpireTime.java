@@ -3,6 +3,7 @@ package com.zwl.mall.dao.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
  * 自定义属性注入abc=
  *
  * @author 二师兄超级帅
- * @since 2019-07-01
+ * @since 2019-07-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -40,6 +41,8 @@ public class UserEnergyExpireTime extends Model<UserEnergyExpireTime> {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+    @Version
+    private Integer version;
 
     private Boolean deleted;
 

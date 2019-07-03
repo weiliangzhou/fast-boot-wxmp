@@ -819,16 +819,24 @@ public class LocalDateUtil {
          * 相差分：621579
          * 相差秒：37294750
          * */
-        LocalDateTime dateTime = getDateTime("2018-01-01 10:12:05", YYYY_MM_DD_HH_MM_SS);
+        LocalDateTime dateTime = getDateTime("2019-07-03 10:12:05", YYYY_MM_DD_HH_MM_SS);
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dateTime);
         System.out.println(now);
-        System.out.println("相差年：" + diffYear(dateTime, now));
-        System.out.println("相差月：" + diffMonth(dateTime, now));
-        System.out.println("相差日：" + diffDay(dateTime, now));
-        System.out.println("相差时：" + diffHour(dateTime, now));
+//        System.out.println("相差年：" + diffYear(dateTime, now));
+//        System.out.println("相差月：" + diffMonth(dateTime, now));
+//        System.out.println("相差日：" + diffDay(dateTime, now));
+//        System.out.println("相差时：" + diffHour(dateTime, now));
         System.out.println("相差分：" + diffMinute(dateTime, now));
-        System.out.println("相差秒：" + diffSecond(dateTime, now));
+        long l = diffMinute(dateTime, now) % 60;
+        int needHours = 0;
+        if (l != 0) {
+            needHours = (int) diffMinute(dateTime, now) / 60 + 1;
+        } else {
+            needHours = (int) diffMinute(dateTime, now) / 60;
+        }
+        System.out.println(needHours);
+//        System.out.println("相差秒：" + diffSecond(dateTime, now));
     }
 
     public static void main(String[] args) {

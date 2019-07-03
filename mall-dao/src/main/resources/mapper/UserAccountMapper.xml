@@ -22,8 +22,8 @@
     <select id="getBTCInfoByUid" resultType="decimal">
        SELECT t1.money - t2.money
         FROM
-        (select sum(money)  as money from user_account where `type` =1 and uid =#{uid} ) t1 ,
-        (select sum(money) as money from user_account where `type` =-1 and uid =#{uid} ) t2
+        (select IFNULL(sum(money),0)  as money from user_account where `type` =1 and uid =#{uid} ) t1 ,
+        (select IFNULL(sum(money),0) as money from user_account where `type` =-1 and uid =#{uid} ) t2
     </select>
 
 

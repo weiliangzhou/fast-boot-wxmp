@@ -15,18 +15,18 @@ public enum ErrorEnum {
     IO_ERROR(10003, "IO错误"),
 
     //用户错误
-    ALREADY_TYPE_1(1001,"已经签到过"),
-    ALREADY_TYPE_2(1002,"已经分享过"),
-    CODE_INVALID(1003,"验证码无效"),
-    CODE_ERROR(1004,"验证码错误"),
-
+    ALREADY_TYPE_1(1001, "已经签到过"),
+    ALREADY_TYPE_2(1002, "已经分享过"),
+    CODE_INVALID(1003, "验证码无效"),
+    CODE_ERROR(1004, "验证码错误"),
+    LOW_POWER(1005, "电力不足"),
+    LOW_FULL(1006, "电力充沛，不需要充电"),
 
 
     LOGON_EXPIRATION(-1, "登录过期，请重新登录"),
     ACCESS_TOKEN_EXPIRATION(-10, "accesstoken无效"),
     SIGN_ERROR(-11, "签名错误"),
     MERCHANT_ERROR(-12, "商户信息有误");
-
 
 
     private int code;

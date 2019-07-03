@@ -4,9 +4,10 @@ package com.zwl.common.constants;
  * @author 二师兄超级帅
  */
 public enum EnergyType {
-    TYPE_1(1, 120, "注册赠送"),
-    TYPE_2(2, 1, "每天分享app赠送1小时"),
-    TYPE_3(3, 2, "每天登陆赠送2小时");
+    TYPE_0(0, 120, "注册赠送"),
+    TYPE_1(1, 1, "每天分享app赠送1小时"),
+    TYPE_2(2, 2, "每天登陆赠送2小时"),
+    CONSUME_1(-1, 1, "消耗电力");
 
     private int index;
     private int value;

@@ -1,0 +1,12 @@
+GET http://localhost:8080/api/user/energy/consume?hours=1
+Accept: */*
+Cache-Control: no-cache
+Authorization: 3e1dd4bf157f4e9f87bbc97ff59df735
+###
+
+GET http://localhost:8080/api/user/energy/add?type=1
+Accept: */*
+Cache-Control: no-cache
+Authorization: 3e1dd4bf157f4e9f87bbc97ff59df735
+###
+

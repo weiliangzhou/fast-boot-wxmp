@@ -44,7 +44,7 @@ public class CodeGeneratorWithTemplateTest {
 
     private static void generateByTables(String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/mall_plus";
+        String dbUrl = "jdbc:mysql://localhost:3306/mall_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

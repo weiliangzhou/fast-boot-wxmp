@@ -21,4 +21,11 @@ public interface IUserEnergyService extends IService<UserEnergy> {
      */
     void add(Long uid, Integer type);
 
+    /**
+     * 消耗电力
+     *
+     * @param uid
+     * @param hours
+     */
+    void consume(Long uid, int hours);
 }

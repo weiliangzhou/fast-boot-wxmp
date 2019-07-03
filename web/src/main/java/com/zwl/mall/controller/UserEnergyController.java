@@ -1,10 +1,13 @@
 package com.zwl.mall.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.constants.Constants;
+import com.zwl.common.constants.EnergyType;
+import com.zwl.common.exception.ErrorEnum;
+import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.dao.model.UserBase;
@@ -16,10 +19,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/api/userEnergy")
+@RequestMapping("/api/user/energy")
 @Api(tags = "电力")
 @Slf4j
 public class UserEnergyController {
@@ -76,18 +76,34 @@ public class UserEnergyController {
      * @Author: 二师兄超级帅
      * @Description:
      */
-    @PostMapping("/add")
+    @GetMapping("/add")
     @ApiOperation(value = "赠送电力")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-                    "\"channel\":\"渠道来源:1:XX应用\",\n" +
-                    "\"type\":\"1:新用户注册赠送120电力 2:每天分享app赠送1小时 3:每天登陆赠送2小时\"\n" +
-                    "}", required = true, paramType = "body", dataType = "JSONObject")
+            @ApiImplicitParam(name = "type", value = "\"type\":\"1:每天分享app赠送1小时 2:每天登陆赠送2小时\"\n", required = true, paramType = "query", dataType = "int")
     })
-    public Result add(@CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject) {
-        // TODO: 2019/6/24 不同的channel,使用不同的策略
-        Integer type = jsonObject.getInteger("type");
+    public Result add(@CurrentUser UserBase userBase, @RequestParam("type") int type) {
+        if (EnergyType.TYPE_1.getIndex() != type && EnergyType.TYPE_2.getIndex() != type) {
+            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
+        }
         iUserEnergyService.add(userBase.getId(), type);
-        return ResultUtil.ok("ok");
+        return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }
+
+    /**
+     * @Date: 2019/7/3 9:31
+     * @Author: 二师兄超级帅
+     * @Description: 充电
+     */
+    @GetMapping("/consume")
+    @ApiOperation(value = "充电")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "hours", value = "1", required = true, paramType = "query", dataType = "int")
+
+    })
+    public Result consume(@CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
+        iUserEnergyService.consume(userBase.getId(), hours);
+        return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
+    }
+
+
 }
