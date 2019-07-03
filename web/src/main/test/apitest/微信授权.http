@@ -1,4 +1,4 @@
-GET http://zwl.natapp1.cc/wx/authorize?returnUrl=http://zwl.natapp1.cc
+GET http://ersx.com.cn/api/pub/authorize?returnUrl=http://ersx.com.cn
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8

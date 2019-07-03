@@ -46,7 +46,7 @@ public class AuthController {
     @ApiOperation(value = "公众号授权", notes = "公众号授权")
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
-        String url = "http://zwl.natapp1.cc/wx/userInfo?referUid=8";
+        String url = "http://ersx.com.cn/api/pub/userInfo?referUid=1";
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         String redirectURL = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
