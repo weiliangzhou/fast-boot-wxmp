@@ -2,7 +2,10 @@
 package com.zwl.mall.api;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.dao.model.UserEnergy;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,4 +31,12 @@ public interface IUserEnergyService extends IService<UserEnergy> {
      * @param hours
      */
     void consume(Long uid, int hours);
+
+    /**
+     * 获取用户任务信息
+     *
+     * @param uid
+     * @return
+     */
+    List<MyTaskInfo> getMyTaskInfo(Long uid);
 }

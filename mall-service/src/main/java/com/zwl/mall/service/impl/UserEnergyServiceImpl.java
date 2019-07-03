@@ -7,6 +7,7 @@ import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.api.IUserEnergyService;
+import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.dao.mapper.UserEnergyMapper;
 import com.zwl.mall.dao.model.UserEnergy;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -91,6 +94,31 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setEnergyValue(energyType.getValue() * needHours);
         log.debug(energyType.getDesc());
         userEnergy.insert();
+    }
+
+    @Override
+    public List<MyTaskInfo> getMyTaskInfo(Long uid) {
+        List<MyTaskInfo> myTaskInfoList = new ArrayList<>();
+        String btnName = "立即完成";
+        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_1.getIndex(), EnergyType.TYPE_1.getDesc(), false, btnName));
+        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_2.getIndex(), EnergyType.TYPE_2.getDesc(), false, btnName));
+        List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);
+        if (todayCompleteList != null) {
+            for (UserEnergy userEnergy : todayCompleteList) {
+                Integer type = userEnergy.getType();
+                for (MyTaskInfo myTaskInfo : myTaskInfoList) {
+                    Integer myTaskInfoType = myTaskInfo.getType();
+                    if (myTaskInfoType.intValue() == type.intValue()) {
+                        myTaskInfo.setComplete(true);
+                    }
+                }
+            }
+        }
+        return myTaskInfoList;
+    }
+
+    private List<UserEnergy> getTodayCompleteList(Long uid) {
+        return userEnergyMapper.getTodayCompleteList(uid);
     }
 
     private int getAbleEnergyByUid(Long uid) {

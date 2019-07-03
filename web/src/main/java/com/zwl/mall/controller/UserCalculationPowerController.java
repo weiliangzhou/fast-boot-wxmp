@@ -1,15 +1,12 @@
 package com.zwl.mall.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserCalculationPowerService;
-import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserCalculationPower;
-import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,35 +64,4 @@ public class UserCalculationPowerController {
     public Result getByParams(UserCalculationPower userCalculationPower) throws Exception {
         return ResultUtil.ok(new UserCalculationPower().selectOne(new QueryWrapper<UserCalculationPower>().allEq(MapUtil.objectToUnderlineMap(userCalculationPower), false)));
     }
-
-
-    /**
-     * @Date: 2019/6/24 14:17
-     * @Author: 二师兄超级帅
-     * @Description:
-     */
-    @PostMapping("/add")
-    @ApiOperation(value = "赠送算力")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-//                    "\"channel\":\"渠道来源:1:XX应用 2:XX应用\",\n" +
-                    "\"type\":\"1:邀请好友\"\n" +
-                    "}", required = true, paramType = "body", dataType = "JSONObject")
-    })
-    public Result add(
-            @CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject) {
-        // TODO: 2019/6/24 不同的channel,使用不同的策略
-//        Integer channel = jsonObject.getInteger("channel");
-        Integer type = jsonObject.getInteger("type");
-        switch (type) {
-            case 1:
-                //邀请好友
-                log.info("邀请好友");
-                iUserCalculationPowerService.add(userBase.getId(), 1);
-                break;
-        }
-        return ResultUtil.ok("ok");
-    }
-
-
 }

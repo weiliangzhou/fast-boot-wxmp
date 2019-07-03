@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.UserEnergy;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 电力明细表 Mapper 接口
@@ -29,4 +31,12 @@ public interface UserEnergyMapper extends BaseMapper<UserEnergy> {
      * @return
      */
     int getAbleEnergyByUid(Long uid);
+
+    /**
+     * 获取今天已经完成任务
+     *
+     * @param uid
+     * @return
+     */
+    List<UserEnergy> getTodayCompleteList(Long uid);
 }

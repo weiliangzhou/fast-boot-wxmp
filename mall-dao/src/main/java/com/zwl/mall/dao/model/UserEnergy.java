@@ -36,7 +36,7 @@ public class UserEnergy extends Model<UserEnergy> {
 
     private Integer energyValue;
 
-    @ApiModelProperty(value = "类型：1.签到 2.邀请好友增加 3看视频 4下载app并注册")
+    @ApiModelProperty(value = "类型：0.注册赠送120 1.签到 2.邀请好友增加 ")
     private Integer type;
 
     private LocalDateTime createTime;

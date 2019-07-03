@@ -13,7 +13,7 @@ Content-Type: application/json
 POST {{host}}/api/user/user_account/info
 Accept: */*
 Cache-Control: no-cache
-Authorization: 240f24406b4f4e4eb8e973948d907112
+Authorization: {{token}}
 Content-Type: application/json
 
 ###
