@@ -1,13 +1,13 @@
 package com.zwl.mall.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.exception.ErrorEnum;
+import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.SignUtil;
 import com.zwl.mall.api.IAccessTokenService;
-import com.zwl.mall.dao.model.UserBase;
-import com.zwl.mall.system.annotation.CurrentUser;
+import com.zwl.mall.api.IUserAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -25,24 +25,40 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@Api(value = "账户管理", tags = "账户管理")
+@Api(value = "api对外接口", tags = "api对外接口")
 @RequestMapping("/api/out/user_account")
-public class UserAccountController {
+public class ApiOutController {
     @Autowired
     private IAccessTokenService iAccessTokenService;
+    @Autowired
+    private IUserAccountService iUserAccountService;
 
     @PostMapping("/info")
-    public Result getUserAccountInfo(@CurrentUser UserBase userBase, @RequestBody JSONObject jsonObject
+    @ApiOperation(value = "账户查询", notes = "sign=(data+accesss_token)通过工具类加密生成")
+    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
+            "\t\"data\": {\n" +
+            "\t\t\"openid\": \"1\"},\n" +
+            "\t\"mid\": \"kj\",\n" +
+            "\t\"accesss_token\": \"dsdasdas\",\n" +
+            "\t\"sign\": \"dsfsd\"\n" +
+            "}", dataType = "string", paramType = "path")
+    public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
     ) {
         String access_token = jsonObject.getString("access_token");
         String mid = jsonObject.getString("mid");
+        String data = jsonObject.getString("data");
+        String sign = jsonObject.getString("sign");
         iAccessTokenService.check(mid, access_token);
-        log.info(JSON.toJSONString(userBase));
+        SignUtil.checkSign(data, access_token, sign);
+        JSONObject jsonObjectData = JSONObject.parseObject(data);
+        Long openid = jsonObjectData.getLong("openid");
+        if (openid == null) {
+            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
+        }
         // TODO: 2019/6/20 获取账户信息
-        //可提现的btc-已经提现的btc+今天
-        log.info("调用成功");
-
-        return ResultUtil.ok("调用成功");
+        //可提现BTC-已经提现BTC
+        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(openid, false);
+        return ResultUtil.ok(btcInfoByUid);
     }
 
     /**

@@ -12,7 +12,7 @@ public class BigDecimalUtil {
      * 小数精确的位数
      */
     private static final int DEF_DIV_SCALE = 10;
-    private static final String DECIMAL_DEFAULT = "##.##########";
+    private static final String DECIMAL_DEFAULT = "##.############";
 
     /**
      * 提供精确的加法运算。

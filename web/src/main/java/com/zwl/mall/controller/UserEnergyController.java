@@ -41,7 +41,7 @@ public class UserEnergyController {
      *
      * @return
      */
-    @PostMapping("/getPage")
+    @GetMapping("/getPage")
     @ApiOperation(value = "分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),

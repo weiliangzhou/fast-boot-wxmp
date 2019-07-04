@@ -10,7 +10,7 @@ Cache-Control: no-cache
 Authorization: {{token}}
 ###
 
-GET http://localhost:8080/api/user/energy/add?type=1
+GET http://localhost:8080/api/user/energy/getPage?pageNum=1&pageSize=10
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}

@@ -41,7 +41,7 @@ public class HomePageController {
         // TODO: 2019/6/20 获取账户信息
         //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
         Long uid = userBase.getId();
-        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid);
+        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);
         log.info("调用成功");
         return ResultUtil.ok(btcInfoByUid);
     }

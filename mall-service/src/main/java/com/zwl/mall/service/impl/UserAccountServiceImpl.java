@@ -32,21 +32,29 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
 
     @Override
-    public String getBTCInfoByUid(Long uid) {
+    public String getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
+
         //可提现BTC-已经提现BTC
         BigDecimal btcInfo = userAccountMapper.getBTCInfoByUid(uid);
-        //今日产出
-        BigDecimal todayBtc = new BigDecimal("0");
-        UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.selectOneByUid(uid);
-        if (userEnergyExpireTime != null) {
-            LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
-            long beforeAbleTime = LocalDateUtil.diffSecond(LocalDateUtil.getNowBeginDate(), expireTime);
-            if (beforeAbleTime > 0) {
-                todayBtc = PowerCalculation.getResult(beforeAbleTime);
+        if (hasIncludeToday) {
+            //今日产出
+            BigDecimal todayBtc = new BigDecimal("0");
+            UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.selectOneByUid(uid);
+            if (userEnergyExpireTime != null) {
+                LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
+                long beforeAbleTime = LocalDateUtil.diffSecond(LocalDateUtil.getNowBeginDate(), expireTime);
+                if (beforeAbleTime > 0) {
+                    todayBtc = PowerCalculation.getResult(beforeAbleTime);
+                }
             }
+            return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);
+        } else {
+            return BigDecimalUtil.objectFormatToString(btcInfo, null);
         }
-        return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);
+
+
     }
+
 }
 
 

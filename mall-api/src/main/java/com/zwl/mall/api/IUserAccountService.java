@@ -17,8 +17,9 @@ public interface IUserAccountService extends IService<UserAccount> {
      * 获取可用btc
      *
      * @param uid
+     * @param hasIncludeToday 是否包含今天实时产出的BTC
      * @return
      */
-    String getBTCInfoByUid(Long uid);
+    String getBTCInfoByUid(Long uid, boolean hasIncludeToday);
 
 }
