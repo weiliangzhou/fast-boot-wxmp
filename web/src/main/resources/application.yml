@@ -83,6 +83,7 @@ pagehelper:
 logging:
   # Debug打印SQL
   level.com.zwl.mall.dao.mapper: debug
+  level: debug
 wx:
   mp:
     configs:

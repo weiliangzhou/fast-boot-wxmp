@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  * 自定义属性注入abc=
  *
  * @author 二师兄超级帅
- * @since 2019-06-21
+ * @since 2019-07-04
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -36,7 +36,7 @@ public class UserEnergy extends Model<UserEnergy> {
 
     private Integer energyValue;
 
-    @ApiModelProperty(value = "类型：0.注册赠送120 1.签到 2.邀请好友增加 ")
+    @ApiModelProperty(value = "类型：0.注册赠送120 1.签到 2.邀请好友增加")
     private Integer type;
 
     private LocalDateTime createTime;
@@ -44,6 +44,8 @@ public class UserEnergy extends Model<UserEnergy> {
     private LocalDateTime updateTime;
 
     private Boolean deleted;
+
+    private String desc;
 
 
     @Override

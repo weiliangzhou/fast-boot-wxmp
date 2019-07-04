@@ -46,7 +46,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setUid(uid);
         EnergyType energyType = EnergyType.getEnergyType(type);
         userEnergy.setEnergyValue(energyType.getValue());
-        log.debug(energyType.getDesc());
+        userEnergy.setDesc(energyType.getDesc());
         userEnergy.insert();
     }
 
@@ -62,6 +62,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         EnergyType energyType = EnergyType.getEnergyType(EnergyType.CONSUME_1.getIndex());
         userEnergy.setType(energyType.getIndex());
         userEnergy.setUid(uid);
+        userEnergy.setDesc(energyType.getDesc());
         // TODO: 2019/7/3 更新过期时间
         //需要消耗的时间
         int needHours = 0;

@@ -8,7 +8,6 @@ import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
-import com.zwl.common.utils.MapUtil;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserEnergy;
@@ -40,36 +39,18 @@ public class UserEnergyController {
     /**
      * 分页查询数据
      *
-     * @param userEnergy 查询条件
      * @return
      */
     @PostMapping("/getPage")
     @ApiOperation(value = "分页查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userEnergy", value = "分页查询", required = true, paramType = "query", dataType = "UserEnergy"),
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "10", required = true, paramType = "query", dataType = "int")
     })
-    public Result getPage(UserEnergy userEnergy, int pageNum, int pageSize) throws Exception {
+    public Result getPage(@CurrentUser UserBase userBase, int pageNum, int pageSize) {
         return ResultUtil.ok(new UserEnergy().selectPage(new Page<>(pageNum, pageSize),
-                new QueryWrapper<UserEnergy>().allEq(MapUtil.objectToUnderlineMap(userEnergy), false)));
+                new QueryWrapper<UserEnergy>().eq("uid", userBase.getId())));
     }
-
-    /**
-     * 根据id获取对象
-     *
-     * @param userEnergy 传递的实体
-     * @return
-     */
-    @PostMapping("/getByParams")
-    @ApiOperation(value = "详情查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userEnergy", value = "查询数据", required = true, paramType = "query", dataType = "UserEnergy")
-    })
-    public Result getByParams(UserEnergy userEnergy) throws Exception {
-        return ResultUtil.ok(new UserEnergy().selectOne(new QueryWrapper<UserEnergy>().allEq(MapUtil.objectToUnderlineMap(userEnergy), false)));
-    }
-
 
     /**
      * @Date: 2019/6/24 14:17

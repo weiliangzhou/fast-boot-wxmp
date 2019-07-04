@@ -15,6 +15,7 @@ import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.dao.mapper.UserBaseMapper;
 import com.zwl.mall.dao.model.UserBase;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
  * @since 2019-06-13
  */
 @Service
+@Slf4j
 public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> implements IUserBaseService {
     @Autowired
     private RedisUtil redisUtil;
@@ -45,6 +47,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         String nickname = wxMpUser.getNickname();
         String unionId = wxMpUser.getUnionId();
         String openId = wxMpUser.getOpenId();
+        log.debug(unionId);
         UserBase userBaseData = selectOneByUnionId(unionId);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
@@ -59,8 +62,8 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             Long uid = userBase.getId();
             redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
-            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
-            iUserCalculationPowerService.add(referUid, 1);
+            // TODO: 2019/7/3 增加120小时电力
+            iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);
