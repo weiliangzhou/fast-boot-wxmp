@@ -49,9 +49,8 @@ public class TokenFilter implements Filter {
         log.info("<<token>>请求url:" + requestURL + "  token:" + token);
         // TODO: 2019/6/13 过滤url 不需要登录  做一个静态list
         List<String> excludeList = new ArrayList<>();
-        excludeList.add("/wx");
         excludeList.add("/pub");
-//        excludeList.add("/out");
+        excludeList.add("/out");
         excludeList.add(".html");
         excludeList.add(".css");
         excludeList.add(".ico");

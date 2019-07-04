@@ -6,3 +6,9 @@ Authorization: {{token}}
 
 ###
 
+GET {{host}}/api/user/user_account/info
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+Content-Type: application/json
+

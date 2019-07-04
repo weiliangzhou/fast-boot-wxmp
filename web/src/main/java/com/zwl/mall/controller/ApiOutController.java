@@ -3,6 +3,7 @@ package com.zwl.mall.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.SignUtil;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 /**
  * @Date: 2019/7/3 11:42
@@ -34,30 +37,30 @@ public class ApiOutController {
     private IUserAccountService iUserAccountService;
 
     @PostMapping("/info")
-    @ApiOperation(value = "账户查询", notes = "sign=(data+accesss_token)通过工具类加密生成")
+    @ApiOperation(value = "账户查询", notes = "sign=(data+accessToken)通过工具类加密生成")
     @ApiImplicitParam(name = "jsonObject", value = "{\n" +
             "\t\"data\": {\n" +
             "\t\t\"openid\": \"1\"},\n" +
             "\t\"mid\": \"kj\",\n" +
-            "\t\"accesss_token\": \"dsdasdas\",\n" +
+            "\t\"accessToken\": \"dsdasdas\",\n" +
             "\t\"sign\": \"dsfsd\"\n" +
             "}", dataType = "string", paramType = "path")
     public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
     ) {
-        String access_token = jsonObject.getString("access_token");
+        String access_token = jsonObject.getString("accessToken");
         String mid = jsonObject.getString("mid");
         String data = jsonObject.getString("data");
         String sign = jsonObject.getString("sign");
         iAccessTokenService.check(mid, access_token);
         SignUtil.checkSign(data, access_token, sign);
-        JSONObject jsonObjectData = JSONObject.parseObject(data);
-        Long openid = jsonObjectData.getLong("openid");
+        Long openid = jsonObject.getJSONObject("data").getLong("openid");
         if (openid == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
         // TODO: 2019/6/20 获取账户信息
         //可提现BTC-已经提现BTC
         String btcInfoByUid = iUserAccountService.getBTCInfoByUid(openid, false);
+        log.debug("查询成功");
         return ResultUtil.ok(btcInfoByUid);
     }
 
@@ -69,26 +72,29 @@ public class ApiOutController {
      * @param jsonObject
      * @return
      */
-    @ApiOperation(value = "第三方对应账户减少", notes = "sign=(data+accesss_token)通过工具类加密生成")
+    @ApiOperation(value = "第三方对应账户减少", notes = "sign=(data+accessToken)通过工具类加密生成")
     @ApiImplicitParam(name = "jsonObject", value = "{\n" +
             "\t\"data\": {\n" +
             "\t\t\"phone\": \"17682333183\",\n" +
             "\t\t\"money\": \"0.0000219\"\n" +
             "\t},\n" +
             "\t\"mid\": \"kj\",\n" +
-            "\t\"accesss_token\": \"dsdasdas\",\n" +
+            "\t\"accessToken\": \"dsdasdas\",\n" +
             "\t\"sign\": \"dsfsd\"\n" +
             "}", dataType = "string", paramType = "path")
     @PostMapping("/reduce")
     public Result reduce(@RequestBody JSONObject jsonObject) {
         String data = jsonObject.getString("data");
-        String access_token = jsonObject.getString("access_token");
+        String accessToken = jsonObject.getString("accessToken");
         String mid = jsonObject.getString("mid");
         String sign = jsonObject.getString("sign");
-        iAccessTokenService.check(mid, access_token);
-        SignUtil.checkSign(data, access_token, sign);
-        // TODO: 2019/6/20 业务逻辑
-        return ResultUtil.ok("");
+        iAccessTokenService.check(mid, accessToken);
+        SignUtil.checkSign(data, accessToken, sign);
+        JSONObject dataJson = jsonObject.getJSONObject("data");
+        Long openid = dataJson.getLong("openid");
+        BigDecimal money = dataJson.getBigDecimal("money");
+        iUserAccountService.reduce(openid, money);
+        return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
 
     }
 }

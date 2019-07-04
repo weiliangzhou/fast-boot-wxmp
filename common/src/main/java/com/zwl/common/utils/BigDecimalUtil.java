@@ -359,6 +359,23 @@ public class BigDecimalUtil {
     }
 
     /**
+     * 比较大小 如果b1 大于b2 则 返回true 否则false
+     *
+     * @param b1
+     * @param b2
+     * @return
+     */
+    public static boolean bigCompareTo(BigDecimal b1, BigDecimal b2) {
+        int bj = b1.compareTo(b2);
+        boolean res;
+        if (bj > 0)
+            res = true;
+        else
+            res = false;
+        return res;
+    }
+
+    /**
      * 比较大小 如果v1 大于等于v2 则 返回true 否则false
      *
      * @param v1

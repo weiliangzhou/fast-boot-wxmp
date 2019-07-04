@@ -1,7 +1,0 @@
-GET {{host}}/api/pub/access_token/kj/123
-Accept: */*
-Cache-Control: no-cache
-Content-Type: application/json;charset=UTF-8
-
-###
-

@@ -4,6 +4,8 @@ package com.zwl.mall.api;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwl.mall.dao.model.UserAccount;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  * 服务类
@@ -22,4 +24,11 @@ public interface IUserAccountService extends IService<UserAccount> {
      */
     String getBTCInfoByUid(Long uid, boolean hasIncludeToday);
 
+    /**
+     * 减少账户BTC
+     *
+     * @param uid
+     * @param money
+     */
+    void reduce(Long uid, BigDecimal money);
 }

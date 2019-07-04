@@ -21,6 +21,7 @@ public enum ErrorEnum {
     CODE_ERROR(1004, "验证码错误"),
     LOW_POWER(1005, "电力不足"),
     LOW_FULL(1006, "电力充沛，不需要充电"),
+    BALANCE_INSUFFICIENT(1007, "余额不足"),
 
 
     LOGON_EXPIRATION(-1, "登录过期，请重新登录"),

@@ -2,6 +2,8 @@ package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.PowerCalculation;
+import com.zwl.common.exception.BizException;
+import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserAccountService;
@@ -53,6 +55,22 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         }
 
 
+    }
+
+    @Override
+    public void reduce(Long uid, BigDecimal money) {
+        // TODO: 2019/7/4
+        //可提现BTC-已经提现BTC
+        BigDecimal currentBTC = userAccountMapper.getBTCInfoByUid(uid);
+        boolean bigCompareTo = BigDecimalUtil.bigCompareTo(money, currentBTC);
+        if (bigCompareTo) {
+            throw new BizException(ErrorEnum.BALANCE_INSUFFICIENT);
+        }
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUid(uid);
+        userAccount.setMoney(money);
+        userAccount.setType(-1);
+        userAccount.insert();
     }
 
 }
