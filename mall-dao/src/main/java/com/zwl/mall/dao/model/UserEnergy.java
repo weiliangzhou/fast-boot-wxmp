@@ -45,7 +45,10 @@ public class UserEnergy extends Model<UserEnergy> {
 
     private Boolean deleted;
 
-    private String desc;
+    private String description;
+
+    @ApiModelProperty(value = "状态 0未领取 1已领取")
+    private Integer state;
 
 
     @Override

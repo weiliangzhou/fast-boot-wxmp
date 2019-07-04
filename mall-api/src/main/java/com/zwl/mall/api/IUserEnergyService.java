@@ -39,4 +39,6 @@ public interface IUserEnergyService extends IService<UserEnergy> {
      * @return
      */
     List<MyTaskInfo> getMyTaskInfo(Long uid);
+
+
 }

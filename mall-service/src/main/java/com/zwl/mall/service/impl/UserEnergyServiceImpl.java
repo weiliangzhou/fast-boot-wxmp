@@ -1,6 +1,7 @@
 package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
@@ -46,7 +47,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setUid(uid);
         EnergyType energyType = EnergyType.getEnergyType(type);
         userEnergy.setEnergyValue(energyType.getValue());
-        userEnergy.setDesc(energyType.getDesc());
+        userEnergy.setDescription(energyType.getDesc());
         userEnergy.insert();
     }
 
@@ -62,7 +63,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         EnergyType energyType = EnergyType.getEnergyType(EnergyType.CONSUME_1.getIndex());
         userEnergy.setType(energyType.getIndex());
         userEnergy.setUid(uid);
-        userEnergy.setDesc(energyType.getDesc());
+        userEnergy.setDescription(energyType.getDesc());
         // TODO: 2019/7/3 更新过期时间
         //需要消耗的时间
         int needHours = 0;
@@ -100,9 +101,8 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     @Override
     public List<MyTaskInfo> getMyTaskInfo(Long uid) {
         List<MyTaskInfo> myTaskInfoList = new ArrayList<>();
-        String btnName = "立即完成";
-        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_1.getIndex(), EnergyType.TYPE_1.getDesc(), false, btnName));
-        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_2.getIndex(), EnergyType.TYPE_2.getDesc(), false, btnName));
+        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_1.getIndex(), EnergyType.TYPE_1.getDesc(), false, Constants.BTN_NAME_1));
+        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_2.getIndex(), EnergyType.TYPE_2.getDesc(), false, Constants.BTN_NAME_1));
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);
         if (todayCompleteList != null) {
             for (UserEnergy userEnergy : todayCompleteList) {
@@ -111,13 +111,13 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
                     Integer myTaskInfoType = myTaskInfo.getType();
                     if (myTaskInfoType.intValue() == type.intValue()) {
                         myTaskInfo.setComplete(true);
+                        myTaskInfo.setBtnName(Constants.BTN_NAME_2);
                     }
                 }
             }
         }
         return myTaskInfoList;
     }
-
     private List<UserEnergy> getTodayCompleteList(Long uid) {
         return userEnergyMapper.getTodayCompleteList(uid);
     }

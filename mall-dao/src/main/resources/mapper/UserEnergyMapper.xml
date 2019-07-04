@@ -11,12 +11,13 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
-        <result column="desc" property="desc"/>
+        <result column="description" property="description"/>
+        <result column="state" property="state"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, energy_value, type, create_time, update_time, deleted, desc
+        id, uid, energy_value, type, create_time, update_time, deleted, description, state
     </sql>
     <select id="alReadySignIn" resultType="int">
         select count(*) from user_energy  where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
@@ -31,7 +32,7 @@
     <select id="getTodayCompleteList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from user_energy where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
+        from user_energy where uid =#{uid} and state = 1 and DATE_FORMAT(create_time,'%y%m%d') =
         DATE_FORMAT(now(),'%y%m%d')
     </select>
 

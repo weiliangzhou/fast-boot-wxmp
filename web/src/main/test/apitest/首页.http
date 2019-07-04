@@ -12,3 +12,15 @@ Cache-Control: no-cache
 Authorization: {{token}}
 Content-Type: application/json
 
+
+###
+
+GET {{host}}/api/user/task/complete?type=1
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+Content-Type: application/json
+
+###
+
+

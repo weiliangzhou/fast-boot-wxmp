@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by 二师兄超级帅 on 2019/6/20.
+ * @Date: 2019/7/4 16:54
+ * @Author: 二师兄超级帅
+ * @Description:
  */
+
 @RestController
 @Slf4j
 @RequestMapping("/api/pub")

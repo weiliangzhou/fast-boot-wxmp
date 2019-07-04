@@ -41,4 +41,8 @@ public interface Constants {
     Integer HTTP_RES_CODE_NOTUSER_203 = 203;
     String OK = "OK";
     String ACCESS_TOKEN = "access_token_";
+
+
+    String BTN_NAME_1 = "立即完成";
+    String BTN_NAME_2 = "已完成";
 }
