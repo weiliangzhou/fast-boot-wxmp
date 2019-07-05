@@ -82,8 +82,7 @@ pagehelper:
   support-methods-arguments: 'true'
 logging:
   # Debug打印SQL
-  level.com.zwl.mall.dao.mapper: debug
-  level: debug
+  level.com.zwl.mall.dao.mapper: info
 wx:
   mp:
     configs:

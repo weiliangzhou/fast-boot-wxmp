@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 @RestControllerAdvice
-public class ExceptionAdvice {
+public class GlobalExceptionAdvice {
     /**
      * 捕捉系统异常
      *
