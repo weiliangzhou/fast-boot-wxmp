@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 
-GET {{host}}/api/user/task/complete?type=1
+GET {{host}}/api/user/task/complete?type=2
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}
