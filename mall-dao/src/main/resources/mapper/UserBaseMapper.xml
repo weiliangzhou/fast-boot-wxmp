@@ -10,17 +10,20 @@
         <result column="nick_name" property="nickName"/>
         <result column="gzh_open_id" property="gzhOpenId"/>
         <result column="xcx_open_id" property="xcxOpenId"/>
+        <result column="app_open_id" property="appOpenId"/>
         <result column="union_id" property="unionId"/>
         <result column="register_from" property="registerFrom"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
+        <result column="is_subscribe" property="isSubscribe"/>
+        <result column="sex" property="sex"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, union_id, register_from, create_time, update_time, version, deleted
+        id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, app_open_id, union_id, register_from, create_time, update_time, version, deleted, is_subscribe, sex
     </sql>
 
 

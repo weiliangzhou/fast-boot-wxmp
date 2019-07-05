@@ -15,11 +15,13 @@ import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.dao.mapper.UserBaseMapper;
 import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.dao.model.UserExpand;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -42,13 +44,20 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
     private final static String USER_INFO = "USER_INFO_";
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public AccessToken login(WxMpUser wxMpUser, Long referUid) {
         String headImgUrl = wxMpUser.getHeadImgUrl();
         String nickname = wxMpUser.getNickname();
         String unionId = wxMpUser.getUnionId();
         String openId = wxMpUser.getOpenId();
-        log.debug(unionId);
-        UserBase userBaseData = selectOneByUnionId(unionId);
+        Boolean subscribe = wxMpUser.getSubscribe();
+        Integer sex = wxMpUser.getSex();
+        String city = wxMpUser.getCity();
+        String province = wxMpUser.getProvince();
+        String country = wxMpUser.getCountry();
+        log.info(JSON.toJSONString(wxMpUser));
+//        UserBase userBaseData = selectOneByUnionId(unionId);
+        UserBase userBaseData = selectOneByGzhOpenId(openId);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
         if (null == userBaseData) {
@@ -57,9 +66,17 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             userBase.setNickName(nickname);
             userBase.setGzhOpenId(openId);
             userBase.setUnionId(unionId);
+            userBase.setIsSubscribe(subscribe);
+            userBase.setSex(sex);
             userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
             userBase.insert();
             Long uid = userBase.getId();
+            UserExpand expand = new UserExpand();
+            expand.setUid(uid);
+            expand.setCity(city);
+            expand.setProvince(province);
+            expand.setCountry(country);
+            expand.insert();
             redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             // TODO: 2019/7/3 增加120小时电力
@@ -73,6 +90,11 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             return new AccessToken(uuid32, userBaseData);
         }
 
+
+    }
+
+    private UserBase selectOneByGzhOpenId(String openId) {
+        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("gzh_open_id", openId).eq("deleted", 0));
 
     }
 

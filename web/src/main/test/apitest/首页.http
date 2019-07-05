@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/user/task/info
+GET {{host}}/api/user/task/info
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8

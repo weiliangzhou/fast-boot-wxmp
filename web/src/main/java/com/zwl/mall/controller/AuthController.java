@@ -50,7 +50,7 @@ public class AuthController {
         StringBuffer url = request.getRequestURL();
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
         log.debug(tempContextUrl);
-        String finalUrl = tempContextUrl+"/api/pub/userInfo?referUid=1";
+        String finalUrl = tempContextUrl+"api/pub/userInfo?referUid=1";
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         String redirectURL = wxMpService.oauth2buildAuthorizationUrl(finalUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
@@ -75,6 +75,7 @@ public class AuthController {
         String openId = wxMpOAuth2AccessToken.getOpenId();
         WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
+        // TODO: 2019/7/5 目前根据gzh_open_id去做匹配
         AccessToken login = iUserBaseService.login(wxMpUser, referUid);
         log.info(JSON.toJSONString(login));
         log.info("【微信网页授权】openId={}", openId);

@@ -63,7 +63,7 @@ public class HomePageController {
      * @Description:
      */
     @GetMapping("/user/task/complete")
-    @ApiOperation(value = "点击领取")
+    @ApiOperation(value = "完成任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "\"type\":\"1:每天分享app赠送1小时 2:每天登陆赠送2小时\"\n", required = true, paramType = "query", dataType = "int")
     })

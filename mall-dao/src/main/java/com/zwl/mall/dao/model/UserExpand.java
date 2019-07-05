@@ -25,36 +25,23 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user_base")
-public class UserBase extends Model<UserBase> {
+@TableName("user_expand")
+public class UserExpand extends Model<UserExpand> {
 
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "手机")
-    private String cellphone;
+    private Long uid;
 
-    @ApiModelProperty(value = "头像")
-    private String headImgUrl;
+    @ApiModelProperty(value = "城市")
+    private String city;
 
-    @ApiModelProperty(value = "昵称")
-    private String nickName;
+    @ApiModelProperty(value = "省份")
+    private String province;
 
-    @ApiModelProperty(value = "公众号openid")
-    private String gzhOpenId;
-
-    @ApiModelProperty(value = "小程序openid")
-    private String xcxOpenId;
-
-    @ApiModelProperty(value = "appopneid")
-    private String appOpenId;
-
-    @ApiModelProperty(value = "unionid")
-    private String unionId;
-
-    @ApiModelProperty(value = "注册来源 1:h5 2:android 3:ios 4:小程序")
-    private Integer registerFrom;
+    @ApiModelProperty(value = "国家")
+    private String country;
 
     private LocalDateTime createTime;
 
@@ -63,12 +50,6 @@ public class UserBase extends Model<UserBase> {
     private Integer version;
 
     private Boolean deleted;
-
-    @ApiModelProperty(value = "是否关注公众号")
-    private Boolean isSubscribe;
-
-    @ApiModelProperty(value = "0男1女")
-    private Integer sex;
 
 
     @Override

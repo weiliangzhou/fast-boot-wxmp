@@ -13,19 +13,16 @@ import java.text.NumberFormat;
  */
 
 public class PowerCalculation {
-    /**
-     * 每秒产出btc
-     */
-    public static final String secondPower = "0.0000000011";
-
-    public static BigDecimal getResult(long second) {
-        return BigDecimalUtil.bigMul2(secondPower, "" + second, 10);
+    public static BigDecimal getResult(long second, int power) {
+        OutputEfficiency outputEfficiency = OutputEfficiency.getOutputEfficiency(power);
+        String efficiency = outputEfficiency.getEfficiency();
+        return BigDecimalUtil.bigMul2(efficiency, "" + second, 10);
 
     }
 
     public static void main(String[] args) {
         NumberFormat nf = new DecimalFormat("##.##########");
-        System.out.println(nf.format(getResult(1)));
+        System.out.println(nf.format(getResult(2, 500)));
     }
 
 
