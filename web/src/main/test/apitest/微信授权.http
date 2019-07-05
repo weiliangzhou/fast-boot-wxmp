@@ -1,4 +1,4 @@
-GET http://ersx.com.cn/api/pub/authorize?returnUrl=http://ersx.com.cn
+GET {{host}}/api/pub/authorize?returnUrl=http://ersx.com.cn
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json;charset=UTF-8

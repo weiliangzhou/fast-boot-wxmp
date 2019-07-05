@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -45,10 +46,13 @@ public class AuthController {
 
     @ApiOperation(value = "公众号授权", notes = "公众号授权")
     @GetMapping("/authorize")
-    public String authorize(@RequestParam("returnUrl") String returnUrl) {
-        String url = "http://ersx.com.cn/api/pub/userInfo?referUid=1";
+    public String authorize(HttpServletRequest request, @RequestParam("returnUrl") String returnUrl) {
+        StringBuffer url = request.getRequestURL();
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+        log.debug(tempContextUrl);
+        String finalUrl = tempContextUrl+"/api/pub/userInfo?referUid=1";
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
-        String redirectURL = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
+        String redirectURL = wxMpService.oauth2buildAuthorizationUrl(finalUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
         return "redirect:" + redirectURL;
     }
