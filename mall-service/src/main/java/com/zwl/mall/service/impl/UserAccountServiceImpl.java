@@ -7,6 +7,7 @@ import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserAccountService;
+import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.dao.mapper.UserAccountMapper;
 import com.zwl.mall.dao.model.UserAccount;
@@ -32,10 +33,11 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     private UserAccountMapper userAccountMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
+    @Autowired
+    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
     public String getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
-
         //可提现BTC-已经提现BTC
         BigDecimal btcInfo = userAccountMapper.getBTCInfoByUid(uid);
         if (hasIncludeToday) {
@@ -46,7 +48,9 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
                 LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
                 long beforeAbleTime = LocalDateUtil.diffSecond(LocalDateUtil.getNowBeginDate(), expireTime);
                 if (beforeAbleTime > 0) {
-                    todayBtc = PowerCalculation.getResult(beforeAbleTime);
+                    // TODO: 2019/7/5 获取当前用户算力
+                    int power = iUserCalculationPowerService.getTotalByUid(uid);
+                    todayBtc = PowerCalculation.getResult(beforeAbleTime,power);
                 }
             }
             return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);

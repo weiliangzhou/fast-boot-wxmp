@@ -12,4 +12,11 @@ import com.zwl.mall.dao.model.UserCalculationPower;
  * @since 2019-06-24
  */
 public interface UserCalculationPowerMapper extends BaseMapper<UserCalculationPower> {
+    /**
+     * 获取当前用户总算力
+     *
+     * @param uid
+     * @return
+     */
+    int getTotalByUid(Long uid);
 }

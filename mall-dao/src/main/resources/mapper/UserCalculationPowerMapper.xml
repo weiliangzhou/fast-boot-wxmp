@@ -17,6 +17,9 @@
     <sql id="Base_Column_List">
         id, uid, power_value, type, create_time, update_time, deleted
     </sql>
+    <select id="getTotalByUid" resultType="java.lang.Integer">
+        select  sum(power_value) from user_calculation_power where uid =#{uid} and deleted=0 and type =1
+    </select>
 
 
 </mapper>

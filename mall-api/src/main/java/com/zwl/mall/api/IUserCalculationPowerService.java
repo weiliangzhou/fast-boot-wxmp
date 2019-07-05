@@ -20,4 +20,12 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
      * @param type
      */
     void add(Long uid, Integer type);
+
+    /**
+     * 查询总算力
+     *
+     * @param uid
+     * @return
+     */
+    int getTotalByUid(Long uid);
 }

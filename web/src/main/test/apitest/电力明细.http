@@ -1,9 +1,3 @@
-GET {{host}}/api/user/energy/consume?hours=1
-Accept: */*
-Cache-Control: no-cache
-Authorization: {{token}}
-###
-
 GET {{host}}/api/user/energy/getPage?pageNum=1&pageSize=10
 Accept: */*
 Cache-Control: no-cache

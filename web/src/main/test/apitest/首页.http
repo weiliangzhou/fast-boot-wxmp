@@ -23,4 +23,10 @@ Content-Type: application/json
 
 ###
 
+GET {{host}}/api/user/energy/consume?hours=1
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+###
+
 
