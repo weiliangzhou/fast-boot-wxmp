@@ -56,7 +56,7 @@ public class MyInfoController {
      * @param pageSize
      * @return
      */
-    @PostMapping("/CalculationPower/getPage")
+    @GetMapping("/CalculationPower/getPage")
     @ApiOperation(value = "算力明细列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
@@ -72,7 +72,7 @@ public class MyInfoController {
      * @param pageSize
      * @return
      */
-    @PostMapping("/account/getExtractPage")
+    @GetMapping("/account/getExtractPage")
     @ApiOperation(value = "提现明细列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),

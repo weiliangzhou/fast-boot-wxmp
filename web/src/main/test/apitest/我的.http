@@ -1,0 +1,26 @@
+GET {{host}}/api/user/energy/getPage?pageNum=1&pageSize=10
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=UTF-8
+Authorization: {{token}}
+
+###
+
+GET {{host}}/api/user/CalculationPower/getPage?pageNum=1&pageSize=10
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+Content-Type: application/json
+
+
+###
+
+GET {{host}}/api/user/account/getExtractPage?pageNum=1&pageSize=10
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+Content-Type: application/json
+
+###
+
+

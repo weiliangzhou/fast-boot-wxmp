@@ -80,7 +80,7 @@ public class HomePageController {
      * @Author: 二师兄超级帅
      * @Description: 充电
      */
-    @GetMapping("/api/user/energy/consume")
+    @GetMapping("/user/energy/consume")
     @ApiOperation(value = "充电")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "hours", value = "1", required = true, paramType = "query", dataType = "int")
