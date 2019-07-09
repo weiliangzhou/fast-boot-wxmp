@@ -228,4 +228,9 @@ public class StringUtil {
         return flag;
     }
 
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        return pattern.matcher(str).matches();
+    }
+
 }

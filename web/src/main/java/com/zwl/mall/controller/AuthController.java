@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
+import com.zwl.common.utils.StringUtil;
 import com.zwl.mall.api.IMessageService;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.model.AccessToken;
@@ -18,7 +19,6 @@ import com.zwl.mall.system.config.wx.mp.WxMpConfiguration;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -27,8 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -44,26 +42,26 @@ public class AuthController {
     @Autowired
     private IMessageService iMessageService;
 
-    @ApiOperation(value = "公众号授权", notes = "公众号授权")
-    @GetMapping("/authorize")
-    public String authorize(HttpServletRequest request, @RequestParam("returnUrl") String returnUrl) {
-        StringBuffer url = request.getRequestURL();
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
-        log.debug(tempContextUrl);
-        String finalUrl = tempContextUrl+"api/pub/userInfo?referUid=1";
-        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
-        String redirectURL = wxMpService.oauth2buildAuthorizationUrl(finalUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
-        log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
-        return "redirect:" + redirectURL;
-    }
+//    @ApiOperation(value = "公众号授权", notes = "公众号授权")
+//    @GetMapping("/authorize")
+//    public Result authorize(HttpServletRequest request, @RequestParam("returnUrl") String returnUrl) {
+//        StringBuffer url = request.getRequestURL();
+//        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString();
+//        log.debug(tempContextUrl);
+//        String finalUrl = tempContextUrl + "api/pub/userInfo?referUid=1";
+//        WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
+//        String redirectURL = wxMpService.oauth2buildAuthorizationUrl(finalUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
+//        log.info("【微信网页授权】获取code,redirectURL={}", redirectURL);
+//        return ResultUtil.ok(redirectURL);
+//    }
 
     @GetMapping("/userInfo")
-    public String userInfo(
+    @ApiOperation(value = "授权登录", notes = "授权登录")
+    public Result userInfo(
             @RequestParam("code") String code,
-            @RequestParam(value = "referUid", required = false) Long referUid,
-            @RequestParam("state") String returnUrl) throws Exception {
+            @RequestParam("state") String referUid) throws Exception {
         log.info("【微信网页授权】code={}", code);
-        log.info("【微信网页授权】state={}", returnUrl);
+        log.info("【微信网页授权】state={}", referUid);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         try {
@@ -76,10 +74,10 @@ public class AuthController {
         WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
         // TODO: 2019/7/5 目前根据gzh_open_id去做匹配
-        AccessToken login = iUserBaseService.login(wxMpUser, referUid);
+        AccessToken login = iUserBaseService.login(wxMpUser, StringUtil.isNumeric(referUid) ? Long.parseLong(referUid) : null);
         log.info(JSON.toJSONString(login));
         log.info("【微信网页授权】openId={}", openId);
-        return "redirect:" + returnUrl + "?openid=" + openId;
+        return ResultUtil.ok(login);
     }
 
 
