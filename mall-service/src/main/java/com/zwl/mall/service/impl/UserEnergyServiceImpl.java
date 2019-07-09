@@ -6,6 +6,7 @@ import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
+import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.vo.MyTaskInfo;
@@ -37,6 +38,8 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     private UserEnergyMapper userEnergyMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
+    @Autowired
+    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
     public void add(Long uid, Integer type) {
@@ -80,6 +83,12 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             } else {
                 needHours = (int) diffMinute / 60;
             }
+            // TODO: 2019/7/9 如果电力到0  算力需要置0
+            if (needHours == 24) {
+                iUserCalculationPowerService.resetByUid(uid);
+
+            }
+
             expireTime = LocalDateUtil.add(expireTime, 0, 0, 0, needHours, 0, 0);
             userEnergyExpireTime.setExpireTime(expireTime);
             userEnergyExpireTime.setVersion(userEnergyExpireTime.getVersion());
@@ -118,6 +127,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         }
         return myTaskInfoList;
     }
+
     private List<UserEnergy> getTodayCompleteList(Long uid) {
         return userEnergyMapper.getTodayCompleteList(uid);
     }

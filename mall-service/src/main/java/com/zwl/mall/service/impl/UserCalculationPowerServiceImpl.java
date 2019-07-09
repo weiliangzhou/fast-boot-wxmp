@@ -42,6 +42,11 @@ public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculation
     public int getTotalByUid(Long uid) {
         return userCalculationPowerMapper.getTotalByUid(uid);
     }
+
+    @Override
+    public void resetByUid(Long uid) {
+        userCalculationPowerMapper.resetByUid(uid);
+    }
 }
 
 

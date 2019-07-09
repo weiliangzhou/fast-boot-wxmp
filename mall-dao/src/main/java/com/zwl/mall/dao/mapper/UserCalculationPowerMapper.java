@@ -19,4 +19,11 @@ public interface UserCalculationPowerMapper extends BaseMapper<UserCalculationPo
      * @return
      */
     int getTotalByUid(Long uid);
+
+    /**
+     * 重置算力到500
+     *
+     * @param uid
+     */
+    void resetByUid(Long uid);
 }

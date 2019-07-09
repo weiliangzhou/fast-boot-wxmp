@@ -28,4 +28,10 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
      * @return
      */
     int getTotalByUid(Long uid);
+
+    /**
+     * 重置算力到500
+     */
+    void resetByUid(Long uid);
+
 }

@@ -17,8 +17,11 @@
     <sql id="Base_Column_List">
         id, uid, power_value, type, create_time, update_time, deleted
     </sql>
+    <update id="resetByUid">
+        update user_calculation_power set deleted=1 where  where uid =#{uid} and deleted=0 and type =1
+    </update>
     <select id="getTotalByUid" resultType="java.lang.Integer">
-        select  sum(power_value) from user_calculation_power where uid =#{uid} and deleted=0 and type =1
+        select  500+sum(power_value) from user_calculation_power where uid =#{uid} and deleted=0 and type =1
     </select>
 
 

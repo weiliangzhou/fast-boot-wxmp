@@ -8,6 +8,7 @@ import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
 import com.zwl.mall.api.IUserAccountService;
+import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.dao.model.UserBase;
@@ -18,7 +19,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -36,6 +40,8 @@ public class HomePageController {
     private IUserAccountService iUserAccountService;
     @Autowired
     private IUserEnergyService iUserEnergyService;
+    @Autowired
+    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @ApiOperation(value = "获取BTC信息")
     @GetMapping("/user/user_account/info")
@@ -89,6 +95,18 @@ public class HomePageController {
     public Result consume(@CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
         iUserEnergyService.consume(userBase.getId(), hours);
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
+    }
+
+    /**
+     * @Date: 2019/7/3 9:31
+     * @Author: 二师兄超级帅
+     * @Description: 当前算力
+     */
+    @GetMapping("/user/power/info")
+    @ApiOperation(value = "当前算力")
+    public Result consume(@CurrentUser UserBase userBase) {
+        int total = iUserCalculationPowerService.getTotalByUid(userBase.getId());
+        return ResultUtil.ok(total);
     }
 
 

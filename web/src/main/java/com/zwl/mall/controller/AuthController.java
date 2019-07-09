@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
+import com.zwl.common.exception.ErrorEnum;
+import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.StringUtil;
 import com.zwl.mall.api.IMessageService;
 import com.zwl.mall.api.IUserBaseService;
@@ -59,7 +61,7 @@ public class AuthController {
     @ApiOperation(value = "授权登录", notes = "授权登录")
     public Result userInfo(
             @RequestParam("code") String code,
-            @RequestParam("state") String referUid) throws Exception {
+            @RequestParam("state") String referUid) {
         log.info("【微信网页授权】code={}", code);
         log.info("【微信网页授权】state={}", referUid);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
@@ -68,10 +70,15 @@ public class AuthController {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
             log.info("【微信网页授权】{}", e);
-            throw new Exception(e.getError().getErrorMsg());
+            throw new SysException(ErrorEnum.SYS_ERROR);
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
-        WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+        WxMpUser wxMpUser = null;
+        try {
+            wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
         // TODO: 2019/7/5 目前根据gzh_open_id去做匹配
         AccessToken login = iUserBaseService.login(wxMpUser, StringUtil.isNumeric(referUid) ? Long.parseLong(referUid) : null);
