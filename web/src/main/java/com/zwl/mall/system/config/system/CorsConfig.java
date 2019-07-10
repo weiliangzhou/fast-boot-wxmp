@@ -20,6 +20,7 @@ public class CorsConfig {
         corsConfiguration.addAllowedOrigin("*");
         // 1.1允许本地访问
         corsConfiguration.addAllowedOrigin("http://localhost:8080");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
         // 2允许任何头
         corsConfiguration.addAllowedHeader("*");
         // 3允许任何方法（post、get等）

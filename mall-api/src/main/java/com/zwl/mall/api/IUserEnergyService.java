@@ -41,4 +41,11 @@ public interface IUserEnergyService extends IService<UserEnergy> {
     List<MyTaskInfo> getMyTaskInfo(Long uid);
 
 
+    /**
+     * 获取当前用户可用电力
+     *
+     * @param uid
+     * @return
+     */
+    int getAbleEnergyValueByUid(Long uid);
 }

@@ -105,7 +105,7 @@ public class HomePageController {
     @GetMapping("/user/power/info")
     @ApiOperation(value = "当前算力")
     public Result consume(@CurrentUser UserBase userBase) {
-        int total = iUserCalculationPowerService.getTotalByUid(userBase.getId());
+        int total = iUserCalculationPowerService.getAblePowerByUid(userBase.getId());
         return ResultUtil.ok(total);
     }
 

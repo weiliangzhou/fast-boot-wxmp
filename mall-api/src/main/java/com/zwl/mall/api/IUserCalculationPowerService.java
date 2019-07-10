@@ -22,15 +22,17 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
     void add(Long uid, Integer type);
 
     /**
-     * 查询总算力
+     * 获取当前可用算力
      *
      * @param uid
      * @return
      */
-    int getTotalByUid(Long uid);
+    int getAblePowerByUid(Long uid);
 
     /**
      * 重置算力到500
+     *
+     * @param uid
      */
     void resetByUid(Long uid);
 

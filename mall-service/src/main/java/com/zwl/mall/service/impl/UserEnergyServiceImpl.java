@@ -128,6 +128,12 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         return myTaskInfoList;
     }
 
+    @Override
+    public int getAbleEnergyValueByUid(Long uid) {
+        int ableEnergyByUid = userEnergyMapper.getAbleEnergyByUid(uid);
+        return ableEnergyByUid;
+    }
+
     private List<UserEnergy> getTodayCompleteList(Long uid) {
         return userEnergyMapper.getTodayCompleteList(uid);
     }

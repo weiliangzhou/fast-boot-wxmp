@@ -31,4 +31,5 @@ public interface IUserAccountService extends IService<UserAccount> {
      * @param money
      */
     void reduce(Long uid, BigDecimal money);
+
 }

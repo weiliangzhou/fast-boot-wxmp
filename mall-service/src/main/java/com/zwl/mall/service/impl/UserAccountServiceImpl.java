@@ -49,8 +49,8 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
                 long beforeAbleTime = LocalDateUtil.diffSecond(LocalDateUtil.getNowBeginDate(), expireTime);
                 if (beforeAbleTime > 0) {
                     // TODO: 2019/7/5 获取当前用户算力
-                    int power = iUserCalculationPowerService.getTotalByUid(uid);
-                    todayBtc = PowerCalculation.getResult(beforeAbleTime,power);
+                    int power = iUserCalculationPowerService.getAblePowerByUid(uid);
+                    todayBtc = PowerCalculation.getResult(beforeAbleTime, power);
                 }
             }
             return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);

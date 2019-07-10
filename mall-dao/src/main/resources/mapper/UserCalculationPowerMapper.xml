@@ -20,7 +20,7 @@
     <update id="resetByUid">
         update user_calculation_power set deleted=1 where  where uid =#{uid} and deleted=0 and type =1
     </update>
-    <select id="getTotalByUid" resultType="java.lang.Integer">
+    <select id="getAblePowerByUid" resultType="java.lang.Integer">
         select  500+sum(power_value) from user_calculation_power where uid =#{uid} and deleted=0 and type =1
     </select>
 
