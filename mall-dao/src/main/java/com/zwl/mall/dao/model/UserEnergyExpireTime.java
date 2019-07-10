@@ -1,10 +1,12 @@
 package com.zwl.mall.dao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,10 +31,12 @@ import java.time.LocalDateTime;
 @TableName("user_energy_expire_time")
 public class UserEnergyExpireTime extends Model<UserEnergyExpireTime> {
 
-
+    @JsonIgnore
+    @JSONField(serialize = false)
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Long uid;
 
     @ApiModelProperty(value = "挖矿到期时间")
@@ -41,9 +45,12 @@ public class UserEnergyExpireTime extends Model<UserEnergyExpireTime> {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+    @JsonIgnore
+    @JSONField(serialize = false)
     @Version
     private Integer version;
-
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Boolean deleted;
 
 

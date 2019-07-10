@@ -4,10 +4,10 @@ package com.zwl.common.constants;
  * @author 二师兄超级帅
  */
 public enum EnergyType {
-    TYPE_0(0, 120, "注册赠送"),
-    TYPE_1(1, 1, "每天分享app赠送1小时"),
-    TYPE_2(2, 2, "每天登陆赠送2小时"),
-    CONSUME_1(-1, 1, "消耗电力");
+    TYPE_0(0, 120, "新用户奖励"),
+    TYPE_1(1, 1, "签到奖励"),
+    TYPE_2(2, 2, "分享奖励"),
+    CONSUME_1(-1, 1, "挖矿扣除");
 
     private int index;
     private int value;
@@ -23,6 +23,15 @@ public enum EnergyType {
         for (EnergyType energyType : EnergyType.values()) {
             if (energyType.getIndex() == index) {
                 return energyType;
+            }
+        }
+        return null;
+    }
+
+    public static String getName(int index) {
+        for (EnergyType energyType : EnergyType.values()) {
+            if (energyType.getIndex() == index) {
+                return energyType.getDesc();
             }
         }
         return null;

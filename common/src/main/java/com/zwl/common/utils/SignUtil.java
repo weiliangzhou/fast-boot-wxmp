@@ -26,4 +26,5 @@ public class SignUtil {
             throw new BizException(ErrorEnum.SIGN_ERROR);
         }
     }
+
 }

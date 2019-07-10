@@ -22,7 +22,7 @@ public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculation
     private UserCalculationPowerMapper userCalculationPowerMapper;
 
     @Override
-    public void add(Long uid, Integer type) {
+    public void add(Long uid, String nickname, Integer type) {
         if (null != uid) {
             switch (type) {
                 case 1:
@@ -30,6 +30,7 @@ public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculation
                     userCalculationPower.setUid(uid);
                     userCalculationPower.setType(type);
                     userCalculationPower.setPowerValue(100);
+                    userCalculationPower.setNickname(nickname);
                     userCalculationPower.insert();
                     break;
             }

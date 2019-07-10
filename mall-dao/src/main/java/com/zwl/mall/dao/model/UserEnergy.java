@@ -1,9 +1,11 @@
 package com.zwl.mall.dao.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.zwl.common.constants.EnergyType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,21 +30,26 @@ import java.time.LocalDateTime;
 @TableName("user_energy")
 public class UserEnergy extends Model<UserEnergy> {
 
-
+    @JSONField(serialize = false)
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
+    @JSONField(serialize = false)
     private Long uid;
 
     private Integer energyValue;
 
-    @ApiModelProperty(value = "类型：0.注册赠送120 1.签到 2.邀请好友增加")
+    @ApiModelProperty(value = "类型：0.新用户奖励 1.签到奖励 2.分享奖励")
     private Integer type;
+
+    public String getTypeDesc() {
+        return null == type ? "" : EnergyType.getName(this.type);
+    }
+
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
-
+    @JSONField(serialize = false)
     private Boolean deleted;
 
     private String description;

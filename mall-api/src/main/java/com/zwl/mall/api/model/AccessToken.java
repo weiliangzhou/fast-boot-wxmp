@@ -3,6 +3,7 @@ package com.zwl.mall.api.model;
 import com.zwl.mall.dao.model.UserBase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author 二师兄
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AccessToken {
     private String token;
     private UserBase userBase;

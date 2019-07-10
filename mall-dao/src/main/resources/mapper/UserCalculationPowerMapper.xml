@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zwl.mall.dao.mapper.UserCalculationPowerMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.UserCalculationPower">
         <id column="id" property="id"/>
         <result column="uid" property="uid"/>
+        <result column="nickname" property="nickname"/>
         <result column="power_value" property="powerValue"/>
         <result column="type" property="type"/>
         <result column="create_time" property="createTime"/>
@@ -15,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, power_value, type, create_time, update_time, deleted
+        id, uid,nickname, power_value, type, create_time, update_time, deleted
     </sql>
     <update id="resetByUid">
         update user_calculation_power set deleted=1 where  where uid =#{uid} and deleted=0 and type =1

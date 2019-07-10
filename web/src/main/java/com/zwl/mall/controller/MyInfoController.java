@@ -8,6 +8,9 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.mall.api.IUserAccountService;
 import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyService;
+import com.zwl.mall.controller.vo.UserAccountVo;
+import com.zwl.mall.controller.vo.UserCalculationPowerVo;
+import com.zwl.mall.controller.vo.UserEnergyVo;
 import com.zwl.mall.dao.model.UserAccount;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserCalculationPower;
@@ -22,8 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 /**
@@ -54,15 +56,12 @@ public class MyInfoController {
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "10", required = true, paramType = "query", dataType = "int")
     })
-    public Result getEnergyPage(@CurrentUser UserBase userBase, int pageNum, int pageSize) {
+    public Result<UserEnergyVo> getEnergyPage(@ApiIgnore @CurrentUser UserBase userBase, int pageNum, int pageSize) {
 //        获取可用电力总和
         int ableEnergy = iUserEnergyService.getAbleEnergyValueByUid(userBase.getId());
         IPage<UserEnergy> userEnergyIPage = new UserEnergy().selectPage(new Page<>(pageNum, pageSize),
-                new QueryWrapper<UserEnergy>().eq("uid", userBase.getId()));
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("ableEnergy", ableEnergy);
-        result.put("userEnergyIPage", userEnergyIPage);
-        return ResultUtil.ok(result);
+                new QueryWrapper<UserEnergy>().eq("uid", userBase.getId()).orderByDesc("create_time"));
+        return ResultUtil.ok(new UserEnergyVo(ableEnergy, userEnergyIPage));
     }
 
 
@@ -71,21 +70,18 @@ public class MyInfoController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/CalculationPower/getPage")
+    @GetMapping("/calculationPower/getPage")
     @ApiOperation(value = "算力记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "10", required = true, paramType = "query", dataType = "int")
     })
-    public Result getCalculationPowerPage(@CurrentUser UserBase userBase, int pageNum, int pageSize) {
+    public Result<UserCalculationPowerVo> getCalculationPowerPage(@ApiIgnore @CurrentUser UserBase userBase, int pageNum, int pageSize) {
         //        获取可用算力总和
         int ablePower = iUserCalculationPowerService.getAblePowerByUid(userBase.getId());
         IPage<UserCalculationPower> userCalculationPowerIPage = new UserCalculationPower().selectPage(new Page<>(pageNum, pageSize),
-                new QueryWrapper<UserCalculationPower>().eq("uid", userBase.getId()));
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("ablePower", ablePower);
-        result.put("userCalculationPowerIPage", userCalculationPowerIPage);
-        return ResultUtil.ok(result);
+                new QueryWrapper<UserCalculationPower>().eq("uid", userBase.getId()).orderByAsc("create_time"));
+        return ResultUtil.ok(new UserCalculationPowerVo(ablePower, userCalculationPowerIPage));
     }
 
     /**
@@ -99,17 +95,13 @@ public class MyInfoController {
             @ApiImplicitParam(name = "pageNum", value = "1", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "10", required = true, paramType = "query", dataType = "int")
     })
-    public Result getExtractPage(@CurrentUser UserBase userBase, int pageNum, int pageSize) {
+    public Result<UserAccountVo> getExtractPage(@ApiIgnore @CurrentUser UserBase userBase, int pageNum, int pageSize) {
         //        获取总和(实时)
         String total = iUserAccountService.getBTCInfoByUid(userBase.getId(), true);
         String enableBalance = iUserAccountService.getBTCInfoByUid(userBase.getId(), false);
         IPage<UserAccount> userAccountIPage = new UserAccount().selectPage(new Page<>(pageNum, pageSize),
-                new QueryWrapper<UserAccount>().eq("uid", userBase.getId()).eq("type", -1));
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("total", total);
-        result.put("enableBalance", enableBalance);
-        result.put("userAccountIPage", userAccountIPage);
-        return ResultUtil.ok(result);
+                new QueryWrapper<UserAccount>().eq("uid", userBase.getId()).eq("type", -1).orderByDesc("create_time"));
+        return ResultUtil.ok(new UserAccountVo(total, enableBalance, userAccountIPage));
     }
 
 }

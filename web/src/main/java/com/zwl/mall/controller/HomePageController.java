@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class HomePageController {
 
     @ApiOperation(value = "获取BTC信息")
     @GetMapping("/user/user_account/info")
-    public Result getMyAccountInfo(@CurrentUser UserBase userBase) {
+    public Result getMyAccountInfo(@ApiIgnore @CurrentUser UserBase userBase) {
         log.info(JSON.toJSONString(userBase));
         // TODO: 2019/6/20 获取账户信息
         //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
@@ -57,7 +58,7 @@ public class HomePageController {
 
     @ApiOperation(value = "任务展示区")
     @GetMapping("/user/task/info")
-    public Result getMyTaskInfo(@CurrentUser UserBase userBase) {
+    public Result<List<MyTaskInfo>> getMyTaskInfo(@ApiIgnore @CurrentUser UserBase userBase) {
         Long uid = userBase.getId();
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
         return ResultUtil.ok(myTaskInfo);
@@ -73,7 +74,7 @@ public class HomePageController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "\"type\":\"1:每天分享app赠送1小时 2:每天登陆赠送2小时\"\n", required = true, paramType = "query", dataType = "int")
     })
-    public Result clickComplete(@CurrentUser UserBase userBase, @RequestParam("type") int type) {
+    public Result clickComplete(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("type") int type) {
         if (EnergyType.TYPE_1.getIndex() != type && EnergyType.TYPE_2.getIndex() != type) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
@@ -92,7 +93,7 @@ public class HomePageController {
             @ApiImplicitParam(name = "hours", value = "1", required = true, paramType = "query", dataType = "int")
 
     })
-    public Result consume(@CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
+    public Result consume(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
         iUserEnergyService.consume(userBase.getId(), hours);
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }
@@ -104,7 +105,7 @@ public class HomePageController {
      */
     @GetMapping("/user/power/info")
     @ApiOperation(value = "当前算力")
-    public Result consume(@CurrentUser UserBase userBase) {
+    public Result consume(@ApiIgnore @CurrentUser UserBase userBase) {
         int total = iUserCalculationPowerService.getAblePowerByUid(userBase.getId());
         return ResultUtil.ok(total);
     }

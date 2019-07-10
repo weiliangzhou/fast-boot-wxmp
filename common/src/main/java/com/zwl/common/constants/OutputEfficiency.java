@@ -8,11 +8,11 @@ package com.zwl.common.constants;
 
 public enum OutputEfficiency {
     TYPE_500(500, "0.0000000001"),
-    TYPE_600(600, "0.0000000002"),
-    TYPE_700(700, "0.0000000003"),
-    TYPE_800(800, "0.0000000004"),
-    TYPE_900(900, "0.0000000005"),
-    TYPE_1000(1000, "0.0000000006");
+    TYPE_600(600, "0.00000000015"),
+    TYPE_700(700, "0.00000000020"),
+    TYPE_800(800, "0.00000000025"),
+    TYPE_900(900, "0.0000000030"),
+    TYPE_1000(1000, "0.0000000035");
 
     private int power;
     private String efficiency;

@@ -82,7 +82,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             // TODO: 2019/7/3 增加120小时电力
             iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
-            iUserCalculationPowerService.add(referUid, 1);
+            iUserCalculationPowerService.add(referUid, nickname, 1);
             return new AccessToken(uuid32, userBase);
         } else {
             redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);
@@ -127,7 +127,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             // TODO: 2019/7/3 增加120小时电力
             iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
-            iUserCalculationPowerService.add(referUid, 1);
+//            iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);
         } else {
             redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);

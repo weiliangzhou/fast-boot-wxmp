@@ -17,9 +17,10 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
      * 增加算力
      *
      * @param uid
+     * @param nickname
      * @param type
      */
-    void add(Long uid, Integer type);
+    void add(Long uid, String nickname, Integer type);
 
     /**
      * 获取当前可用算力
