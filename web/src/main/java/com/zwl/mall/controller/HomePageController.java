@@ -55,7 +55,7 @@ public class HomePageController {
      */
     @GetMapping("/user/homepage/info")
     @ApiOperation(value = "首页信息")
-    public Result powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
+    public Result<HomepageVo> powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
         Long uid = userBase.getId();
 //        当前BTC
         String btcInfo = iUserAccountService.getBTCInfoByUid(uid, true);
@@ -63,7 +63,7 @@ public class HomePageController {
         Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
 //        当前剩余电力时间(秒数)
         Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
-//        任务展示区
+//        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
         return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, myTaskInfo));
     }
