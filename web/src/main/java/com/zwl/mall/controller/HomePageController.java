@@ -117,6 +117,7 @@ public class HomePageController {
         Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
 //        任务展示区
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
+        int i=1/0;
         return ResultUtil.ok(new HomepageVo(currentPower, currentEnergyExpireSecond, myTaskInfo));
     }
 

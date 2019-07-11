@@ -44,21 +44,6 @@ public class UserAccount extends Model<UserAccount> {
     @ApiModelProperty(value = "交易类型：1挖矿产出 -1转出")
     private Integer type;
 
-    private String typeDesc;
-
-    public String getTypeDesc() {
-        if (null != type) {
-            switch (this.type) {
-                case 1:
-                    return "挖矿产出";
-                case -1:
-                    return "转出";
-            }
-        }
-
-        return typeDesc;
-    }
-
     private String feature;
 
     private LocalDateTime createTime;
