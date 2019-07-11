@@ -73,23 +73,25 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.selectOneByUid(uid);
         if (null != userEnergyExpireTime) {
             LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
-            long diffMinute = 24 * 60L - (LocalDateUtil.diffMinute(LocalDateUtil.getNowBeginDate(), expireTime));
-            //diffMinute>0 才可以充电
-            if (diffMinute <= 0) {
+            LocalDateTime nowBeginDate = LocalDateUtil.getNowBeginDate();
+            long diffSecond = LocalDateUtil.diffSecond(nowBeginDate, expireTime);
+            if (diffSecond < 0) {
+                diffSecond = 0;
+                // TODO: 2019/7/9 如果电力到0  算力需要置0
+                iUserCalculationPowerService.resetByUid(uid);
+            }
+            long needSecond = 24 * 60 * 60 - diffSecond;
+            //diffSecond>0 才可以充电
+            if (needSecond <= 0) {
                 throw new BizException(ErrorEnum.LOW_FULL);
             }
-            if (diffMinute % 60 != 0) {
-                needHours = (int) diffMinute / 60 + 1;
+            if (needSecond / 60 % 60 != 0) {
+                needHours = (int) needSecond / 3600 + 1;
             } else {
-                needHours = (int) diffMinute / 60;
-            }
-            // TODO: 2019/7/9 如果电力到0  算力需要置0
-            if (needHours == 24) {
-                iUserCalculationPowerService.resetByUid(uid);
-
+                needHours = (int) needSecond / 3600;
             }
 
-            expireTime = LocalDateUtil.add(expireTime, 0, 0, 0, needHours, 0, 0);
+            expireTime = LocalDateUtil.add(diffSecond > 0 ? expireTime : LocalDateTime.now(), 0, 0, 0, hours > needHours ? needHours : hours, 0, 0);
             userEnergyExpireTime.setExpireTime(expireTime);
             userEnergyExpireTime.setVersion(userEnergyExpireTime.getVersion());
             userEnergyExpireTime.updateById();
@@ -99,7 +101,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             // TODO: 2019/7/3  创建过期时间记录
             UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
             newUserEnergy.setUid(uid);
-            newUserEnergy.setExpireTime(LocalDateUtil.add(LocalDateTime.now(), 0, 0, 0, needHours, 0, 0));
+            newUserEnergy.setExpireTime(LocalDateUtil.add(LocalDateTime.now(), 0, 0, 0, hours > needHours ? needHours : hours, 0, 0));
             newUserEnergy.insert();
         }
         userEnergy.setEnergyValue(energyType.getValue() * needHours);

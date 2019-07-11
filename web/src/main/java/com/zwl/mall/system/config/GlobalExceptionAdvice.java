@@ -2,6 +2,7 @@ package com.zwl.mall.system.config;
 
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,12 @@ public class GlobalExceptionAdvice {
     public Result errorHandler(Exception e) {
         log.error(e.getMessage(), e);
         return ResultUtil.fail(ErrorEnum.SYS_ERROR.getCode(), ErrorEnum.SYS_ERROR.getMsg());
+    }
+
+    @ExceptionHandler(value = BizException.class)
+    public Result errorHandler(BizException e) {
+        log.info(e.getMsg(), e);
+        return ResultUtil.fail(e.getCode(), e.getMsg());
     }
 
 }
