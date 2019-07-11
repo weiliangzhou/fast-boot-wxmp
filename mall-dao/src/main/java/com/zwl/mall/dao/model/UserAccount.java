@@ -2,10 +2,12 @@ package com.zwl.mall.dao.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zwl.common.utils.BigDecimalUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,6 +42,17 @@ public class UserAccount extends Model<UserAccount> {
     private Long uid;
 
     private BigDecimal money;
+
+    @TableField(exist = false)
+    private String moneyDesc;
+
+    public String getMoneyDesc() {
+        if (this.money != null) {
+            return BigDecimalUtil.objectFormatToString(this.money, "##.############");
+        }
+
+        return "0.0000000000";
+    }
 
     @ApiModelProperty(value = "交易类型：1挖矿产出 -1转出")
     private Integer type;

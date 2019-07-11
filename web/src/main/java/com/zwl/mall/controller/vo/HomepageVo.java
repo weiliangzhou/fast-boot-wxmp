@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HomepageVo {
+    private String btcInfo;
     private Integer currentPower;
     private Integer currentEnergyExpireSecond;
     private List<MyTaskInfo> myTaskInfoList;

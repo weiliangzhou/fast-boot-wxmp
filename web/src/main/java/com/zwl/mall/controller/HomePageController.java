@@ -1,6 +1,5 @@
 package com.zwl.mall.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
@@ -48,15 +47,34 @@ public class HomePageController {
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
 
+
+    /**
+     * @Date: 2019/7/3 9:31
+     * @Author: 二师兄超级帅
+     * @Description: 当前算力
+     */
+    @GetMapping("/user/homepage/info")
+    @ApiOperation(value = "首页信息")
+    public Result powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
+        Long uid = userBase.getId();
+//        当前BTC
+        String btcInfo = iUserAccountService.getBTCInfoByUid(uid, true);
+//        当前算力
+        Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
+//        当前剩余电力时间(秒数)
+        Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
+//        任务展示区
+        List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
+        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, myTaskInfo));
+    }
+
     @ApiOperation(value = "获取BTC信息")
     @GetMapping("/user/user_account/info")
     public Result getMyAccountInfo(@ApiIgnore @CurrentUser UserBase userBase) {
-        log.info(JSON.toJSONString(userBase));
         // TODO: 2019/6/20 获取账户信息
         //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
         Long uid = userBase.getId();
         String btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);
-        log.info("调用成功");
         return ResultUtil.ok(btcInfoByUid);
     }
 
@@ -102,24 +120,6 @@ public class HomePageController {
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }
 
-    /**
-     * @Date: 2019/7/3 9:31
-     * @Author: 二师兄超级帅
-     * @Description: 当前算力
-     */
-    @GetMapping("/user/homepage/info")
-    @ApiOperation(value = "首页信息")
-    public Result powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
-        Long uid = userBase.getId();
-//        当前算力
-        Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
-//        当前剩余电力时间(秒数)
-        Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
-//        任务展示区
-        List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-        int i=1/0;
-        return ResultUtil.ok(new HomepageVo(currentPower, currentEnergyExpireSecond, myTaskInfo));
-    }
 
     /**
      * @Date: 2019/7/3 9:31
