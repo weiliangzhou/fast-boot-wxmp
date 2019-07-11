@@ -41,20 +41,22 @@ public class UserCalculationPower extends Model<UserCalculationPower> {
 
     @ApiModelProperty(value = "类型：-1消耗  1邀请好友增加 ")
     private Integer type;
-    private String typeDesc;
 
-    public String getTypeDesc() {
-        if (null != type) {
-            switch (this.type) {
-                case -1:
-                    return "消耗";
-                case 1:
-                    return "邀请好友增加";
-            }
-        }
 
-        return typeDesc;
-    }
+//    private String typeDesc;
+//
+//    public String getTypeDesc() {
+//        if (null != type) {
+//            switch (this.type) {
+//                case -1:
+//                    return "消耗";
+//                case 1:
+//                    return "邀请好友增加";
+//            }
+//        }
+//
+//        return typeDesc;
+//    }
 
     @ApiModelProperty(value = "昵称")
     private String nickname;

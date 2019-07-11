@@ -73,12 +73,17 @@ public class UserBase extends Model<UserBase> {
     @JsonIgnore
     @JSONField(serialize = false)
     private Boolean deleted;
-
+    @JsonIgnore
+    @JSONField(serialize = false)
     @ApiModelProperty(value = "是否关注公众号")
     private Boolean isSubscribe;
 
     @ApiModelProperty(value = "1男2女")
     private Integer sex;
+    @JsonIgnore
+    @JSONField(serialize = false)
+    @ApiModelProperty(value = "商户号")
+    private Long mid;
 
 
     @Override

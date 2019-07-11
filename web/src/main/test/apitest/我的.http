@@ -6,7 +6,7 @@ Authorization: {{token}}
 
 ###
 
-GET {{host}}/api/user/CalculationPower/getPage?pageNum=1&pageSize=10
+GET {{host}}/api/user/calculationPower/getPage?pageNum=1&pageSize=10
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}

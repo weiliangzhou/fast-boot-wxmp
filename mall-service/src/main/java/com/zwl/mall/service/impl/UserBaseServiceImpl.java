@@ -45,7 +45,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public AccessToken login(WxMpUser wxMpUser, Long referUid) {
+    public AccessToken login(WxMpUser wxMpUser, Long referUid, Integer registerFrom, Long mid) {
         String headImgUrl = wxMpUser.getHeadImgUrl();
         String nickname = wxMpUser.getNickname();
         String unionId = wxMpUser.getUnionId();
@@ -57,7 +57,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         String country = wxMpUser.getCountry();
         log.info(JSON.toJSONString(wxMpUser));
 //        UserBase userBaseData = selectOneByUnionId(unionId);
-        UserBase userBaseData = selectOneByGzhOpenId(openId);
+        UserBase userBaseData = selectOneByGzhOpenIdAndRegisterFrom(openId, registerFrom);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
         if (null == userBaseData) {
@@ -68,7 +68,8 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             userBase.setUnionId(unionId);
             userBase.setIsSubscribe(subscribe);
             userBase.setSex(sex);
-            userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
+            userBase.setRegisterFrom(registerFrom);
+            userBase.setMid(mid);
             userBase.insert();
             Long uid = userBase.getId();
             UserExpand expand = new UserExpand();
@@ -77,24 +78,25 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             expand.setProvince(province);
             expand.setCountry(country);
             expand.insert();
-            redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
-            redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
+            redisUtil.setString(uuid32, USER_INFO + mid + "_" + uid, Constants.EXRP_MONTH);
+            redisUtil.setString(USER_INFO + mid + "_" + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             // TODO: 2019/7/3 增加120小时电力
             iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
             // TODO: 2019/6/26 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, nickname, 1);
             return new AccessToken(uuid32, userBase);
         } else {
-            redisUtil.setString(uuid32, USER_INFO + userBaseData.getId(), Constants.EXRP_MONTH);
-            redisUtil.setString(USER_INFO + userBaseData.getId(), JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
+            String redisKey = USER_INFO + mid + "_" + userBaseData.getId();
+            redisUtil.setString(uuid32, redisKey, Constants.EXRP_MONTH);
+            redisUtil.setString(redisKey, JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBaseData);
         }
 
 
     }
 
-    private UserBase selectOneByGzhOpenId(String openId) {
-        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("gzh_open_id", openId).eq("deleted", 0));
+    private UserBase selectOneByGzhOpenIdAndRegisterFrom(String openId, Integer registerFrom) {
+        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("gzh_open_id", openId).eq("deleted", 0).eq("register_from", registerFrom));
 
     }
 

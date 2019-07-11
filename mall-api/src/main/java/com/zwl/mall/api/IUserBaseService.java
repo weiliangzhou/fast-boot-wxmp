@@ -20,9 +20,11 @@ public interface IUserBaseService extends IService<UserBase> {
      *
      * @param wxMpUser
      * @param referUid
+     * @param registerFrom
+     * @param mid
      * @return
      */
-    AccessToken login(WxMpUser wxMpUser, Long referUid);
+    AccessToken login(WxMpUser wxMpUser, Long referUid, Integer registerFrom, Long mid);
 
 
     /**

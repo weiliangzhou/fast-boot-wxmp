@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.zwl.common.constants.EnergyType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,14 +36,8 @@ public class UserEnergy extends Model<UserEnergy> {
     private Long uid;
 
     private Integer energyValue;
-
     @ApiModelProperty(value = "类型：0.新用户奖励 1.签到奖励 2.分享奖励")
     private Integer type;
-
-    public String getTypeDesc() {
-        return null == type ? "" : EnergyType.getName(this.type);
-    }
-
 
     private LocalDateTime createTime;
 

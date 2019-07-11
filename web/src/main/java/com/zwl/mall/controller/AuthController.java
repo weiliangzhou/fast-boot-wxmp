@@ -3,13 +3,17 @@ package com.zwl.mall.controller;
 import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.constants.RegisterFrom;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
+import com.zwl.common.utils.HostnameUtil;
 import com.zwl.common.utils.StringUtil;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.system.config.wx.mp.WxMpConfiguration;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -21,6 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Date: 2019/7/10 14:49
@@ -51,19 +58,27 @@ public class AuthController {
 //        return ResultUtil.ok(redirectURL);
 //    }
 
-    @GetMapping("/userInfo")
+    @GetMapping("/login")
     @ApiOperation(value = "授权登录", notes = "授权登录")
-    public Result<AccessToken> userInfo(
-            @RequestParam("code") String code,
-            @RequestParam("state") String referUid) {
-        log.info("【微信网页授权】code={}", code);
-        log.info("【微信网页授权】state={}", referUid);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "微信code", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "referUid", value = "推荐人id", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "registerFrom", value = "注册来源 1:h5 2:android 3:ios 4:小程序", required = false, paramType = "query", dataType = "Integer")
+    })
+    public Result<AccessToken> userInfo(@ApiIgnore HttpServletRequest request,
+                                        @RequestParam("code") String code,
+                                        @RequestParam("referUid") String referUid,
+                                        @RequestParam(value = "registerFrom", required = false) Integer registerFrom
+    ) {
+        Long mid = HostnameUtil.getMidByHostname(request);
+        log.debug("【微信网页授权】code={}", code);
+        log.debug("【微信网页授权】referUid={}", referUid);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
-            log.info("【微信网页授权】{}", e);
+            log.debug("【微信网页授权】{}", e);
             throw new SysException(ErrorEnum.SYS_ERROR);
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
@@ -75,7 +90,7 @@ public class AuthController {
         }
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
         // TODO: 2019/7/5 目前根据gzh_open_id去做匹配
-        AccessToken login = iUserBaseService.login(wxMpUser, StringUtil.isNumeric(referUid) ? Long.parseLong(referUid) : null);
+        AccessToken login = iUserBaseService.login(wxMpUser, StringUtil.isNumeric(referUid) ? Long.parseLong(referUid) : null, null == registerFrom ? RegisterFrom.H5.getIndex() : registerFrom, mid);
         log.info(JSON.toJSONString(login));
         log.info("【微信网页授权】openId={}", openId);
         return ResultUtil.ok(login);
