@@ -29,4 +29,10 @@ Cache-Control: no-cache
 Authorization: {{token}}
 ###
 
+GET {{host}}/api/user/homepage/info
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+###
+
 

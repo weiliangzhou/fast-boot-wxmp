@@ -80,9 +80,6 @@ pagehelper:
   # 分页合理化参数 pageNum<=0时会查询第一页 pageNum>pages(超过总数时) 会查询最后一页
   reasonable: 'true'
   support-methods-arguments: 'true'
-logging:
-  # Debug打印SQL
-  level.com.zwl.mall.dao.mapper: debug
 wx:
   mp:
     configs:
@@ -108,4 +105,5 @@ wx:
 swagger:
   show: true
 
-
+logging:
+  config: classpath:logback-spring.xml

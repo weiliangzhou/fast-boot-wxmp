@@ -9,8 +9,10 @@ import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
 import com.zwl.mall.api.IUserAccountService;
 import com.zwl.mall.api.IUserCalculationPowerService;
+import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.vo.MyTaskInfo;
+import com.zwl.mall.controller.vo.HomepageVo;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
@@ -43,6 +45,8 @@ public class HomePageController {
     private IUserEnergyService iUserEnergyService;
     @Autowired
     private IUserCalculationPowerService iUserCalculationPowerService;
+    @Autowired
+    private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
 
     @ApiOperation(value = "获取BTC信息")
     @GetMapping("/user/user_account/info")
@@ -103,11 +107,29 @@ public class HomePageController {
      * @Author: 二师兄超级帅
      * @Description: 当前算力
      */
-    @GetMapping("/user/power/info")
-    @ApiOperation(value = "当前算力")
-    public Result consume(@ApiIgnore @CurrentUser UserBase userBase) {
-        int total = iUserCalculationPowerService.getAblePowerByUid(userBase.getId());
-        return ResultUtil.ok(total);
+    @GetMapping("/user/homepage/info")
+    @ApiOperation(value = "首页信息")
+    public Result powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
+        Long uid = userBase.getId();
+//        当前算力
+        Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
+//        当前剩余电力时间(秒数)
+        Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
+//        任务展示区
+        List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
+        return ResultUtil.ok(new HomepageVo(currentPower, currentEnergyExpireSecond, myTaskInfo));
+    }
+
+    /**
+     * @Date: 2019/7/3 9:31
+     * @Author: 二师兄超级帅
+     * @Description: 当前剩余电力时间(秒数)
+     */
+    @GetMapping("/user/energy/info")
+    @ApiOperation(value = "剩余电力时间(秒数)")
+    public Result ableEnergy(@ApiIgnore @CurrentUser UserBase userBase) {
+        Integer currentEnergyExpireSecondByUid = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(userBase.getId());
+        return ResultUtil.ok(currentEnergyExpireSecondByUid);
     }
 
 

@@ -20,4 +20,12 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
      * @return
      */
     UserEnergyExpireTime selectOneByUid(Long uid);
+
+    /**
+     * 获取剩余电力时间
+     *
+     * @param uid
+     * @return
+     */
+    Integer getCurrentEnergyExpireSecondByUid(Long uid);
 }

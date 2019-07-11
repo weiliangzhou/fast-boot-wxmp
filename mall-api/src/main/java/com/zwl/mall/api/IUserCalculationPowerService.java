@@ -28,7 +28,7 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
      * @param uid
      * @return
      */
-    int getAblePowerByUid(Long uid);
+    Integer getAblePowerByUid(Long uid);
 
     /**
      * 重置算力到500

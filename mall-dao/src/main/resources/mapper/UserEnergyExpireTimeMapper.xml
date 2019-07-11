@@ -16,10 +16,14 @@
     <sql id="Base_Column_List">
         id, uid,expire_time, create_time, update_time, deleted
     </sql>
-    <select id="getExpireTimeByUid" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user_energy_expire_time where uid =#{uid} and deleted=0
+    <select id="getCurrentEnergyExpireSecondByUid" resultType="Integer">
+      SELECT
+	timestampdiff( SECOND, now( ), expire_time)
+    FROM
+	user_energy_expire_time
+    WHERE
+	uid = #{uid}
+	and deleted=0
     </select>
 
 

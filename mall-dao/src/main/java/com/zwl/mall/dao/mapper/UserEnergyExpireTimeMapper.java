@@ -2,7 +2,6 @@ package com.zwl.mall.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,5 +12,11 @@ import org.apache.ibatis.annotations.Select;
  * @since 2019-07-01
  */
 public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireTime> {
-    UserEnergyExpireTime getExpireTimeByUid(Long uid);
+    /**
+     * 获取剩余电力时间
+     *
+     * @param uid
+     * @return
+     */
+    Integer getCurrentEnergyExpireSecondByUid(Long uid);
 }
