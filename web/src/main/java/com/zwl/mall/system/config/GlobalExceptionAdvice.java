@@ -5,6 +5,7 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,6 +22,12 @@ public class GlobalExceptionAdvice {
     public Result errorHandler(Exception e) {
         log.error(e.getMessage(), e);
         return ResultUtil.fail(ErrorEnum.SYS_ERROR.getCode(), ErrorEnum.SYS_ERROR.getMsg());
+    }
+
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public Result MissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        log.error(e.getMessage(), e);
+        return ResultUtil.fail(ErrorEnum.ARGUMENT_ERROR.getCode(), ErrorEnum.ARGUMENT_ERROR.getMsg());
     }
 
     @ExceptionHandler(value = BizException.class)

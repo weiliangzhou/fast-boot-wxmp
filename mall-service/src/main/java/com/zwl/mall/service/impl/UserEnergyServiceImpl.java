@@ -81,7 +81,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
                 iUserCalculationPowerService.resetByUid(uid);
             }
             long needSecond = 24 * 60 * 60 - diffSecond;
-            //diffSecond>0 才可以充电
+            //needSecond>0 才可以充电
             if (needSecond <= 0) {
                 throw new BizException(ErrorEnum.LOW_FULL);
             }
