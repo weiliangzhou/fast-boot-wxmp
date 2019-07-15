@@ -8,6 +8,8 @@ import com.zwl.mall.dao.model.UserEnergyExpireTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * <p>
@@ -29,11 +31,13 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
 
     @Override
     public Integer getCurrentEnergyExpireSecondByUid(Long uid) {
-        Integer expireSecondByUid = userEnergyExpireTimeMapper.getCurrentEnergyExpireSecondByUid(uid);
-        if (expireSecondByUid > 0) {
-            return expireSecondByUid;
-        }
-        return 0;
+        return userEnergyExpireTimeMapper.getCurrentEnergyExpireSecondByUid(uid);
+    }
+
+    @Override
+    public List<UserEnergyExpireTime> selectTodayListByUid(Long uid) {
+        return userEnergyExpireTimeMapper.selectTodayListByUid(uid);
+
     }
 }
 

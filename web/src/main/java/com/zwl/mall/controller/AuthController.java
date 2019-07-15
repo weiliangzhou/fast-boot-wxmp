@@ -67,7 +67,7 @@ public class AuthController {
     })
     public Result<AccessToken> userInfo(@ApiIgnore HttpServletRequest request,
                                         @RequestParam("code") String code,
-                                        @RequestParam("referUid") String referUid,
+                                        @RequestParam(value = "referUid", required = false) String referUid,
                                         @RequestParam(value = "registerFrom", required = false) Integer registerFrom
     ) {
         Long mid = HostnameUtil.getMidByHostname(request);

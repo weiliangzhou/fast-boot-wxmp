@@ -4,6 +4,8 @@ package com.zwl.mall.api;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 
+import java.util.List;
+
 /**
  * <p>
  * 电力明细表 服务类
@@ -28,4 +30,12 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
      * @return
      */
     Integer getCurrentEnergyExpireSecondByUid(Long uid);
+
+    /**
+     * 查询当前用户今天的时间列表
+     *
+     * @param uid
+     * @return
+     */
+    List<UserEnergyExpireTime> selectTodayListByUid(Long uid);
 }

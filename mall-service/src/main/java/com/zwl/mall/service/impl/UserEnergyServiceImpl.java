@@ -69,45 +69,17 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setDescription(energyType.getDesc());
         // TODO: 2019/7/3 更新过期时间
         //需要消耗的时间
-        int needHours = 0;
+        int needHours = hours;
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime needTime = now;
-        UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.selectOneByUid(uid);
-        if (null != userEnergyExpireTime) {
-            LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
-            long diffSecond = LocalDateUtil.diffSecond(now, expireTime);
-            // TODO: 2019/7/12 如果 现在时间比过期时间要早 则在过期时间的基础上增加 ，否则在当前时间上增加
-            if (diffSecond < 0) {
-                // TODO: 2019/7/9 如果电力到0  算力需要置0
-                iUserCalculationPowerService.resetByUid(uid);
-                needHours = hours;
-                needTime = now;
-            } else {
-                needTime = expireTime;
-                long needSecond = 24 * 60 * 60 - diffSecond;
-                //needSecond>0 才可以充电
-                if (needSecond <= 0) {
-                    throw new BizException(ErrorEnum.LOW_FULL);
-                }
-                if (needSecond / 60 % 60 != 0) {
-                    needHours = (int) needSecond / 3600 + 1;
-                } else {
-                    needHours = (int) needSecond / 3600;
-                }
-            }
-            expireTime = LocalDateUtil.add(needTime, 0, 0, 0, hours > needHours ? needHours : hours, 0, 0);
-            userEnergyExpireTime.setExpireTime(expireTime);
-            userEnergyExpireTime.setVersion(userEnergyExpireTime.getVersion());
-            userEnergyExpireTime.updateById();
-
-        } else {
-            needHours = hours;
-            // TODO: 2019/7/3  创建过期时间记录
-            UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
-            newUserEnergy.setUid(uid);
-            newUserEnergy.setExpireTime(LocalDateUtil.add(LocalDateTime.now(), 0, 0, 0, hours > needHours ? needHours : hours, 0, 0));
-            newUserEnergy.insert();
-        }
+        List<UserEnergyExpireTime> userEnergyExpireTimeList = iUserEnergyExpireTimeService.selectTodayListByUid(uid);
+        //1.遍历list，如果start_time小于今天的0点则按照0点计算   如果end_time>今天23:59:59 则按照当前时间计算
+        // TODO: 2019/7/3  创建过期时间记录
+        UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
+        newUserEnergy.setUid(uid);
+//        newUserEnergy.setExpireTime(LocalDateUtil.add(needTime, 0, 0, 0, hours > needHours ? needHours : hours, 0, 0));
+        newUserEnergy.insert();
+//        }
         userEnergy.setEnergyValue(energyType.getValue() * needHours);
         log.debug(energyType.getDesc());
         userEnergy.insert();

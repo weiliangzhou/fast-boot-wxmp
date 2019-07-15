@@ -3,6 +3,8 @@ package com.zwl.mall.dao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 
+import java.util.List;
+
 /**
  * <p>
  * 电力明细表 Mapper 接口
@@ -19,4 +21,12 @@ public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireT
      * @return
      */
     Integer getCurrentEnergyExpireSecondByUid(Long uid);
+
+    /**
+     * 查询当前用户今天的时间列表
+     *
+     * @param uid
+     * @return
+     */
+    List<UserEnergyExpireTime> selectTodayListByUid(Long uid);
 }
