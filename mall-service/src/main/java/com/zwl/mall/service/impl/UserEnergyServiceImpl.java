@@ -6,6 +6,8 @@ import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
+import com.zwl.mall.api.IPowerOutputRateService;
+import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.vo.MyTaskInfo;
@@ -17,10 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -38,6 +40,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     private UserEnergyMapper userEnergyMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
+    @Autowired
+    private IPowerOutputRateService iPowerOutputRateService;
+    @Autowired
+    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
     public void add(Long uid, Integer type) {
@@ -63,18 +69,22 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         if (ableEnergy == 0 || hours > ableEnergy) {
             throw new BizException(ErrorEnum.LOW_POWER);
         }
+
+        // 算力配置表
+        // 获取当前算力
+        Integer ablePower = iUserCalculationPowerService.getAblePowerByUid(uid);
+        BigDecimal calculationPower = iPowerOutputRateService.getCalculationPowerByPower(ablePower);
         UserEnergy userEnergy = new UserEnergy();
-        // TODO: 2019/7/16 修改成可配置表
         EnergyType energyType = EnergyType.getEnergyType(EnergyType.CONSUME_1.getIndex());
         userEnergy.setType(energyType.getIndex());
         userEnergy.setUid(uid);
         userEnergy.setDescription(energyType.getDesc());
         //需要消耗的时间
         int finalNeedHours = 0;
-        Map currentEnergyExpireSecondMap = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);
-        if (currentEnergyExpireSecondMap != null) {
-            int currentEnergyExpireSecond = Integer.parseInt(currentEnergyExpireSecondMap.get("expireSecond").toString());
-            LocalDateTime endTime = (LocalDateTime) currentEnergyExpireSecondMap.get("endTime");
+        UserEnergyExpireTime currentEnergyExpireSecondEndTimeByUid = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);
+        if (currentEnergyExpireSecondEndTimeByUid != null) {
+            int currentEnergyExpireSecond = currentEnergyExpireSecondEndTimeByUid.getExpireSecond();
+            LocalDateTime endTime = currentEnergyExpireSecondEndTimeByUid.getEndTime();
 
             int needSeconds = 24 * 60 * 60 - currentEnergyExpireSecond;
             //needSecond>0 才可以充电
@@ -99,9 +109,21 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             newUserEnergy.setUid(uid);
             newUserEnergy.setStartTime(finalStartTime);
             newUserEnergy.setEndTime(finalEndTime);
+            newUserEnergy.setCalculationPower(calculationPower);
             newUserEnergy.insert();
+
             userEnergy.setEnergyValue(energyType.getValue() * finalNeedHours);
-            log.debug(energyType.getDesc());
+            userEnergy.insert();
+        } else {
+            //不存在记录则 新增
+            UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
+            newUserEnergy.setUid(uid);
+            newUserEnergy.setStartTime(LocalDateTime.now());
+            newUserEnergy.setEndTime(LocalDateUtil.add(LocalDateTime.now(), 0, 0, 0, hours, 0, 0));
+            newUserEnergy.setCalculationPower(calculationPower);
+            newUserEnergy.insert();
+
+            userEnergy.setEnergyValue(energyType.getValue() * hours);
             userEnergy.insert();
         }
     }

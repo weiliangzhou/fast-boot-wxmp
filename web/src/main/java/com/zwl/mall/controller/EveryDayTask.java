@@ -24,8 +24,9 @@ public class EveryDayTask {
     private IUserAccountService iUserAccountService;
 
     //每隔1分钟执行一次
-    @Scheduled(cron = "0 */1 * * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
     //每天凌晨1点执行一次：0 0 1 * * ?
+    @Scheduled(cron = "0 0 1 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void everyDaySum() {
         log.info("开始结算挖矿收益============================>");
@@ -33,8 +34,8 @@ public class EveryDayTask {
         log.info(JSON.toJSONString(uidList));
         for (Long uid : uidList) {
             BigDecimal todayBTCInfo = iUserAccountService.getYesterdayBTCInfoByUid(uid);
-            log.info("==============>" + uid);
-            log.info("==============>" + todayBTCInfo);
+//            log.info("==============>" + uid);
+//            log.info("==============>" + todayBTCInfo);
             if (!todayBTCInfo.equals(BigDecimal.ZERO)) {
                 //先查询昨天是否结算过
                 boolean todayComplete = iUserAccountService.isTodayComplete(uid);

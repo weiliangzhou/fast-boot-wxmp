@@ -27,16 +27,16 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
 
     @Override
     public int getCurrentEnergyExpireSecondByUid(Long uid) {
-        Map currentEnergyExpireSecondMap = getCurrentEnergyExpireSecondEndTimeByUid(uid);
+        UserEnergyExpireTime currentEnergyExpire = getCurrentEnergyExpireSecondEndTimeByUid(uid);
         int currentEnergyExpireSecond = 0;
-        if (currentEnergyExpireSecondMap != null) {
-            currentEnergyExpireSecond = Integer.parseInt(currentEnergyExpireSecondMap.get("expireSecond").toString());
+        if (currentEnergyExpire != null) {
+            currentEnergyExpireSecond = currentEnergyExpire.getExpireSecond();
         }
         return currentEnergyExpireSecond;
     }
 
     @Override
-    public Map getCurrentEnergyExpireSecondEndTimeByUid(Long uid) {
+    public UserEnergyExpireTime getCurrentEnergyExpireSecondEndTimeByUid(Long uid) {
         return userEnergyExpireTimeMapper.getCurrentEnergyExpireSecondEndTimeByUid(uid);
     }
 

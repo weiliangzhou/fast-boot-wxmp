@@ -29,9 +29,6 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("user_base")
 public class UserBase extends Model<UserBase> {
-
-    @JsonIgnore
-    @JSONField(serialize = false)
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     @JsonIgnore

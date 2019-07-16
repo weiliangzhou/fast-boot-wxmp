@@ -21,7 +21,7 @@ public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireT
      * @param uid
      * @return
      */
-    Map getCurrentEnergyExpireSecondEndTimeByUid(Long uid);
+    UserEnergyExpireTime getCurrentEnergyExpireSecondEndTimeByUid(Long uid);
 
     /**
      * 查询当前用户今天的时间列表

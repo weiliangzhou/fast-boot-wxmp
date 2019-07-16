@@ -20,33 +20,21 @@
     <sql id="Base_Column_List">
                         id, uid, start_time, end_time, calculation_power, create_time, update_time, version, deleted
     </sql>
-    <select id="getCurrentEnergyExpireSecondEndTimeByUid" resultType="Map">
+    <select id="getCurrentEnergyExpireSecondEndTimeByUid" resultType="com.zwl.mall.dao.model.UserEnergyExpireTime">
         <![CDATA[
+               SELECT
+                CASE
 
-
-
-
-
-
-                                               SELECT
-                                                CASE
-
-                                                WHEN
-                                                    timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
-                                                    0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
-                                                        END as expireSecond,
-                                                    max( end_time )  as endTime
-                                                FROM
-                                                    user_energy_expire_time
-                                                WHERE
-                                                    uid = #{uid}
-                                                AND deleted = 0
-
-
-
-
-
-
+                WHEN
+                    timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
+                    0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
+                        END as expireSecond,
+                    max( end_time )  as endTime
+                FROM
+                    user_energy_expire_time
+                WHERE
+                    uid = #{uid}
+                AND deleted = 0
         ]]>
     </select>
 
