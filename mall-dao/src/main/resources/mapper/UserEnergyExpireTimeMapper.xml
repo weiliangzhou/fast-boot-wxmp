@@ -25,19 +25,25 @@
 
 
 
-                       SELECT
-                        CASE
 
-                        WHEN
-                            timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
-                            0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
-                                END as expireSecond,
-                            max( end_time )  as endTime
-                        FROM
-                            user_energy_expire_time
-                        WHERE
-                            uid = #{uid}
-                        AND deleted = 0
+
+
+                                               SELECT
+                                                CASE
+
+                                                WHEN
+                                                    timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
+                                                    0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
+                                                        END as expireSecond,
+                                                    max( end_time )  as endTime
+                                                FROM
+                                                    user_energy_expire_time
+                                                WHERE
+                                                    uid = #{uid}
+                                                AND deleted = 0
+
+
+
 
 
 
@@ -51,6 +57,23 @@
         DATE_FORMAT(now(),'%y%m%d') order by start_time
 
 
+    </select>
+    <select id="selectYesterdayListByUid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_energy_expire_time where uid =#{uid} and deleted = 0 and DATE_FORMAT(end_time,'%y%m%d') =
+        DATE_FORMAT( DATE_SUB(now(), INTERVAL 1 DAY ), '%y%m%d' ) order by start_time
+
+    </select>
+
+    <select id="listTodayUid" resultType="java.lang.Long">
+   SELECT DISTINCT
+        uid
+    FROM
+        user_energy_expire_time
+    WHERE
+        deleted = 0
+        AND DATE_FORMAT( end_time, '%y%m%d' ) >= DATE_FORMAT( DATE_SUB( CURDATE( ), INTERVAL 1 DAY ), '%y%m%d' )
     </select>
 
 

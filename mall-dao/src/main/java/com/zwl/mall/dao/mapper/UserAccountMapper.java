@@ -16,8 +16,17 @@ import java.math.BigDecimal;
 public interface UserAccountMapper extends BaseMapper<UserAccount> {
     /**
      * 获取可用btc
+     *
      * @param uid
      * @return
      */
     BigDecimal getBTCInfoByUid(Long uid);
+
+    /**
+     * 今日是否已经结算
+     *
+     * @param uid
+     * @return
+     */
+    int isTodayComplete(Long uid);
 }

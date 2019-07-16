@@ -55,7 +55,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void consume(Long uid, int hours) {
-        // TODO: 2019/7/3 用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
+        // TODO: 2019/7/16 用户10天 20天
+
+
+        //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
         int ableEnergy = getAbleEnergyByUid(uid);
         if (ableEnergy == 0 || hours > ableEnergy) {
             throw new BizException(ErrorEnum.LOW_POWER);
@@ -65,7 +68,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setType(energyType.getIndex());
         userEnergy.setUid(uid);
         userEnergy.setDescription(energyType.getDesc());
-        // TODO: 2019/7/3 更新过期时间
         //需要消耗的时间
         int finalNeedHours = 0;
         Map currentEnergyExpireSecondMap = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);

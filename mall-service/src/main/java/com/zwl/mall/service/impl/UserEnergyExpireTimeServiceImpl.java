@@ -1,6 +1,5 @@
 package com.zwl.mall.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.dao.mapper.UserEnergyExpireTimeMapper;
@@ -25,10 +24,6 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
     @Autowired
     private UserEnergyExpireTimeMapper userEnergyExpireTimeMapper;
 
-    @Override
-    public UserEnergyExpireTime selectOneByUid(Long uid) {
-        return new UserEnergyExpireTime().selectOne(new QueryWrapper<UserEnergyExpireTime>().eq("uid", uid).eq("deleted", 0));
-    }
 
     @Override
     public int getCurrentEnergyExpireSecondByUid(Long uid) {
@@ -49,6 +44,16 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
     public List<UserEnergyExpireTime> selectTodayListByUid(Long uid) {
         return userEnergyExpireTimeMapper.selectTodayListByUid(uid);
 
+    }
+
+    @Override
+    public List<UserEnergyExpireTime> selectYesterdayListByUid(Long uid) {
+        return userEnergyExpireTimeMapper.selectYesterdayListByUid(uid);
+    }
+
+    @Override
+    public List<Long> listTodayUid() {
+        return userEnergyExpireTimeMapper.listTodayUid();
     }
 }
 

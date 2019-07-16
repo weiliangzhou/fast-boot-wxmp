@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionAdvice {
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception e) {
-        log.error(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ResultUtil.fail(ErrorEnum.SYS_ERROR.getCode(), ErrorEnum.SYS_ERROR.getMsg());
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public Result MissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        log.error(e.getMessage(), e);
+        log.info(e.getMessage(), e);
         return ResultUtil.fail(ErrorEnum.ARGUMENT_ERROR.getCode(), ErrorEnum.ARGUMENT_ERROR.getMsg());
     }
 

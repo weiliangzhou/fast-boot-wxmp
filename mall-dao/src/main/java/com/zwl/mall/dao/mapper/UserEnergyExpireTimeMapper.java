@@ -30,4 +30,21 @@ public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireT
      * @return
      */
     List<UserEnergyExpireTime> selectTodayListByUid(Long uid);
+
+    /**
+     * 查询当前用户昨日的时间列表
+     *
+     * @param uid
+     * @return
+     */
+    List<UserEnergyExpireTime> selectYesterdayListByUid(Long uid);
+
+
+    /**
+     * 获取今天需要结算的用户uid
+     *
+     * @return
+     */
+    List<Long> listTodayUid();
+
 }

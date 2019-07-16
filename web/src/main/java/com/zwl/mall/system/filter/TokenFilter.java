@@ -57,7 +57,6 @@ public class TokenFilter implements Filter {
         excludeList.add(".js");
         excludeList.add("docs");
         excludeList.add("/webjars");
-        excludeList.add("/swagger2");
         excludeList.add("/swagger-resources");
         excludeList.add("/error");
         for (String url : excludeList) {

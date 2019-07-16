@@ -25,6 +25,18 @@
         (select IFNULL(sum(money),0)  as money from user_account where `type` =1 and uid =#{uid} ) t1 ,
         (select IFNULL(sum(money),0) as money from user_account where `type` =-1 and uid =#{uid} ) t2
     </select>
+    <select id="isTodayComplete" resultType="int">
+SELECT
+	count( * )
+
+	FROM
+		user_account
+	WHERE
+		uid = #{uid}
+		AND deleted = 0
+AND DATE_FORMAT( create_time, '%y%m%d' ) = DATE_FORMAT(  now( ), '%y%m%d' )
+
+    </select>
 
 
 </mapper>

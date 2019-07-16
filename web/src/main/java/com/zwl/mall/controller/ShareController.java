@@ -43,7 +43,7 @@ public class ShareController {
 
         try {
             URL theUrl = new URL(url);
-            log.info(theUrl.getHost());
+            log.debug(theUrl.getHost());
             WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
             WxJsapiSignature jsapiSignature = wxMpService.createJsapiSignature(url);
             JsApiSignatureVo jsApiSignatureVo = new JsApiSignatureVo(jsapiSignature);

@@ -1,25 +1,20 @@
 package com.zwl.mall.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
-import com.zwl.common.utils.SignUtil;
 import com.zwl.mall.api.IAccessTokenService;
 import com.zwl.mall.api.IUserAccountService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigDecimal;
 
 /**
  * @Date: 2019/7/3 11:42
@@ -36,22 +31,22 @@ public class ApiOutController {
     @Autowired
     private IUserAccountService iUserAccountService;
 
-    @PostMapping("/info")
+    @GetMapping("/info")
     @ApiOperation(value = "账户查询", notes = "")
-    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-            "\t\"data\": {\n" +
-            "\t\t\"openid\": \"1\"},\n" +
-            "\t\"mid\": \"kj\"" +
-            "}", dataType = "string", paramType = "path")
-    public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
+//    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
+//            "\t\"data\": {\n" +
+//            "\t\t\"openid\": \"1\"},\n" +
+//            "\t\"mid\": \"kj\"" +
+//            "}", dataType = "string", paramType = "path")
+    public Result getUserAccountInfo(@RequestParam("openid") Long openid
     ) {
 //        String access_token = jsonObject.getString("accessToken");
-        String mid = jsonObject.getString("mid");
-        String data = jsonObject.getString("data");
-        String sign = jsonObject.getString("sign");
+//        String mid = jsonObject.getString("mid");
+//        String data = jsonObject.getString("data");
+//        String sign = jsonObject.getString("sign");
 //        iAccessTokenService.check(mid, access_token);
 //        SignUtil.checkSign(data, access_token, sign);
-        Long openid = jsonObject.getJSONObject("data").getLong("openid");
+//        Long openid = jsonObject.getJSONObject("data").getLong("openid");
         if (openid == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
@@ -71,27 +66,28 @@ public class ApiOutController {
      * @return
      */
     @ApiOperation(value = "第三方对应账户减少", notes = "")
-    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-            "\t\"data\": {\n" +
-            "\t\t\"phone\": \"17682333183\",\n" +
-            "\t\t\"money\": \"0.0000219\"\n" +
-            "\t},\n" +
-            "\t\"mid\": \"kj\"" +
+//    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
+//            "\t\"data\": {\n" +
+//            "\t\t\"openid\": \"1\",\n" +
+//            "\t\t\"money\": \"0.0000219\"\n" +
+//            "\t}" +
+//            "\t\"mid\": \"kj\"" +
 //            "\t\"accessToken\": \"dsdasdas\",\n" +
 //            "\t\"sign\": \"dsfsd\"\n" +
-            "}", dataType = "string", paramType = "path")
-    @PostMapping("/reduce")
-    public Result reduce(@RequestBody JSONObject jsonObject) {
-        String data = jsonObject.getString("data");
-        String accessToken = jsonObject.getString("accessToken");
-        String mid = jsonObject.getString("mid");
-        String sign = jsonObject.getString("sign");
-        iAccessTokenService.check(mid, accessToken);
-        SignUtil.checkSign(data, accessToken, sign);
-        JSONObject dataJson = jsonObject.getJSONObject("data");
-        Long openid = dataJson.getLong("openid");
-        BigDecimal money = dataJson.getBigDecimal("money");
-        iUserAccountService.reduce(openid, money);
+//            "}", dataType = "string", paramType = "path")
+    @GetMapping("/reduce")
+    public Result reduce(@RequestParam("openid") Long openid, @RequestParam("money") String money, @RequestParam("orderNo") String orderNo) {
+//        String data = jsonObject.getString("data");
+//        String accessToken = jsonObject.getString("accessToken");
+//        String mid = jsonObject.getString("mid");
+//        String sign = jsonObject.getString("sign");
+//        iAccessTokenService.check(mid, accessToken);
+//        SignUtil.checkSign(data, accessToken, sign);
+//        JSONObject dataJson = jsonObject.getJSONObject("data");
+//        Long openid = dataJson.getLong("openid");
+//        BigDecimal money = dataJson.getBigDecimal("money");
+
+        iUserAccountService.reduce(openid, money, orderNo);
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
 
     }

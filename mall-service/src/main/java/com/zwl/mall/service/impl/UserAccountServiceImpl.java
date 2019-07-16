@@ -55,42 +55,84 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         LocalDateTime finalStartTime = null;
         LocalDateTime finalEndTime = null;
         List<UserEnergyExpireTime> userEnergyExpireTimeList = iUserEnergyExpireTimeService.selectTodayListByUid(uid);
-        for (UserEnergyExpireTime userEnergyExpireTime : userEnergyExpireTimeList) {
-            //如果start_time小于今天的0点则按照0点计算
-            LocalDateTime startTime = userEnergyExpireTime.getStartTime();
-            LocalDateTime todayBeginTime = LocalDateUtil.getNowBeginDate();
-            LocalDateTime endTime = userEnergyExpireTime.getEndTime();
-            LocalDateTime now = LocalDateTime.now();
-            if (startTime.isBefore(todayBeginTime)) {
-                finalStartTime = todayBeginTime;
-            } else {
-                //如果end_time>现在则按照end_time计算
-                if (endTime.isAfter(now)) {
-                    finalEndTime = now;
+        if (userEnergyExpireTimeList != null) {
+            for (UserEnergyExpireTime userEnergyExpireTime : userEnergyExpireTimeList) {
+                //如果start_time小于今天的0点则按照0点计算
+                LocalDateTime startTime = userEnergyExpireTime.getStartTime();
+                LocalDateTime todayBeginTime = LocalDateUtil.getNowBeginDate();
+                LocalDateTime endTime = userEnergyExpireTime.getEndTime();
+                LocalDateTime now = LocalDateTime.now();
+                if (startTime.isBefore(todayBeginTime)) {
+                    finalStartTime = todayBeginTime;
                 } else {
-                    finalEndTime = endTime;
-                }
+                    //如果end_time>现在则按照end_time计算
+                    if (endTime.isAfter(now)) {
+                        finalEndTime = now;
+                    } else {
+                        finalEndTime = endTime;
+                    }
 
+                }
+                needSeconds = LocalDateUtil.diffSecond(finalStartTime, finalEndTime);
+                todayBtc = BigDecimalUtil.bigMul3(userEnergyExpireTime.getCalculationPower(), new BigDecimal(needSeconds), 10);
+                todayBtc = todayBtc.add(todayBtc);
             }
-            needSeconds = LocalDateUtil.diffSecond(finalStartTime, finalEndTime);
-            todayBtc = BigDecimalUtil.bigMul3(userEnergyExpireTime.getCalculationPower(), new BigDecimal(needSeconds), 10);
-            todayBtc = todayBtc.add(todayBtc);
         }
         return todayBtc;
     }
 
     @Override
-    public void reduce(Long uid, BigDecimal money) {
+    public BigDecimal getYesterdayBTCInfoByUid(Long uid) {
+        //今日产出
+        BigDecimal todayBtc = new BigDecimal("0");
+        long needSeconds = 0;
+        List<UserEnergyExpireTime> userEnergyExpireTimeList = iUserEnergyExpireTimeService.selectYesterdayListByUid(uid);
+        if (userEnergyExpireTimeList != null) {
+            for (UserEnergyExpireTime userEnergyExpireTime : userEnergyExpireTimeList) {
+                //如果start_time小于昨天的0点则按照0点计算
+                LocalDateTime startTime = userEnergyExpireTime.getStartTime();
+                LocalDateTime todayBeginTime = LocalDateUtil.getNowBeginDate();
+                LocalDateTime yesterdayBeginTime = LocalDateUtil.add(LocalDateUtil.getNowBeginDate(), 0, 0, -1, 0, 0, 0);
+                LocalDateTime endTime = userEnergyExpireTime.getEndTime();
+                LocalDateTime finalStartTime = startTime;
+                LocalDateTime finalEndTime = endTime;
+                if (startTime.isBefore(yesterdayBeginTime) && endTime.isAfter(yesterdayBeginTime)) {
+                    finalStartTime = yesterdayBeginTime;
+                } else {
+                    //如果end_time>todayBeginTime则按照end_time计算
+                    if (endTime.isAfter(todayBeginTime)) {
+                        finalEndTime = todayBeginTime;
+                    }
+                }
+                needSeconds = LocalDateUtil.diffSecond(finalStartTime, finalEndTime);
+                todayBtc = BigDecimalUtil.bigMul3(userEnergyExpireTime.getCalculationPower(), new BigDecimal(needSeconds), 10);
+                todayBtc = todayBtc.add(todayBtc);
+            }
+        }
+
+        return todayBtc;
+    }
+
+    @Override
+    public boolean isTodayComplete(Long uid) {
+        int todayComplete = userAccountMapper.isTodayComplete(uid);
+        return todayComplete > 0 ? true : false;
+    }
+
+
+    @Override
+    public void reduce(Long uid, String money, String orderNo) {
+        BigDecimal inputMoney = new BigDecimal(money);
         // TODO: 2019/7/4
         //可提现BTC-已经提现BTC
         BigDecimal currentBTC = userAccountMapper.getBTCInfoByUid(uid);
-        boolean bigCompareTo = BigDecimalUtil.bigCompareTo(money, currentBTC);
+        boolean bigCompareTo = BigDecimalUtil.bigCompareTo(inputMoney, currentBTC);
         if (bigCompareTo) {
             throw new BizException(ErrorEnum.BALANCE_INSUFFICIENT);
         }
         UserAccount userAccount = new UserAccount();
         userAccount.setUid(uid);
-        userAccount.setMoney(money);
+        userAccount.setMoney(inputMoney);
         userAccount.setType(-1);
         userAccount.insert();
     }

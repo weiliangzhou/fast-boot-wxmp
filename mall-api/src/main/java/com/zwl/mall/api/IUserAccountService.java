@@ -29,8 +29,9 @@ public interface IUserAccountService extends IService<UserAccount> {
      *
      * @param uid
      * @param money
+     * @param orderNo
      */
-    void reduce(Long uid, BigDecimal money);
+    void reduce(Long uid, String money, String orderNo);
 
     /**
      * 获取今日挖矿所得
@@ -40,4 +41,19 @@ public interface IUserAccountService extends IService<UserAccount> {
      */
     BigDecimal getTodayBTCInfoByUid(Long uid);
 
+    /**
+     * 获取昨日挖矿所得
+     *
+     * @param uid
+     * @return
+     */
+    BigDecimal getYesterdayBTCInfoByUid(Long uid);
+
+    /**
+     * 今日是否结算过
+     *
+     * @param uid
+     * @return
+     */
+    boolean isTodayComplete(Long uid);
 }

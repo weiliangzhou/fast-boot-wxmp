@@ -97,7 +97,7 @@ public class AuthController {
     }
 
 
-//    /**
+    //    /**
 //     * 登陆接口
 //     */
 //    @PostMapping("/login")
@@ -157,12 +157,12 @@ public class AuthController {
 //        return JSON.toJSONString(runStepInfo);
 //    }
 //
-//    @GetMapping("/loginWithPhoneCode")
-//    @ApiOperation(value = "手机验证码注册或登陆", notes = "手机验证码注册或登陆")
-//    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone, @RequestParam("code") String code, @RequestParam(value = "referUid", required = false) Long referUid) {
-//        AccessToken accessToken = iUserBaseService.login(cellphone, code, referUid);
-//        return ResultUtil.ok(accessToken);
-//    }
+    @GetMapping("/loginWithPhoneCode")
+    @ApiOperation(value = "手机验证码注册或登陆", notes = "手机验证码注册或登陆")
+    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone, @RequestParam("code") String code, @RequestParam(value = "referUid", required = false) Long referUid) {
+        AccessToken accessToken = iUserBaseService.login(cellphone, code, referUid);
+        return ResultUtil.ok(accessToken);
+    }
 //
 //    @GetMapping("/sendCode")
 //    @ApiOperation(value = "发送验证码", notes = "发送验证码")

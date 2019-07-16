@@ -17,14 +17,6 @@ import java.util.Map;
  */
 public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireTime> {
     /**
-     * 根据uid获取电力过期时间
-     *
-     * @param uid
-     * @return
-     */
-    UserEnergyExpireTime selectOneByUid(Long uid);
-
-    /**
      * 获取剩余电力时间
      *
      * @param uid
@@ -47,4 +39,20 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
      * @return
      */
     List<UserEnergyExpireTime> selectTodayListByUid(Long uid);
+
+    /**
+     * 查询当前用户昨日的时间列表
+     *
+     * @param uid
+     * @return
+     */
+    List<UserEnergyExpireTime> selectYesterdayListByUid(Long uid);
+
+    /**
+     * 获取今天需要结算的用户uid
+     *
+     * @return
+     */
+    List<Long> listTodayUid();
+
 }
