@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -30,8 +31,18 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
     }
 
     @Override
-    public Integer getCurrentEnergyExpireSecondByUid(Long uid) {
-        return userEnergyExpireTimeMapper.getCurrentEnergyExpireSecondByUid(uid);
+    public int getCurrentEnergyExpireSecondByUid(Long uid) {
+        Map currentEnergyExpireSecondMap = getCurrentEnergyExpireSecondEndTimeByUid(uid);
+        int currentEnergyExpireSecond = 0;
+        if (currentEnergyExpireSecondMap != null) {
+            currentEnergyExpireSecond = Integer.parseInt(currentEnergyExpireSecondMap.get("expireSecond").toString());
+        }
+        return currentEnergyExpireSecond;
+    }
+
+    @Override
+    public Map getCurrentEnergyExpireSecondEndTimeByUid(Long uid) {
+        return userEnergyExpireTimeMapper.getCurrentEnergyExpireSecondEndTimeByUid(uid);
     }
 
     @Override

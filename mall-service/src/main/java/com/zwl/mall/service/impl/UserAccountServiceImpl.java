@@ -1,13 +1,11 @@
 package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zwl.common.constants.PowerCalculation;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserAccountService;
-import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.dao.mapper.UserAccountMapper;
 import com.zwl.mall.dao.model.UserAccount;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -33,32 +32,51 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     private UserAccountMapper userAccountMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
-    @Autowired
-    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
     public String getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
         //可提现BTC-已经提现BTC
         BigDecimal btcInfo = userAccountMapper.getBTCInfoByUid(uid);
         if (hasIncludeToday) {
-            //今日产出
-            BigDecimal todayBtc = new BigDecimal("0");
-            UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.selectOneByUid(uid);
-            if (userEnergyExpireTime != null) {
-                LocalDateTime expireTime = userEnergyExpireTime.getExpireTime();
-                long beforeAbleTime = LocalDateUtil.diffSecond(LocalDateUtil.getNowBeginDate(), expireTime);
-                if (beforeAbleTime > 0) {
-                    // TODO: 2019/7/5 获取当前用户算力
-                    int power = iUserCalculationPowerService.getAblePowerByUid(uid);
-                    todayBtc = PowerCalculation.getResult(beforeAbleTime, power);
-                }
-            }
+            BigDecimal todayBtc = getTodayBTCInfoByUid(uid);
             return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);
         } else {
             return BigDecimalUtil.objectFormatToString(btcInfo, null);
         }
 
 
+    }
+
+    @Override
+    public BigDecimal getTodayBTCInfoByUid(Long uid) {
+        //今日产出
+        BigDecimal todayBtc = new BigDecimal("0");
+        long needSeconds = 0;
+        LocalDateTime finalStartTime = null;
+        LocalDateTime finalEndTime = null;
+        List<UserEnergyExpireTime> userEnergyExpireTimeList = iUserEnergyExpireTimeService.selectTodayListByUid(uid);
+        for (UserEnergyExpireTime userEnergyExpireTime : userEnergyExpireTimeList) {
+            //如果start_time小于今天的0点则按照0点计算
+            LocalDateTime startTime = userEnergyExpireTime.getStartTime();
+            LocalDateTime todayBeginTime = LocalDateUtil.getNowBeginDate();
+            LocalDateTime endTime = userEnergyExpireTime.getEndTime();
+            LocalDateTime now = LocalDateTime.now();
+            if (startTime.isBefore(todayBeginTime)) {
+                finalStartTime = todayBeginTime;
+            } else {
+                //如果end_time>现在则按照end_time计算
+                if (endTime.isAfter(now)) {
+                    finalEndTime = now;
+                } else {
+                    finalEndTime = endTime;
+                }
+
+            }
+            needSeconds = LocalDateUtil.diffSecond(finalStartTime, finalEndTime);
+            todayBtc = BigDecimalUtil.bigMul3(userEnergyExpireTime.getCalculationPower(), new BigDecimal(needSeconds), 10);
+            todayBtc = todayBtc.add(todayBtc);
+        }
+        return todayBtc;
     }
 
     @Override

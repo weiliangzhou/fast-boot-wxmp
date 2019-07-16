@@ -37,22 +37,20 @@ public class ApiOutController {
     private IUserAccountService iUserAccountService;
 
     @PostMapping("/info")
-    @ApiOperation(value = "账户查询", notes = "sign=(data+accessToken)通过工具类加密生成")
+    @ApiOperation(value = "账户查询", notes = "")
     @ApiImplicitParam(name = "jsonObject", value = "{\n" +
             "\t\"data\": {\n" +
             "\t\t\"openid\": \"1\"},\n" +
-            "\t\"mid\": \"kj\",\n" +
-            "\t\"accessToken\": \"dsdasdas\",\n" +
-            "\t\"sign\": \"dsfsd\"\n" +
+            "\t\"mid\": \"kj\"" +
             "}", dataType = "string", paramType = "path")
     public Result getUserAccountInfo(@RequestBody JSONObject jsonObject
     ) {
-        String access_token = jsonObject.getString("accessToken");
+//        String access_token = jsonObject.getString("accessToken");
         String mid = jsonObject.getString("mid");
         String data = jsonObject.getString("data");
         String sign = jsonObject.getString("sign");
-        iAccessTokenService.check(mid, access_token);
-        SignUtil.checkSign(data, access_token, sign);
+//        iAccessTokenService.check(mid, access_token);
+//        SignUtil.checkSign(data, access_token, sign);
         Long openid = jsonObject.getJSONObject("data").getLong("openid");
         if (openid == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
@@ -72,15 +70,15 @@ public class ApiOutController {
      * @param jsonObject
      * @return
      */
-    @ApiOperation(value = "第三方对应账户减少", notes = "sign=(data+accessToken)通过工具类加密生成")
+    @ApiOperation(value = "第三方对应账户减少", notes = "")
     @ApiImplicitParam(name = "jsonObject", value = "{\n" +
             "\t\"data\": {\n" +
             "\t\t\"phone\": \"17682333183\",\n" +
             "\t\t\"money\": \"0.0000219\"\n" +
             "\t},\n" +
-            "\t\"mid\": \"kj\",\n" +
-            "\t\"accessToken\": \"dsdasdas\",\n" +
-            "\t\"sign\": \"dsfsd\"\n" +
+            "\t\"mid\": \"kj\"" +
+//            "\t\"accessToken\": \"dsdasdas\",\n" +
+//            "\t\"sign\": \"dsfsd\"\n" +
             "}", dataType = "string", paramType = "path")
     @PostMapping("/reduce")
     public Result reduce(@RequestBody JSONObject jsonObject) {

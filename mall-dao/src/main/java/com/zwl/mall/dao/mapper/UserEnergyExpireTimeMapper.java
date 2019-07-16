@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,7 +21,7 @@ public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireT
      * @param uid
      * @return
      */
-    Integer getCurrentEnergyExpireSecondByUid(Long uid);
+    Map getCurrentEnergyExpireSecondEndTimeByUid(Long uid);
 
     /**
      * 查询当前用户今天的时间列表

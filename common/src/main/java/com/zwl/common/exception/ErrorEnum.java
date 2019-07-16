@@ -13,6 +13,7 @@ public enum ErrorEnum {
     ARGUMENT_ERROR(10001, "参数错误"),
     SYS_ERROR(10002, "系统错误"),
     IO_ERROR(10003, "IO错误"),
+    WX_ERROR(10004, "微信返回错误"),
 
     //用户错误
     ALREADY_TYPE_1(1001, "已经签到过"),

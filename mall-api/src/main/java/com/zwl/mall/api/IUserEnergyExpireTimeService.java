@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,7 +30,15 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
      * @param uid
      * @return
      */
-    Integer getCurrentEnergyExpireSecondByUid(Long uid);
+    int getCurrentEnergyExpireSecondByUid(Long uid);
+
+    /**
+     * 获取剩余电力时间和最后过期时间
+     *
+     * @param uid
+     * @return
+     */
+    Map getCurrentEnergyExpireSecondEndTimeByUid(Long uid);
 
     /**
      * 查询当前用户今天的时间列表

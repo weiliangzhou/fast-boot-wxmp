@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Date: 2019/7/3 11:41
@@ -62,7 +63,7 @@ public class HomePageController {
 //        当前算力
         Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
 //        当前剩余电力时间(秒数)
-        Integer currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
+        int currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
 //        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
         return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, myTaskInfo));
@@ -129,8 +130,8 @@ public class HomePageController {
     @GetMapping("/user/energy/info")
     @ApiOperation(value = "剩余电力时间(秒数)")
     public Result ableEnergy(@ApiIgnore @CurrentUser UserBase userBase) {
-        Integer currentEnergyExpireSecondByUid = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(userBase.getId());
-        return ResultUtil.ok(currentEnergyExpireSecondByUid);
+        int currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(userBase.getId());
+        return ResultUtil.ok(currentEnergyExpireSecond);
     }
 
 

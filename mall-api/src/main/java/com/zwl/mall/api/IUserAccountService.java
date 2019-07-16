@@ -32,4 +32,12 @@ public interface IUserAccountService extends IService<UserAccount> {
      */
     void reduce(Long uid, BigDecimal money);
 
+    /**
+     * 获取今日挖矿所得
+     *
+     * @param uid
+     * @return
+     */
+    BigDecimal getTodayBTCInfoByUid(Long uid);
+
 }

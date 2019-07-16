@@ -6,7 +6,6 @@ import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
-import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.vo.MyTaskInfo;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -38,8 +38,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     private UserEnergyMapper userEnergyMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
-    @Autowired
-    private IUserCalculationPowerService iUserCalculationPowerService;
 
     @Override
     public void add(Long uid, Integer type) {
@@ -69,20 +67,40 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         userEnergy.setDescription(energyType.getDesc());
         // TODO: 2019/7/3 更新过期时间
         //需要消耗的时间
-        int needHours = hours;
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime needTime = now;
-        List<UserEnergyExpireTime> userEnergyExpireTimeList = iUserEnergyExpireTimeService.selectTodayListByUid(uid);
-        //1.遍历list，如果start_time小于今天的0点则按照0点计算   如果end_time>今天23:59:59 则按照当前时间计算
-        // TODO: 2019/7/3  创建过期时间记录
-        UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
-        newUserEnergy.setUid(uid);
-//        newUserEnergy.setExpireTime(LocalDateUtil.add(needTime, 0, 0, 0, hours > needHours ? needHours : hours, 0, 0));
-        newUserEnergy.insert();
-//        }
-        userEnergy.setEnergyValue(energyType.getValue() * needHours);
-        log.debug(energyType.getDesc());
-        userEnergy.insert();
+        int finalNeedHours = 0;
+        Map currentEnergyExpireSecondMap = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);
+        if (currentEnergyExpireSecondMap != null) {
+            int currentEnergyExpireSecond = Integer.parseInt(currentEnergyExpireSecondMap.get("expireSecond").toString());
+            LocalDateTime endTime = (LocalDateTime) currentEnergyExpireSecondMap.get("endTime");
+
+            int needSeconds = 24 * 60 * 60 - currentEnergyExpireSecond;
+            //needSecond>0 才可以充电
+            if (needSeconds <= 0) {
+                throw new BizException(ErrorEnum.LOW_FULL);
+            }
+            if (needSeconds / 60 % 60 != 0) {
+                finalNeedHours = needSeconds / 3600 + 1;
+            } else {
+                finalNeedHours = needSeconds / 3600;
+            }
+            finalNeedHours = hours > finalNeedHours ? finalNeedHours : hours;
+
+            LocalDateTime finalStartTime = endTime;
+            LocalDateTime finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, finalNeedHours, 0, 0);
+
+            if (currentEnergyExpireSecond == 0) {
+                finalStartTime = LocalDateTime.now();
+                finalEndTime = LocalDateUtil.add(finalStartTime, 0, 0, 0, finalNeedHours, 0, 0);
+            }
+            UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
+            newUserEnergy.setUid(uid);
+            newUserEnergy.setStartTime(finalStartTime);
+            newUserEnergy.setEndTime(finalEndTime);
+            newUserEnergy.insert();
+            userEnergy.setEnergyValue(energyType.getValue() * finalNeedHours);
+            log.debug(energyType.getDesc());
+            userEnergy.insert();
+        }
     }
 
     @Override
