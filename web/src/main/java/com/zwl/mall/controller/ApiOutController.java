@@ -50,7 +50,7 @@ public class ApiOutController {
         if (openid == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
-        // TODO: 2019/6/20 获取账户信息
+        //获取账户信息
         //可提现BTC-已经提现BTC
         String btcInfoByUid = iUserAccountService.getBTCInfoByUid(openid, false);
         log.debug("查询成功");

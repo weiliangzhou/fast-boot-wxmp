@@ -33,7 +33,7 @@ public class CodeGeneratorWithTemplateTest {
     static boolean serviceClassNameStartWithI = true;
 
     public static void main(String[] args) {
-        // TODO: 2019/1/26  生成包名
+        //2019/1/26  生成包名
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
@@ -65,7 +65,7 @@ public class CodeGeneratorWithTemplateTest {
         config.setActiveRecord(true)
                 .setIdType(tableIdType)
                 .setAuthor("二师兄超级帅")
-                // TODO: 2019/1/26  输出路径
+                // 输出路径
                 .setOutputDir("C:\\Users\\zwl\\Desktop\\生成代码")
                 .setFileOverride(true)
                 // XML 二级缓存

@@ -41,7 +41,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
 
     @Override
     public void add(Long uid, Integer type) {
-        // TODO: 2019/7/1 每日签到、每日分享需要防重控制
+        //每日签到、每日分享需要防重控制
         alReadySignIn(type, uid);
         UserEnergy userEnergy = new UserEnergy();
         userEnergy.setType(type);
@@ -64,6 +64,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             throw new BizException(ErrorEnum.LOW_POWER);
         }
         UserEnergy userEnergy = new UserEnergy();
+        // TODO: 2019/7/16 修改成可配置表
         EnergyType energyType = EnergyType.getEnergyType(EnergyType.CONSUME_1.getIndex());
         userEnergy.setType(energyType.getIndex());
         userEnergy.setUid(uid);

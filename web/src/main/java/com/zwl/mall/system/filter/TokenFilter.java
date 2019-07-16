@@ -47,7 +47,7 @@ public class TokenFilter implements Filter {
         String token = h_request.getHeader(TOKEN_HEADER);
         String requestURL = h_request.getRequestURL().toString();
         log.info("<<token>>请求url:" + requestURL + "  token:" + token);
-        // TODO: 2019/6/13 过滤url 不需要登录  做一个静态list
+        // TODO: 过滤url 不需要登录  做一个静态list
         List<String> excludeList = new ArrayList<>();
         excludeList.add("/pub");
         excludeList.add("/out");
@@ -88,7 +88,6 @@ public class TokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
-        // TODO Auto-generated method stub
 
     }
 

@@ -80,9 +80,9 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             expand.insert();
             redisUtil.setString(uuid32, USER_INFO + mid + "_" + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + mid + "_" + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
-            // TODO: 2019/7/3 增加120小时电力
+            // 增加120小时电力
             iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
-            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
+            // 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, nickname, 1);
             return new AccessToken(uuid32, userBase);
         } else {
@@ -107,14 +107,14 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
 
     @Override
     public AccessToken login(String cellphone, String code, Long referUid) {
-        // TODO: 2019/7/2 校验验证码
+        //校验验证码
         String msgCode = redisUtil.getString(cellphone);
         if (StringUtils.isBlank(msgCode)) {
             throw new BizException(ErrorEnum.CODE_INVALID);
         } else if (!code.equals(msgCode)) {
             throw new BizException(ErrorEnum.CODE_ERROR);
         }
-        // TODO: 2019/7/2 检查该手机号是否注册过   未注册则需要新增一个新用户 并且赠送120小时
+        //检查该手机号是否注册过   未注册则需要新增一个新用户 并且赠送120小时
         UserBase userBaseData = selectOneByCellphone(cellphone);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
@@ -126,9 +126,9 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             Long uid = userBase.getId();
             redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
-            // TODO: 2019/7/3 增加120小时电力
+            //增加120小时电力
             iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
-            // TODO: 2019/6/26 邀请注册赠送邀请人100算力
+            //邀请注册赠送邀请人100算力
 //            iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);
         } else {

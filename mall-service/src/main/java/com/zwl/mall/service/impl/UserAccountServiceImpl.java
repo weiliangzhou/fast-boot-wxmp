@@ -123,7 +123,6 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     @Override
     public void reduce(Long uid, String money, String orderNo) {
         BigDecimal inputMoney = new BigDecimal(money);
-        // TODO: 2019/7/4
         //可提现BTC-已经提现BTC
         BigDecimal currentBTC = userAccountMapper.getBTCInfoByUid(uid);
         boolean bigCompareTo = BigDecimalUtil.bigCompareTo(inputMoney, currentBTC);

@@ -25,7 +25,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             throw new BizException(ErrorEnum.ACCESS_TOKEN_EXPIRATION);
         }
 
-        // TODO: 2019/6/20 校验accessToken
+        //校验accessToken
         String redisAccessToken = redisUtil.getString(Constants.ACCESS_TOKEN + mid);
         if (StringUtils.isNotBlank(redisAccessToken)) {
             if (!accessToken.equals(redisAccessToken)) {

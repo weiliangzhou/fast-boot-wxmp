@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Date: 2019/7/3 11:41
@@ -72,7 +71,7 @@ public class HomePageController {
     @ApiOperation(value = "获取BTC信息")
     @GetMapping("/user/user_account/info")
     public Result getMyAccountInfo(@ApiIgnore @CurrentUser UserBase userBase) {
-        // TODO: 2019/6/20 获取账户信息
+        //获取账户信息
         //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
         Long uid = userBase.getId();
         String btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);

@@ -43,15 +43,15 @@ public class AccessTokenController {
     @GetMapping("/access_token/{mid}/{pwd}")
     public Result getAccessTokenByMidAndPwd(@PathVariable("mid") String mid,
                                             @PathVariable("pwd") String pwd) {
-        // TODO: 2019/6/20 判断帐号密码
+        //判断帐号密码
         if (KJ_MID.equals(mid) && KJ_PWD.equals(pwd)) {
             String uuid32 = UUIDUtil.getUUID32();
             redisUtil.setString(Constants.ACCESS_TOKEN + mid, uuid32, Constants.EXRP_HOUR * 2);
             return ResultUtil.ok(uuid32);
         }
-        // TODO: 2019/6/21 密码5分钟内错误5次则锁定登录24小时
+        //密码5分钟内错误5次则锁定登录24小时
 
-        // TODO: 2019/6/24 插入异常操作记录
+        //插入异常操作记录
 
         throw new BizException(ErrorEnum.MERCHANT_ERROR);
 
