@@ -2,16 +2,13 @@ package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
-import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
-import com.zwl.mall.api.IPowerOutputRateService;
-import com.zwl.mall.api.IUserCalculationPowerService;
-import com.zwl.mall.api.IUserEnergyExpireTimeService;
-import com.zwl.mall.api.IUserEnergyService;
+import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.dao.mapper.UserEnergyMapper;
+import com.zwl.mall.dao.model.EnergyTaskConfig;
 import com.zwl.mall.dao.model.UserEnergy;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +41,8 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     private IPowerOutputRateService iPowerOutputRateService;
     @Autowired
     private IUserCalculationPowerService iUserCalculationPowerService;
+    @Autowired
+    private IEnergyTaskConfigService iEnergyTaskConfigService;
 
     @Override
     public void add(Long uid, Integer type) {
@@ -52,9 +51,11 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         UserEnergy userEnergy = new UserEnergy();
         userEnergy.setType(type);
         userEnergy.setUid(uid);
-        EnergyType energyType = EnergyType.getEnergyType(type);
-        userEnergy.setEnergyValue(energyType.getValue());
-        userEnergy.setDescription(energyType.getDesc());
+        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
+        Integer energyValue = energyTaskConfig.getEnergyValue();
+        String description = energyTaskConfig.getDescription();
+        userEnergy.setEnergyValue(energyValue);
+        userEnergy.setDescription(description);
         userEnergy.insert();
     }
 
@@ -74,11 +75,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         // 获取当前算力
         Integer ablePower = iUserCalculationPowerService.getAblePowerByUid(uid);
         BigDecimal calculationPower = iPowerOutputRateService.getCalculationPowerByPower(ablePower);
-        UserEnergy userEnergy = new UserEnergy();
-        EnergyType energyType = EnergyType.getEnergyType(EnergyType.CONSUME_1.getIndex());
-        userEnergy.setType(energyType.getIndex());
-        userEnergy.setUid(uid);
-        userEnergy.setDescription(energyType.getDesc());
         //需要消耗的时间
         int finalNeedHours = 0;
         UserEnergyExpireTime currentEnergyExpireSecondEndTimeByUid = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);
@@ -112,8 +108,13 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             newUserEnergy.setCalculationPower(calculationPower);
             newUserEnergy.insert();
 
-            userEnergy.setEnergyValue(energyType.getValue() * finalNeedHours);
+            UserEnergy userEnergy = new UserEnergy();
+            userEnergy.setType(-1);
+            userEnergy.setUid(uid);
+            userEnergy.setDescription("挖矿消耗");
+            userEnergy.setEnergyValue(finalNeedHours);
             userEnergy.insert();
+
         } else {
             //不存在记录则 新增
             UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
@@ -123,7 +124,11 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             newUserEnergy.setCalculationPower(calculationPower);
             newUserEnergy.insert();
 
-            userEnergy.setEnergyValue(energyType.getValue() * hours);
+            UserEnergy userEnergy = new UserEnergy();
+            userEnergy.setType(-1);
+            userEnergy.setUid(uid);
+            userEnergy.setDescription("挖矿消耗");
+            userEnergy.setEnergyValue(hours);
             userEnergy.insert();
         }
     }
@@ -131,8 +136,15 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     @Override
     public List<MyTaskInfo> getMyTaskInfo(Long uid) {
         List<MyTaskInfo> myTaskInfoList = new ArrayList<>();
-        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_1.getIndex(), EnergyType.TYPE_1.getDesc(), false, Constants.BTN_NAME_1));
-        myTaskInfoList.add(new MyTaskInfo(EnergyType.TYPE_2.getIndex(), EnergyType.TYPE_2.getDesc(), false, Constants.BTN_NAME_1));
+        List<EnergyTaskConfig> energyTaskConfigList = iEnergyTaskConfigService.listAll();
+
+        for (EnergyTaskConfig energyTaskConfig : energyTaskConfigList) {
+            Integer energyType = energyTaskConfig.getEnergyType();
+            String description = energyTaskConfig.getDescription();
+            String title = energyTaskConfig.getTitle();
+            myTaskInfoList.add(new MyTaskInfo(energyType, title, description, false, Constants.BTN_NAME_1));
+        }
+
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);
         if (todayCompleteList != null) {
             for (UserEnergy userEnergy : todayCompleteList) {

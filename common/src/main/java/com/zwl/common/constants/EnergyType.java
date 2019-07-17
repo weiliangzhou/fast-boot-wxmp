@@ -5,8 +5,6 @@ package com.zwl.common.constants;
  */
 public enum EnergyType {
     TYPE_0(0, 120, "新用户奖励"),
-    TYPE_1(1, 1, "签到奖励"),
-    TYPE_2(2, 2, "分享奖励"),
     CONSUME_1(-1, 1, "挖矿扣除");
 
     private int index;

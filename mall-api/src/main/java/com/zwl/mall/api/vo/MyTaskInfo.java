@@ -15,6 +15,8 @@ import lombok.Data;
 public class MyTaskInfo {
     @ApiModelProperty(value = "类型")
     private int type;
+    @ApiModelProperty(value = "标题")
+    private String title;
     @ApiModelProperty(value = "任务描述")
     private String desc;
     @ApiModelProperty(value = "是否已完成")

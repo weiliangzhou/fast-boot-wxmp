@@ -3,15 +3,12 @@ package com.zwl.mall.controller;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
-import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
-import com.zwl.mall.api.IUserAccountService;
-import com.zwl.mall.api.IUserCalculationPowerService;
-import com.zwl.mall.api.IUserEnergyExpireTimeService;
-import com.zwl.mall.api.IUserEnergyService;
+import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.controller.vo.HomepageVo;
+import com.zwl.mall.dao.model.EnergyTaskConfig;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
@@ -46,6 +43,8 @@ public class HomePageController {
     private IUserCalculationPowerService iUserCalculationPowerService;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
+    @Autowired
+    private IEnergyTaskConfigService iEnergyTaskConfigService;
 
 
     /**
@@ -97,7 +96,8 @@ public class HomePageController {
             @ApiImplicitParam(name = "type", value = "\"type\":\"1:每天分享app赠送1小时 2:每天登陆赠送2小时\"\n", required = true, paramType = "query", dataType = "int")
     })
     public Result clickComplete(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("type") int type) {
-        if (EnergyType.TYPE_1.getIndex() != type && EnergyType.TYPE_2.getIndex() != type) {
+        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
+        if (energyTaskConfig == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
         iUserEnergyService.add(userBase.getId(), type);
