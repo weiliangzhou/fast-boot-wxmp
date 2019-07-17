@@ -2,6 +2,7 @@ package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
+import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.LocalDateUtil;
@@ -51,12 +52,18 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         UserEnergy userEnergy = new UserEnergy();
         userEnergy.setType(type);
         userEnergy.setUid(uid);
-        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
-        Integer energyValue = energyTaskConfig.getEnergyValue();
-        String description = energyTaskConfig.getDescription();
-        userEnergy.setEnergyValue(energyValue);
-        userEnergy.setDescription(description);
-        userEnergy.insert();
+        if (type == EnergyType.TYPE_0.getIndex()) {
+            userEnergy.setEnergyValue(EnergyType.TYPE_0.getValue());
+            userEnergy.setDescription(EnergyType.TYPE_0.getDesc());
+            userEnergy.insert();
+        } else {
+            EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
+            Integer energyValue = energyTaskConfig.getEnergyValue();
+            String description = energyTaskConfig.getDescription();
+            userEnergy.setEnergyValue(energyValue);
+            userEnergy.setDescription(description);
+            userEnergy.insert();
+        }
     }
 
     @Override
@@ -142,7 +149,8 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             Integer energyType = energyTaskConfig.getEnergyType();
             String description = energyTaskConfig.getDescription();
             String title = energyTaskConfig.getTitle();
-            myTaskInfoList.add(new MyTaskInfo(energyType, title, description, false, Constants.BTN_NAME_1));
+            Integer energyValue = energyTaskConfig.getEnergyValue();
+            myTaskInfoList.add(new MyTaskInfo(energyType, energyValue, title, description, false, Constants.BTN_NAME_1));
         }
 
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);

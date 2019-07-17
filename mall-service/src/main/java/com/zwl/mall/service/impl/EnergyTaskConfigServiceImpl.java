@@ -26,7 +26,7 @@ public class EnergyTaskConfigServiceImpl extends ServiceImpl<EnergyTaskConfigMap
 
     @Override
     public EnergyTaskConfig selectOne(Integer type) {
-        return new EnergyTaskConfig().selectOne(new QueryWrapper<EnergyTaskConfig>().eq("type", type).eq("deleted", 0));
+        return new EnergyTaskConfig().selectOne(new QueryWrapper<EnergyTaskConfig>().eq("energy_type", type).eq("deleted", 0));
     }
 
     @Override

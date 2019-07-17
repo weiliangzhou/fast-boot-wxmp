@@ -56,6 +56,7 @@ public class TokenFilter implements Filter {
         excludeList.add(".ico");
         excludeList.add(".js");
         excludeList.add("docs");
+        excludeList.add("admin");
         excludeList.add("/webjars");
         excludeList.add("/swagger-resources");
         excludeList.add("/error");
