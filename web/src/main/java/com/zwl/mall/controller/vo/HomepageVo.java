@@ -24,6 +24,8 @@ public class HomepageVo {
     private Integer currentPower;
     @ApiModelProperty(value = " 当前剩余电力时间(秒数)")
     private Integer currentEnergyExpireSecond;
+    @ApiModelProperty(value = " 当前剩余电力(小时)")
+    private Integer currentEnergyHours;
     @ApiModelProperty(value = "我的任务")
     private List<MyTaskInfo> myTaskInfoList;
 }

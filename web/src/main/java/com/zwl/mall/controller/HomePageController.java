@@ -62,9 +62,11 @@ public class HomePageController {
         Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
 //        当前剩余电力时间(秒数)
         int currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
+//        当前剩余电力（小时）
+        int currentEnergyHours = iUserEnergyService.getAbleEnergyValueByUid(uid);
 //        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, myTaskInfo));
+        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, currentEnergyHours, myTaskInfo));
     }
 
     @ApiOperation(value = "获取BTC信息")
@@ -93,14 +95,14 @@ public class HomePageController {
     @GetMapping("/user/task/complete")
     @ApiOperation(value = "完成任务")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "type", value = "\"type\":\"1:每天分享app赠送1小时 2:每天登陆赠送2小时\"\n", required = true, paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "taskId", value = "taskId", required = true, paramType = "query", dataType = "Long")
     })
-    public Result clickComplete(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("type") int type) {
-        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
+    public Result clickComplete(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("taskId") Long taskId) {
+        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(taskId);
         if (energyTaskConfig == null) {
             throw new SysException(ErrorEnum.ARGUMENT_ERROR);
         }
-        iUserEnergyService.add(userBase.getId(), type);
+        iUserEnergyService.add(userBase.getId(), taskId);
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }
 

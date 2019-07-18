@@ -6,34 +6,40 @@
     <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.UserEnergy">
         <id column="id" property="id"/>
         <result column="uid" property="uid"/>
+        <result column="energy_type" property="energyType"/>
         <result column="energy_value" property="energyValue"/>
-        <result column="type" property="type"/>
+        <result column="task_id" property="taskId"/>
+        <result column="task_desc" property="taskDesc"/>
+        <result column="task_type" property="taskType"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
-        <result column="description" property="description"/>
-        <result column="state" property="state"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, energy_value, type, create_time, update_time, deleted, description, state
+                        id, uid, energy_type, energy_value, task_id, task_desc, task_type, create_time, update_time, deleted
     </sql>
-    <select id="alReadySignIn" resultType="int">
-        select count(*) from user_energy  where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
-         DATE_FORMAT(now(),'%y%m%d') and `type` =#{type}
-    </select>
+
+
     <select id="getAbleEnergyByUid" resultType="int">
         SELECT t1.energy_value - t2.energy_value
         FROM
-        (select IFNULL(sum(energy_value),0)  as energy_value from user_energy where `type` !=-1 and uid =#{uid} ) t1 ,
-        (select IFNULL(sum(energy_value),0) as energy_value from user_energy where `type` =-1 and uid =#{uid} ) t2
+        (select IFNULL(sum(energy_value),0)  as energy_value from user_energy where `energy_type` !=-1 and uid =#{uid} ) t1 ,
+        (select IFNULL(sum(energy_value),0) as energy_value from user_energy where `energy_type` =-1 and uid =#{uid} ) t2
     </select>
     <select id="getTodayCompleteList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user_energy where uid =#{uid} and state = 1 and DATE_FORMAT(create_time,'%y%m%d') =
         DATE_FORMAT(now(),'%y%m%d')
+    </select>
+    <select id="isTodayCompleted" resultType="java.lang.Integer">
+        select count(*) from user_energy where task_id = #{taskId} and DATE_FORMAT(create_time,'%y%m%d') =
+        DATE_FORMAT(now(),'%y%m%d') and uid =#{uid}
+    </select>
+    <select id="isOnceCompleted" resultType="java.lang.Integer">
+                select count(*) from user_energy where task_id =#{taskId} and task_type = 1 and uid =#{uid}
     </select>
 
 </mapper>

@@ -16,15 +16,6 @@ import java.util.List;
  */
 public interface UserEnergyMapper extends BaseMapper<UserEnergy> {
     /**
-     * 当天是否签到过
-     *
-     * @param type
-     * @param uid
-     * @return
-     */
-    int alReadySignIn(@Param("type") Integer type, @Param("uid") Long uid);
-
-    /**
      * 获取可用电力
      *
      * @param uid
@@ -39,4 +30,22 @@ public interface UserEnergyMapper extends BaseMapper<UserEnergy> {
      * @return
      */
     List<UserEnergy> getTodayCompleteList(Long uid);
+
+    /**
+     * 根据taskId获取今日完成次数
+     *
+     * @param taskId
+     * @param uid
+     * @return
+     */
+    int isTodayCompleted(@Param("taskId") Long taskId, @Param("uid") Long uid);
+
+    /**
+     * 根据taskId获取一次性任务
+     *
+     * @param taskId
+     * @param uid
+     * @return
+     */
+    int isOnceCompleted(@Param("taskId") Long taskId, @Param("uid") Long uid);
 }

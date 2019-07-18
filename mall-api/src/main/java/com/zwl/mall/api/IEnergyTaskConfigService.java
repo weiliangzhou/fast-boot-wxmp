@@ -18,10 +18,10 @@ public interface IEnergyTaskConfigService extends IService<EnergyTaskConfig> {
     /**
      * 根据id查询任务
      *
-     * @param type
+     * @param taskId
      * @return
      */
-    EnergyTaskConfig selectOne(Integer type);
+    EnergyTaskConfig selectOne(Long taskId);
 
     /**
      * 获取所有任务

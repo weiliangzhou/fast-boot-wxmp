@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * 自定义属性注入abc=
  *
  * @author 二师兄超级帅
- * @since 2019-07-04
+ * @since 2019-07-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,26 +29,32 @@ import java.time.LocalDateTime;
 @TableName("user_energy")
 public class UserEnergy extends Model<UserEnergy> {
 
-    @JSONField(serialize = false)
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     @JSONField(serialize = false)
     private Long uid;
 
+    @ApiModelProperty(value = "类型 1获得 -1消耗")
+    private Integer energyType;
+    @ApiModelProperty(value = "小时")
     private Integer energyValue;
-    @ApiModelProperty(value = "类型：0.新用户奖励 1.签到奖励 2.分享奖励")
-    private Integer type;
 
+    @ApiModelProperty(value = "任务id")
+    private Long taskId;
+
+    @ApiModelProperty(value = "任务描述")
+    private String taskDesc;
+
+    @ApiModelProperty(value = "任务类型：1一次性 2每日 3仅展示")
+    private Integer taskType;
+
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
+    @JSONField(serialize = false)
     private LocalDateTime updateTime;
     @JSONField(serialize = false)
     private Boolean deleted;
-
-    private String description;
-
-    @ApiModelProperty(value = "状态 0未领取 1已领取")
-    private Integer state;
 
 
     @Override

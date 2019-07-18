@@ -13,8 +13,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MyTaskInfo {
-    @ApiModelProperty(value = "类型")
-    private int type;
+    @ApiModelProperty(value = "id")
+    private Long id;
     @ApiModelProperty(value = "小时")
     private int hours;
     @ApiModelProperty(value = "标题")

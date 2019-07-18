@@ -5,8 +5,9 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.EnergyTaskConfig">
         <id column="id" property="id"/>
-        <result column="energy_type" property="energyType"/>
-        <result column="energy_value" property="energyValue"/>
+        <result column="task_type" property="taskType"/>
+        <result column="task_value" property="taskValue"/>
+        <result column="error_msg" property="errorMsg"/>
         <result column="title" property="title"/>
         <result column="description" property="description"/>
         <result column="create_time" property="createTime"/>
@@ -16,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                        id, energy_type, energy_value, title, description, create_time, update_time, deleted
+                        id, task_type, task_value, error_msg, title, description, create_time, update_time, deleted
     </sql>
 
 

@@ -16,8 +16,8 @@ public enum ErrorEnum {
     WX_ERROR(10004, "微信返回错误"),
 
     //用户错误
-    ALREADY_TYPE_1(1001, "已经签到过"),
-    ALREADY_TYPE_2(1002, "已经分享过"),
+    IS_TODAY_COMPLETED(1001, ""),
+    IS_ONCE_COMPLETED(1002, "不能重新完成任务"),
     CODE_INVALID(1003, "验证码无效"),
     CODE_ERROR(1004, "验证码错误"),
     LOW_POWER(1005, "电力不足"),

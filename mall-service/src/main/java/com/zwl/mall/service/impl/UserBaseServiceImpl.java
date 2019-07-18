@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
-import com.zwl.common.constants.EnergyType;
 import com.zwl.common.constants.RegisterFrom;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
@@ -42,6 +41,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
     @Autowired
     private IUserEnergyService iUserEnergyService;
     private final static String USER_INFO = "USER_INFO_";
+    private final static Long taskId = 1L;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -81,7 +81,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             redisUtil.setString(uuid32, USER_INFO + mid + "_" + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + mid + "_" + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             // 增加120小时电力
-            iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
+            iUserEnergyService.add(userBase.getId(), taskId);
             // 邀请注册赠送邀请人100算力
             iUserCalculationPowerService.add(referUid, nickname, 1);
             return new AccessToken(uuid32, userBase);
@@ -127,7 +127,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             redisUtil.setString(uuid32, USER_INFO + uid, Constants.EXRP_MONTH);
             redisUtil.setString(USER_INFO + uid, JSON.toJSONString(userBase), Constants.EXRP_MONTH);
             //增加120小时电力
-            iUserEnergyService.add(userBase.getId(), EnergyType.TYPE_0.getIndex());
+            iUserEnergyService.add(userBase.getId(), taskId);
             //邀请注册赠送邀请人100算力
 //            iUserCalculationPowerService.add(referUid, 1);
             return new AccessToken(uuid32, userBase);

@@ -46,24 +46,21 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     private IEnergyTaskConfigService iEnergyTaskConfigService;
 
     @Override
-    public void add(Long uid, Integer type) {
-        //每日签到、每日分享需要防重控制
-        alReadySignIn(type, uid);
+    public void add(Long uid, Long taskId) {
+        //每日签到、每日分享需要防重控制   一次性任务需要防重
+        isTodayCompleted(taskId, uid);
+        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(taskId);
+        Integer taskValue = energyTaskConfig.getTaskValue();
+        String description = energyTaskConfig.getDescription();
+        Integer taskType = energyTaskConfig.getTaskType();
         UserEnergy userEnergy = new UserEnergy();
-        userEnergy.setType(type);
+        userEnergy.setEnergyType(EnergyType.TYPE_1.getType());
         userEnergy.setUid(uid);
-        if (type == EnergyType.TYPE_0.getIndex()) {
-            userEnergy.setEnergyValue(EnergyType.TYPE_0.getValue());
-            userEnergy.setDescription(EnergyType.TYPE_0.getDesc());
-            userEnergy.insert();
-        } else {
-            EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(type);
-            Integer energyValue = energyTaskConfig.getEnergyValue();
-            String description = energyTaskConfig.getDescription();
-            userEnergy.setEnergyValue(energyValue);
-            userEnergy.setDescription(description);
-            userEnergy.insert();
-        }
+        userEnergy.setEnergyValue(taskValue);
+        userEnergy.setTaskDesc(description);
+        userEnergy.setTaskId(taskId);
+        userEnergy.setTaskType(taskType);
+        userEnergy.insert();
     }
 
     @Override
@@ -73,7 +70,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
 
 
         //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
-        int ableEnergy = getAbleEnergyByUid(uid);
+        int ableEnergy = getAbleEnergyValueByUid(uid);
         if (ableEnergy == 0 || hours > ableEnergy) {
             throw new BizException(ErrorEnum.LOW_POWER);
         }
@@ -116,10 +113,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             newUserEnergy.insert();
 
             UserEnergy userEnergy = new UserEnergy();
-            userEnergy.setType(-1);
             userEnergy.setUid(uid);
-            userEnergy.setDescription("挖矿消耗");
+            userEnergy.setEnergyType(EnergyType.TYPE_2.getType());
             userEnergy.setEnergyValue(finalNeedHours);
+            userEnergy.setTaskDesc(EnergyType.TYPE_2.getDesc());
             userEnergy.insert();
 
         } else {
@@ -132,10 +129,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             newUserEnergy.insert();
 
             UserEnergy userEnergy = new UserEnergy();
-            userEnergy.setType(-1);
             userEnergy.setUid(uid);
-            userEnergy.setDescription("挖矿消耗");
-            userEnergy.setEnergyValue(hours);
+            userEnergy.setEnergyType(EnergyType.TYPE_2.getType());
+            userEnergy.setEnergyValue(finalNeedHours);
+            userEnergy.setTaskDesc(EnergyType.TYPE_2.getDesc());
             userEnergy.insert();
         }
     }
@@ -146,20 +143,20 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         List<EnergyTaskConfig> energyTaskConfigList = iEnergyTaskConfigService.listAll();
 
         for (EnergyTaskConfig energyTaskConfig : energyTaskConfigList) {
-            Integer energyType = energyTaskConfig.getEnergyType();
+            Long id = energyTaskConfig.getId();
             String description = energyTaskConfig.getDescription();
             String title = energyTaskConfig.getTitle();
-            Integer energyValue = energyTaskConfig.getEnergyValue();
-            myTaskInfoList.add(new MyTaskInfo(energyType, energyValue, title, description, false, Constants.BTN_NAME_1));
+            Integer taskValue = energyTaskConfig.getTaskValue();
+            myTaskInfoList.add(new MyTaskInfo(id, taskValue, title, description, false, Constants.BTN_NAME_1));
         }
 
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);
         if (todayCompleteList != null) {
             for (UserEnergy userEnergy : todayCompleteList) {
-                Integer type = userEnergy.getType();
+                Long taskId = userEnergy.getTaskId();
                 for (MyTaskInfo myTaskInfo : myTaskInfoList) {
-                    Integer myTaskInfoType = myTaskInfo.getType();
-                    if (myTaskInfoType.intValue() == type.intValue()) {
+                    Long id = myTaskInfo.getId();
+                    if (id.intValue() == taskId.intValue()) {
                         myTaskInfo.setComplete(true);
                         myTaskInfo.setBtnName(Constants.BTN_NAME_2);
                     }
@@ -179,21 +176,23 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         return userEnergyMapper.getTodayCompleteList(uid);
     }
 
-    private int getAbleEnergyByUid(Long uid) {
-        return userEnergyMapper.getAbleEnergyByUid(uid);
-    }
 
-    private void alReadySignIn(Integer type, Long uid) {
-        int count = userEnergyMapper.alReadySignIn(type, uid);
+    private void isTodayCompleted(Long taskId, Long uid) {
+        //每日签到、每日分享需要防重控制
+        int count = userEnergyMapper.isTodayCompleted(taskId, uid);
         if (count > 0) {
-            switch (type) {
-                case 1:
-                    throw new BizException(ErrorEnum.ALREADY_TYPE_1);
-                case 2:
-                    throw new BizException(ErrorEnum.ALREADY_TYPE_2);
+            EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(taskId);
+            if (null != energyTaskConfig) {
+                String errorMsg = energyTaskConfig.getErrorMsg();
+                throw new BizException(ErrorEnum.IS_TODAY_COMPLETED.getCode(), errorMsg);
             }
-
         }
+        //一次性任务需要防重
+        int onceCompleted = userEnergyMapper.isOnceCompleted(taskId, uid);
+        if (onceCompleted > 0) {
+            throw new BizException(ErrorEnum.IS_ONCE_COMPLETED);
+        }
+
     }
 }
 

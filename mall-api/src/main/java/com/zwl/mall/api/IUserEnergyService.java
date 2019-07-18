@@ -20,9 +20,9 @@ public interface IUserEnergyService extends IService<UserEnergy> {
      * 增加电力
      *
      * @param uid
-     * @param type
+     * @param taskId
      */
-    void add(Long uid, Integer type);
+    void add(Long uid, Long taskId);
 
     /**
      * 消耗电力
