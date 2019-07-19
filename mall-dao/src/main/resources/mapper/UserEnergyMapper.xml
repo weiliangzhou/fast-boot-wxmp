@@ -31,12 +31,12 @@
     <select id="getTodayCompleteList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from user_energy where uid =#{uid} and state = 1 and DATE_FORMAT(create_time,'%y%m%d') =
+        from user_energy where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
         DATE_FORMAT(now(),'%y%m%d')
     </select>
     <select id="isTodayCompleted" resultType="java.lang.Integer">
         select count(*) from user_energy where task_id = #{taskId} and DATE_FORMAT(create_time,'%y%m%d') =
-        DATE_FORMAT(now(),'%y%m%d') and uid =#{uid}
+        DATE_FORMAT(now(),'%y%m%d') and uid =#{uid} and task_type =2
     </select>
     <select id="isOnceCompleted" resultType="java.lang.Integer">
                 select count(*) from user_energy where task_id =#{taskId} and task_type = 1 and uid =#{uid}

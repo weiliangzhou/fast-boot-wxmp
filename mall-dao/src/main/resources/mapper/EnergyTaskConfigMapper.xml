@@ -10,6 +10,7 @@
         <result column="error_msg" property="errorMsg"/>
         <result column="title" property="title"/>
         <result column="description" property="description"/>
+        <result column="href_url" property="hrefUrl"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -17,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                        id, task_type, task_value, error_msg, title, description, create_time, update_time, deleted
+                        id, task_type, task_value, error_msg, title, description, href_url, create_time, update_time, deleted
     </sql>
 
 

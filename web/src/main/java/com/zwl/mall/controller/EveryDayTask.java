@@ -47,6 +47,7 @@ public class EveryDayTask {
                 userAccount.setMoney(todayBTCInfo);
                 userAccount.setType(1);
                 userAccount.insert();
+                // TODO: 2019/7/18 异步通讯给omex
             }
         }
 
