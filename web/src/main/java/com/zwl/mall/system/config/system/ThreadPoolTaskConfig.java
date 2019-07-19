@@ -12,7 +12,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author 二师兄
  */
 @Configuration
-@EnableAsync
 public class ThreadPoolTaskConfig {
     /**
      * 核心线程数（默认线程数）

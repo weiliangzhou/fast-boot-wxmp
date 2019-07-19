@@ -21,7 +21,7 @@ Authorization: {{token}}
 Content-Type: application/json
 ###
 
-GET {{host}}/api/user/energy/consume?hours=1
+GET {{host}}/api/user/energy/consume?hours=24
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}

@@ -24,7 +24,9 @@ public class AsyncDataToOmexServiceImpl implements AsyncDataToOmexService {
         Map params = new HashMap<>();
         params.put("openId", outOpenId);
         params.put("todayBTCInfo", todayBTCInfo);
-        String result = HttpClientUtil.httpGetWithJSON("http://kj.yizhidao9.com/api/pub/getGzhJsApiToken", params);
+        params.put("cellphone", "17682333183");
+        params.put("code", "123");
+        String result = HttpClientUtil.httpGetWithJSON("http://kj.yizhidao9.com/api/pub/loginWithPhoneCode", params);
         JSONObject jsonObject = JSONObject.parseObject(result);
         Integer code = jsonObject.getInteger("code");
         if (code == 0) {

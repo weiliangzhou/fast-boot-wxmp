@@ -5,6 +5,7 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
+import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.controller.vo.HomepageVo;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -45,6 +47,8 @@ public class HomePageController {
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
     @Autowired
     private IEnergyTaskConfigService iEnergyTaskConfigService;
+    @Autowired
+    private IPowerOutputRateService iPowerOutputRateService;
 
 
     /**
@@ -64,9 +68,12 @@ public class HomePageController {
         int currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
 //        当前剩余电力（小时）
         int currentEnergyHours = iUserEnergyService.getAbleEnergyValueByUid(uid);
+//        当前速率
+        BigDecimal calculationPowerByPower = iPowerOutputRateService.getCalculationPowerByPower(currentPower);
+        String currentSpeedRate = BigDecimalUtil.objectFormatToString(calculationPowerByPower, null);
 //        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, currentEnergyHours, myTaskInfo));
+        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, currentEnergyHours, currentSpeedRate, myTaskInfo));
     }
 
     @ApiOperation(value = "获取BTC信息")

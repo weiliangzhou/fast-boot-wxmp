@@ -41,8 +41,8 @@ public class EveryDayTask {
         log.info(JSON.toJSONString(uidList));
         for (Long uid : uidList) {
             BigDecimal todayBTCInfo = iUserAccountService.getYesterdayBTCInfoByUid(uid);
-//            log.info("==============>" + uid);
-//            log.info("==============>" + todayBTCInfo);
+            log.info("==============>" + uid);
+            log.info("==============>" + todayBTCInfo);
             if (!todayBTCInfo.equals(BigDecimal.ZERO)) {
                 //先查询昨天是否结算过
                 boolean todayComplete = iUserAccountService.isTodayComplete(uid);

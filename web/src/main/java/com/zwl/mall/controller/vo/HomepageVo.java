@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -26,6 +27,8 @@ public class HomepageVo {
     private Integer currentEnergyExpireSecond;
     @ApiModelProperty(value = " 当前剩余电力(小时)")
     private Integer currentEnergyHours;
+    @ApiModelProperty(value = " 当前每秒增加速率")
+    private String currentSpeedRate;
     @ApiModelProperty(value = "我的任务")
     private List<MyTaskInfo> myTaskInfoList;
 }

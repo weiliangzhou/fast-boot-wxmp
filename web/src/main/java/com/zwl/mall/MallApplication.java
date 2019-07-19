@@ -22,6 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableCaching
 @ServletComponentScan
+@EnableAsync
 public class MallApplication {
 
     public static void main(String[] args) {

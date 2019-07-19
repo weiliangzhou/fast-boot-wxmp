@@ -41,16 +41,17 @@
     <select id="selectTodayListByUid" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from user_energy_expire_time where uid =#{uid} and deleted = 0 and DATE_FORMAT(end_time,'%y%m%d') =
-        DATE_FORMAT(now(),'%y%m%d') order by start_time
+        from user_energy_expire_time where uid =#{uid} and deleted = 0  and end_time > DATE_FORMAT(CURDATE(),'%Y-%m-%d %H:%i:%s')
+        order by start_time
 
 
     </select>
     <select id="selectYesterdayListByUid" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from user_energy_expire_time where uid =#{uid} and deleted = 0 and DATE_FORMAT(end_time,'%y%m%d') =
-        DATE_FORMAT( DATE_SUB(now(), INTERVAL 1 DAY ), '%y%m%d' ) order by start_time
+        <![CDATA[  from user_energy_expire_time where uid =#{uid} and deleted = 0   and end_time > DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY ),'%Y-%m-%d %H:%i:%s')
+        AND start_time < DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY ),'%Y-%m-%d %H:%i:%s')
+        order by start_time  ]]>
 
     </select>
 
