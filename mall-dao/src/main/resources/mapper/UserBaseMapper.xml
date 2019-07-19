@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.UserBase">
         <id column="id" property="id"/>
+        <result column="out_open_id" property="outOpenId"/>
         <result column="cellphone" property="cellphone"/>
         <result column="head_img_url" property="headImgUrl"/>
         <result column="nick_name" property="nickName"/>
@@ -24,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, app_open_id, union_id, register_from, create_time, update_time, version, deleted, is_subscribe, sex, mid
+                        id, out_open_id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, app_open_id, union_id, register_from, create_time, update_time, version, deleted, is_subscribe, sex, mid
     </sql>
 
 

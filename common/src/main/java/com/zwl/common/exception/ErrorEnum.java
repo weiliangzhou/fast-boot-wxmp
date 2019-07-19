@@ -23,6 +23,7 @@ public enum ErrorEnum {
     LOW_POWER(1005, "电力不足"),
     LOW_FULL(1006, "电力充沛，不需要充电"),
     BALANCE_INSUFFICIENT(1007, "余额不足"),
+    NO_USER(1008, "用户不存在"),
 
 
     LOGON_EXPIRATION(-1, "登录过期，请重新登录"),

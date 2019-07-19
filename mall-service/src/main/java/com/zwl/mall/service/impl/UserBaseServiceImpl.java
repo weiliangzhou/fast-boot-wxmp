@@ -70,6 +70,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             userBase.setSex(sex);
             userBase.setRegisterFrom(registerFrom);
             userBase.setMid(mid);
+            userBase.setOutOpenId(uuid32);
             userBase.insert();
             Long uid = userBase.getId();
             UserExpand expand = new UserExpand();
@@ -121,6 +122,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         if (null == userBaseData) {
             UserBase userBase = new UserBase();
             userBase.setCellphone(cellphone);
+            userBase.setOutOpenId(uuid32);
             userBase.setRegisterFrom(RegisterFrom.H5.getIndex());
             userBase.insert();
             Long uid = userBase.getId();
@@ -136,6 +138,12 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
             redisUtil.setString(USER_INFO + userBaseData.getId(), JSON.toJSONString(userBaseData), Constants.EXRP_MONTH);
             return new AccessToken(uuid32, userBaseData);
         }
+
+    }
+
+    @Override
+    public UserBase getUserInfoByOpenId(String outOpenId) {
+        return new UserBase().selectOne(new QueryWrapper<UserBase>().eq("out_open_id", outOpenId).eq("deleted", 0));
 
     }
 

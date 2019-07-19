@@ -6,9 +6,10 @@
     <resultMap id="BaseResultMap" type="com.zwl.mall.dao.model.UserAccount">
         <id column="id" property="id"/>
         <result column="uid" property="uid"/>
+        <result column="out_open_id" property="outOpenId"/>
+        <result column="out_trade_no" property="outTradeNo"/>
         <result column="money" property="money"/>
         <result column="type" property="type"/>
-        <result column="feature" property="feature"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -16,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, money, type, feature, create_time, update_time, deleted
+        id, uid,out_open_id,out_trade_no, money, type, create_time, update_time, deleted
     </sql>
 
     <select id="getBTCInfoByUid" resultType="decimal">

@@ -27,11 +27,11 @@ public interface IUserAccountService extends IService<UserAccount> {
     /**
      * 减少账户BTC
      *
-     * @param uid
+     * @param openid
      * @param money
      * @param orderNo
      */
-    void reduce(Long uid, String money, String orderNo);
+    void reduce(String openid, String money, String orderNo);
 
     /**
      * 获取今日挖矿所得

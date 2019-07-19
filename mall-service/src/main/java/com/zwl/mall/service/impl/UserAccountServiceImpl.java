@@ -6,9 +6,11 @@ import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserAccountService;
+import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.dao.mapper.UserAccountMapper;
 import com.zwl.mall.dao.model.UserAccount;
+import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     private UserAccountMapper userAccountMapper;
     @Autowired
     private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
+    @Autowired
+    private IUserBaseService iUserBaseService;
 
     @Override
     public String getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
@@ -127,7 +131,14 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
 
     @Override
-    public void reduce(Long uid, String money, String orderNo) {
+    public void reduce(String openid, String money, String outTradeNo) {
+
+        UserBase userBase = iUserBaseService.getUserInfoByOpenId(openid);
+        if (userBase == null) {
+            throw new BizException(ErrorEnum.NO_USER);
+        }
+
+        Long uid = userBase.getId();
         BigDecimal inputMoney = new BigDecimal(money);
         //可提现BTC-已经提现BTC
         BigDecimal currentBTC = userAccountMapper.getBTCInfoByUid(uid);
@@ -139,6 +150,8 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         userAccount.setUid(uid);
         userAccount.setMoney(inputMoney);
         userAccount.setType(-1);
+        userAccount.setOutOpenId(openid);
+        userAccount.setOutTradeNo(outTradeNo);
         userAccount.insert();
     }
 

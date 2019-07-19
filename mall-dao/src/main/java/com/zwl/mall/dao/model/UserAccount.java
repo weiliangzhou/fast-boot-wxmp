@@ -40,6 +40,12 @@ public class UserAccount extends Model<UserAccount> {
     @JsonIgnore
     @JSONField(serialize = false)
     private Long uid;
+    @JsonIgnore
+    @JSONField(serialize = false)
+    @ApiModelProperty(value = "对外openid")
+    private String outOpenId;
+    @ApiModelProperty(value = "外部订单号")
+    private String outTradeNo;
 
     private BigDecimal money;
 
@@ -57,7 +63,6 @@ public class UserAccount extends Model<UserAccount> {
     @ApiModelProperty(value = "交易类型：1挖矿产出 -1转出")
     private Integer type;
 
-    private String feature;
 
     private LocalDateTime createTime;
 

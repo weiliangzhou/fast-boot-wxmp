@@ -44,4 +44,11 @@ public interface IUserBaseService extends IService<UserBase> {
      * @return
      */
     AccessToken login(String cellphone, String code, Long referUid);
+
+    /**
+     * 根据outOpenId查询用户
+     *
+     * @param outOpenId
+     */
+    UserBase getUserInfoByOpenId(String outOpenId);
 }

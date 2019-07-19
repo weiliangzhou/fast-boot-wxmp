@@ -36,6 +36,9 @@ public class UserBase extends Model<UserBase> {
     @ApiModelProperty(value = "手机")
     private String cellphone;
 
+    @ApiModelProperty(value = "对外openid")
+    private String outOpenId;
+
     @ApiModelProperty(value = "头像")
     private String headImgUrl;
 

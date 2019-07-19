@@ -32,7 +32,7 @@
         select
         <include refid="Base_Column_List"/>
         from user_energy where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
-        DATE_FORMAT(now(),'%y%m%d')
+        DATE_FORMAT(now(),'%y%m%d') and energy_type =1
     </select>
     <select id="isTodayCompleted" resultType="java.lang.Integer">
         select count(*) from user_energy where task_id = #{taskId} and DATE_FORMAT(create_time,'%y%m%d') =

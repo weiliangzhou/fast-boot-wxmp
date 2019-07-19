@@ -3,9 +3,6 @@ package com.zwl.mall.controller;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
-import com.zwl.common.exception.ErrorEnum;
-import com.zwl.common.exception.SysException;
-import com.zwl.mall.api.IAccessTokenService;
 import com.zwl.mall.api.IUserAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,20 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "api对外接口", tags = "api对外接口")
 @RequestMapping("/api/out/user_account")
 public class ApiOutController {
-    @Autowired
-    private IAccessTokenService iAccessTokenService;
+    //    @Autowired
+//    private IAccessTokenService iAccessTokenService;
     @Autowired
     private IUserAccountService iUserAccountService;
 
-    @GetMapping("/info")
-    @ApiOperation(value = "账户查询", notes = "")
+//    @GetMapping("/info")
+//    @ApiOperation(value = "账户查询", notes = "")
 //    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
 //            "\t\"data\": {\n" +
 //            "\t\t\"openid\": \"1\"},\n" +
 //            "\t\"mid\": \"kj\"" +
 //            "}", dataType = "string", paramType = "path")
-    public Result getUserAccountInfo(@RequestParam("openid") Long openid
-    ) {
+//    public Result getUserAccountInfo(@RequestParam("openid") String openid
+//    ) {
 //        String access_token = jsonObject.getString("accessToken");
 //        String mid = jsonObject.getString("mid");
 //        String data = jsonObject.getString("data");
@@ -47,22 +44,24 @@ public class ApiOutController {
 //        iAccessTokenService.check(mid, access_token);
 //        SignUtil.checkSign(data, access_token, sign);
 //        Long openid = jsonObject.getJSONObject("data").getLong("openid");
-        if (openid == null) {
-            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
-        }
-        //获取账户信息
-        //可提现BTC-已经提现BTC
-        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(openid, false);
-        log.debug("查询成功");
-        return ResultUtil.ok(btcInfoByUid);
-    }
+//        if (openid == null) {
+//            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
+//        }
+    //获取账户信息
+    //可提现BTC-已经提现BTC
+//        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(openid, false);
+//        log.debug("查询成功");
+//        return ResultUtil.ok(btcInfoByUid);
+//    }
 
     /**
      * 1.A系统接收到B系统这边的扣款成功信息之后，再去操作转账操作，
      * 2.有可能B系统已经发出扣款成功,
      * 但是A系统没有接收到，超时了（A系统需要主动查询B提供出来的接口做一个补偿机制）
      *
-     * @param jsonObject
+     * @param openid
+     * @param money
+     * @param orderNo
      * @return
      */
     @ApiOperation(value = "第三方对应账户减少", notes = "")
@@ -76,7 +75,7 @@ public class ApiOutController {
 //            "\t\"sign\": \"dsfsd\"\n" +
 //            "}", dataType = "string", paramType = "path")
     @GetMapping("/reduce")
-    public Result reduce(@RequestParam("openid") Long openid, @RequestParam("money") String money, @RequestParam("orderNo") String orderNo) {
+    public Result reduce(@RequestParam("openid") String openid, @RequestParam("money") String money, @RequestParam("orderNo") String orderNo) {
 //        String data = jsonObject.getString("data");
 //        String accessToken = jsonObject.getString("accessToken");
 //        String mid = jsonObject.getString("mid");

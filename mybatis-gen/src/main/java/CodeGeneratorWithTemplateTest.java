@@ -37,14 +37,14 @@ public class CodeGeneratorWithTemplateTest {
         String packageName = "com.zwl.mall";
         enableTableFieldAnnotation = false;
         tableIdType = null;
-        generateByTables(packageName + ".tmp", "energy_task_config");
+        generateByTables(packageName + ".tmp", "user_base");
 //        generateByTables(packageName, "statistics_by_day");
     }
 
 
     private static void generateByTables(String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/mall_plus?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong";
+        String dbUrl = "jdbc:mysql://localhost:3306/kj?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
