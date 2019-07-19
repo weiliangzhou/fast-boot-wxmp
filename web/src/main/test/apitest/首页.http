@@ -10,17 +10,15 @@ GET {{host}}/api/user/user_account/info
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}
-Content-Type: application/json
 
 
 ###
 
-GET {{host}}/api/user/task/complete?type=2
+GET {{host}}/api/user/task/complete?taskId=3
 Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}
 Content-Type: application/json
-
 ###
 
 GET {{host}}/api/user/energy/consume?hours=1
@@ -34,5 +32,11 @@ Accept: */*
 Cache-Control: no-cache
 Authorization: {{token}}
 ###
+
+GET http://kj.yizhidao9.com/api/pub/getGzhJsApiToken?url=http://kj.yizhidao9.com
+Accept: */*
+Cache-Control: no-cache
+###
+
 
 
