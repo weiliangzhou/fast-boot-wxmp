@@ -38,14 +38,14 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
     private IUserBaseService iUserBaseService;
 
     @Override
-    public String getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
+    public BigDecimal getBTCInfoByUid(Long uid, boolean hasIncludeToday) {
         //可提现BTC-已经提现BTC
         BigDecimal btcInfo = userAccountMapper.getBTCInfoByUid(uid);
         if (hasIncludeToday) {
             BigDecimal todayBtc = getTodayBTCInfoByUid(uid);
-            return BigDecimalUtil.strAdd(btcInfo, todayBtc, 10);
+            return new BigDecimal(BigDecimalUtil.strAdd(btcInfo, todayBtc, 10));
         } else {
-            return BigDecimalUtil.objectFormatToString(btcInfo, null);
+            return btcInfo;
         }
 
 

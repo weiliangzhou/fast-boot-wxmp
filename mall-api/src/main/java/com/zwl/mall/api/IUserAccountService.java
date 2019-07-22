@@ -22,7 +22,7 @@ public interface IUserAccountService extends IService<UserAccount> {
      * @param hasIncludeToday 是否包含今天实时产出的BTC
      * @return
      */
-    String getBTCInfoByUid(Long uid, boolean hasIncludeToday);
+    BigDecimal getBTCInfoByUid(Long uid, boolean hasIncludeToday);
 
     /**
      * 减少账户BTC

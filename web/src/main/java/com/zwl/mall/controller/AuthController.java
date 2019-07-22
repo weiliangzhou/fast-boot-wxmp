@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.RegisterFrom;
+import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
-import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.HostnameUtil;
 import com.zwl.common.utils.StringUtil;
 import com.zwl.mall.api.IUserBaseService;
@@ -71,15 +71,16 @@ public class AuthController {
                                         @RequestParam(value = "registerFrom", required = false) Integer registerFrom
     ) {
         Long mid = HostnameUtil.getMidByHostname(request);
-        log.debug("【微信网页授权】code={}", code);
-        log.debug("【微信网页授权】referUid={}", referUid);
+        log.info("【微信网页授权】code={}", code);
+        log.info("【微信网页授权】referUid={}", referUid);
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         WxMpService wxMpService = WxMpConfiguration.getMpServices().get("wx3b5005d9d0c0c515");
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
-            log.debug("【微信网页授权】{}", e);
-            throw new SysException(ErrorEnum.SYS_ERROR);
+            log.info("【微信网页授权】{}", e);
+//            throw new SysException(ErrorEnum.SYS_ERROR);
+            throw new BizException(ErrorEnum.LOGON_EXPIRATION);
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
         WxMpUser wxMpUser = null;

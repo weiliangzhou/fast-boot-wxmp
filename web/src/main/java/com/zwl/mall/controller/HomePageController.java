@@ -5,7 +5,6 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
-import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.controller.vo.HomepageVo;
@@ -61,7 +60,7 @@ public class HomePageController {
     public Result<HomepageVo> powerInfo(@ApiIgnore @CurrentUser UserBase userBase) {
         Long uid = userBase.getId();
 //        当前BTC
-        String btcInfo = iUserAccountService.getBTCInfoByUid(uid, true);
+        BigDecimal btcInfo = iUserAccountService.getBTCInfoByUid(uid, true);
 //        当前算力
         Integer currentPower = iUserCalculationPowerService.getAblePowerByUid(uid);
 //        当前剩余电力时间(秒数)
@@ -69,11 +68,10 @@ public class HomePageController {
 //        当前剩余电力（小时）
         int currentEnergyHours = iUserEnergyService.getAbleEnergyValueByUid(uid);
 //        当前速率
-        BigDecimal calculationPowerByPower = iPowerOutputRateService.getCalculationPowerByPower(currentPower);
-        String currentSpeedRate = BigDecimalUtil.objectFormatToString(calculationPowerByPower, null);
+        BigDecimal currentSpeedRate = iPowerOutputRateService.getCalculationPowerByPower(currentPower);
 //        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-        return ResultUtil.ok(new HomepageVo(btcInfo, currentPower, currentEnergyExpireSecond, currentEnergyHours, currentSpeedRate, myTaskInfo));
+        return ResultUtil.ok(new HomepageVo(btcInfo, currentSpeedRate, currentPower, currentEnergyExpireSecond, currentEnergyHours, myTaskInfo));
     }
 
     @ApiOperation(value = "获取BTC信息")
@@ -82,7 +80,7 @@ public class HomePageController {
         //获取账户信息
         //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
         Long uid = userBase.getId();
-        String btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);
+        BigDecimal btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);
         return ResultUtil.ok(btcInfoByUid);
     }
 

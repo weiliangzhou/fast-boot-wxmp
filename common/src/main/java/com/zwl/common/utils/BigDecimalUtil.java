@@ -62,6 +62,18 @@ public class BigDecimalUtil {
     }
 
     /**
+     * 格式化浮点类型成指定的小数四舍五入,缺省格式0.00
+     * 设置格式请看DecimalFormat
+     *
+     * @param o object
+     * @return strng
+     * @see java.text.DecimalFormat
+     */
+    public static String toString(Object o) {
+        return objectFormatToString(o, null);
+    }
+
+    /**
      * 提供精确的加法运算。 String
      *
      * @param b1    被加数

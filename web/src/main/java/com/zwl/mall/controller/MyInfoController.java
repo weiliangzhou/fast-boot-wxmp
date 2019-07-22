@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
+import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.mall.api.IUserAccountService;
 import com.zwl.mall.api.IUserCalculationPowerService;
 import com.zwl.mall.api.IUserEnergyService;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -97,11 +100,11 @@ public class MyInfoController {
     })
     public Result<UserAccountVo> getExtractPage(@ApiIgnore @CurrentUser UserBase userBase, int pageNum, int pageSize) {
         //        获取总和(实时)
-        String total = iUserAccountService.getBTCInfoByUid(userBase.getId(), true);
-        String enableBalance = iUserAccountService.getBTCInfoByUid(userBase.getId(), false);
+        BigDecimal total = iUserAccountService.getBTCInfoByUid(userBase.getId(), true);
+        BigDecimal enableBalance = iUserAccountService.getBTCInfoByUid(userBase.getId(), false);
         IPage<UserAccount> userAccountIPage = new UserAccount().selectPage(new Page<>(pageNum, pageSize),
                 new QueryWrapper<UserAccount>().eq("uid", userBase.getId()).eq("type", -1).orderByDesc("create_time"));
-        return ResultUtil.ok(new UserAccountVo(total, enableBalance, userAccountIPage));
+        return ResultUtil.ok(new UserAccountVo( BigDecimalUtil.toString(total), BigDecimalUtil.toString(enableBalance), userAccountIPage));
     }
 
 }
