@@ -32,6 +32,8 @@ public class JsApiSignatureVo {
     }
 
     static {
+        jsApiLists.add("updateAppMessageShareData");
+        jsApiLists.add("updateTimelineShareData");
         jsApiLists.add("onMenuShareTimeline");
         jsApiLists.add("onMenuShareAppMessage");
         jsApiLists.add("onMenuShareQQ");

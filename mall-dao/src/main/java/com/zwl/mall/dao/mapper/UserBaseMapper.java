@@ -12,4 +12,19 @@ import com.zwl.mall.dao.model.UserBase;
  * @since 2019-06-13
  */
 public interface UserBaseMapper extends BaseMapper<UserBase> {
+    /**
+     * 获取用户注册天数
+     *
+     * @param uid
+     * @return
+     */
+    Integer countRegisterDayByUid(Long uid);
+
+    /**
+     * 获取当前推荐人数
+     *
+     * @param uid
+     * @return
+     */
+    Integer countByReferUid(Long uid);
 }

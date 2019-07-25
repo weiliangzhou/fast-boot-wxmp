@@ -39,6 +39,7 @@ public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculation
 
     }
 
+
     @Override
     public Integer getAblePowerByUid(Long uid) {
         return userCalculationPowerMapper.getAblePowerByUid(uid);

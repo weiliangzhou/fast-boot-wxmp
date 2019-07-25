@@ -18,15 +18,16 @@ import java.util.Map;
 @Service
 @Slf4j
 public class AsyncDataToOmexServiceImpl implements AsyncDataToOmexService {
+    private final static String url = "https://manager2018cfd-test.ga096.cn:444/manager/mining/syncSettle";
+
     @Override
     @Async("taskExecutor")
-    public void sendOMEX(BigDecimal todayBTCInfo, String outOpenId) {
+    public void sendOMEX(Long flowId, BigDecimal todayBTCInfo, String outOpenId) {
         Map params = new HashMap<>();
+        params.put("flowId", flowId);
         params.put("openId", outOpenId);
-        params.put("todayBTCInfo", todayBTCInfo);
-        params.put("cellphone", "17682333183");
-        params.put("code", "123");
-        String result = HttpClientUtil.httpGetWithJSON("http://kj.yizhidao9.com/api/pub/loginWithPhoneCode", params);
+        params.put("amount", todayBTCInfo);
+        String result = HttpClientUtil.httpGetWithJSON(url, params);
         JSONObject jsonObject = JSONObject.parseObject(result);
         Integer code = jsonObject.getInteger("code");
         if (code == 0) {

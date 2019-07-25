@@ -90,7 +90,6 @@ public class AuthController {
             e.printStackTrace();
         }
         //授权登录之后先根据unionId查询是否存在该用户，不存在则保存用户信息到用户表中，存在则直接返回token
-        // TODO: 2019/7/5 目前根据gzh_open_id去做匹配
         AccessToken login = iUserBaseService.login(wxMpUser, StringUtil.isBlank(referUid) ? null : Long.parseLong(referUid), null == registerFrom ? RegisterFrom.H5.getIndex() : registerFrom, mid);
         log.info(JSON.toJSONString(login));
         log.info("【微信网页授权】openId={}", openId);
@@ -158,12 +157,12 @@ public class AuthController {
 //        return JSON.toJSONString(runStepInfo);
 //    }
 //
-    @GetMapping("/loginWithPhoneCode")
-    @ApiOperation(value = "手机验证码注册或登陆", notes = "手机验证码注册或登陆")
-    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone, @RequestParam("code") String code, @RequestParam(value = "referUid", required = false) Long referUid) {
-        AccessToken accessToken = iUserBaseService.login(cellphone, code, referUid);
-        return ResultUtil.ok(accessToken);
-    }
+//    @GetMapping("/loginWithPhoneCode")
+//    @ApiOperation(value = "手机验证码注册或登陆", notes = "手机验证码注册或登陆")
+//    public Result loginWithPhoneCode(@RequestParam("cellphone") String cellphone, @RequestParam("code") String code, @RequestParam(value = "referUid", required = false) Long referUid) {
+//        AccessToken accessToken = iUserBaseService.login(cellphone, code, referUid);
+//        return ResultUtil.ok(accessToken);
+//    }
 //
 //    @GetMapping("/sendCode")
 //    @ApiOperation(value = "发送验证码", notes = "发送验证码")

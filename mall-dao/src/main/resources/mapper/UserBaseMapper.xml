@@ -28,5 +28,11 @@
                         id, out_open_id, cellphone, head_img_url, nick_name, gzh_open_id, xcx_open_id, app_open_id, union_id, register_from, create_time, update_time, version, deleted, is_subscribe, sex, mid
     </sql>
 
+    <select id="countRegisterDayByUid" resultType="Integer">
+        SELECT TIMESTAMPDIFF(DAY,create_time,now()) from user_base  where id =#{uid} and deleted =0
+    </select>
+    <select id="countByReferUid" resultType="int">
+        select count(*) from user_base where refer_uid = #{uid} and deleted =0
+    </select>
 
 </mapper>

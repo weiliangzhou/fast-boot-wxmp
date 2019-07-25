@@ -45,4 +45,8 @@ public interface Constants {
 
     String BTN_NAME_1 = "立即完成";
     String BTN_NAME_2 = "已完成";
+    //挖矿结算信息同步
+    String ASYNC_URL = "https://manager2018cfd-test.ga096.cn:444/manager/mining/syncSettle";
+    //用户交易信息
+    String USER_INFO_URL = "https://manager2018cfd-test.ga096.cn:444/manager/mining/tradeCount";
 }

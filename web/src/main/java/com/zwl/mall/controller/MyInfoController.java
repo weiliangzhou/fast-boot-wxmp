@@ -107,4 +107,14 @@ public class MyInfoController {
         return ResultUtil.ok(new UserAccountVo( BigDecimalUtil.toString(total), BigDecimalUtil.toString(enableBalance), userAccountIPage));
     }
 
+    @ApiOperation(value = "获取BTC信息")
+    @GetMapping("/user/user_account/info")
+    public Result getMyAccountInfo(@ApiIgnore @CurrentUser UserBase userBase) {
+        //获取账户信息
+        //公式=可提现的btc-已经提现的btc+今天产出(现在-电力时间*产出率)
+        Long uid = userBase.getId();
+        BigDecimal btcInfoByUid = iUserAccountService.getBTCInfoByUid(uid, true);
+        return ResultUtil.ok(BigDecimalUtil.toString(btcInfoByUid));
+    }
+
 }

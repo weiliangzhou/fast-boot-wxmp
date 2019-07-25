@@ -11,9 +11,10 @@ public interface AsyncDataToOmexService {
     /**
      * 异步发送数据到omex
      *
-     * @param todayBTCInfo
+     * @param flowId
      * @param outOpenId
+     * @param todayBTCInfo
      */
-    void sendOMEX(BigDecimal todayBTCInfo, String outOpenId);
+    void sendOMEX(Long flowId, BigDecimal todayBTCInfo, String outOpenId);
 
 }

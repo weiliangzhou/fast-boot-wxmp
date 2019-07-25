@@ -37,4 +37,5 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
      */
     void resetByUid(Long uid);
 
+
 }

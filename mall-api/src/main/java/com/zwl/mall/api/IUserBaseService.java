@@ -51,4 +51,20 @@ public interface IUserBaseService extends IService<UserBase> {
      * @param outOpenId
      */
     UserBase getUserInfoByOpenId(String outOpenId);
+
+    /**
+     * 获取用户注册天数
+     *
+     * @param uid
+     * @return
+     */
+    int countRegisterDayByUid(Long uid);
+
+    /**
+     * 检查挖矿条件
+     *
+     * @param uid
+     * @param openid
+     */
+    void checkConditons(Long uid, String openid);
 }

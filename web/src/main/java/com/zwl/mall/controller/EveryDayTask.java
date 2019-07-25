@@ -58,7 +58,7 @@ public class EveryDayTask {
                 userAccount.setOutOpenId(outOpenId);
                 userAccount.insert();
                 // TODO: 2019/7/18 异步通讯给omex
-                asyncDataToOmexService.sendOMEX(todayBTCInfo, outOpenId);
+                asyncDataToOmexService.sendOMEX(userAccount.getId(), todayBTCInfo, outOpenId);
 
             }
         }

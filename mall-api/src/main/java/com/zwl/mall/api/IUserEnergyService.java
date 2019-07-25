@@ -29,8 +29,9 @@ public interface IUserEnergyService extends IService<UserEnergy> {
      *
      * @param uid
      * @param hours
+     * @param outOpenId
      */
-    void consume(Long uid, int hours);
+    void consume(Long uid, int hours,String outOpenId);
 
     /**
      * 获取用户任务信息
