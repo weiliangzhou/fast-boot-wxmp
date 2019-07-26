@@ -68,7 +68,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void consume(Long uid, int hours, String outOpenId) {
-        // TODO: 备注：
         //挖矿要求：（每到一个时间点，用户在点击挖矿页面“长按充电”按钮时，弹窗提示用户邀请好友）
         //1. 用户登录10天，要求完成邀请十个好友，才可进行继续挖矿（点击“立即邀请”按钮，弹出邀请弹窗）
         //2. 用户登录20天，要求用户交易实盘交易 5 次，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
@@ -76,7 +75,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         //4. 用户登录90天，要求用户交易实盘交易 30 次，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
         //5. 用户登录180天，要求用户交易手续费累积到达 10,000 USDT ，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
         //6. 用户登录365天，要求用户交易手续费累积到达 20,000 SUDT，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
-        iUserBaseService.checkConditons(uid, outOpenId);
+//        iUserBaseService.checkConditons(uid, outOpenId);
 
         //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
         int ableEnergy = getAbleEnergyValueByUid(uid);
@@ -158,7 +157,8 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             Integer taskValue = energyTaskConfig.getTaskValue();
             String hrefUrl = energyTaskConfig.getHrefUrl();
             Integer taskType = energyTaskConfig.getTaskType();
-            myTaskInfoList.add(new MyTaskInfo(id, taskValue, taskType, title, description, hrefUrl, false, Constants.BTN_NAME_1));
+            String icoUrl = energyTaskConfig.getIcoUrl();
+            myTaskInfoList.add(new MyTaskInfo(id, taskValue, taskType, title, description, hrefUrl, false, Constants.BTN_NAME_1, icoUrl));
         }
 
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);

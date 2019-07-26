@@ -14,11 +14,12 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
+        <result column="ico_url" property="icoUrl"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-                        id, task_type, task_value, error_msg, title, description, href_url, create_time, update_time, deleted
+                        id, task_type, task_value, error_msg, title, description, href_url, create_time, update_time, deleted, ico_url
     </sql>
 
 

@@ -29,4 +29,7 @@ public class MyTaskInfo {
     private boolean complete;
     @ApiModelProperty(value = "按钮文案")
     private String btnName;
+    @ApiModelProperty(value = "图标")
+    private String icoUrl;
+
 }

@@ -149,7 +149,6 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
 
     @Override
     public void checkConditons(Long uid, String openid) {
-        // TODO: 备注：
         //挖矿要求：（每到一个时间点，用户在点击挖矿页面“长按充电”按钮时，弹窗提示用户邀请好友）
         //1. 用户登录10天，要求完成邀请十个好友，才可进行继续挖矿（点击“立即邀请”按钮，弹出邀请弹窗）
         //2. 用户登录20天，要求用户交易实盘交易 5 次，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
@@ -174,33 +173,35 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         int countRefer = countByReferUid(uid);
         if (countRefer < 10) {
             throw new BizException(ErrorEnum.NEED_10_REFER.getCode(), "" + countRefer);
-        } else if (registerDay >= 20 && registerDay < 45) {
-            if (tradeOrderNum < 5) {
-                throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 5);
+        } else {
+            if (registerDay >= 20 && registerDay < 45) {
+                if (tradeOrderNum < 5) {
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 5);
+                }
+
+            } else if (registerDay >= 45 && registerDay < 90) {
+                if (tradeOrderNum < 15) {
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 15);
+                }
+
+
+            } else if (registerDay >= 90 && registerDay < 180) {
+                if (tradeOrderNum < 30) {
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 30);
+                }
+
+
+            } else if (registerDay >= 180 && registerDay < 365) {
+                if (counterFee < 10000) {
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
+                }
+
+            } else if (registerDay >= 365) {
+                if (counterFee < 20000) {
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
+                }
+
             }
-
-        } else if (registerDay >= 45 && registerDay < 90) {
-            if (tradeOrderNum < 15) {
-                throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 15);
-            }
-
-
-        } else if (registerDay >= 90 && registerDay < 180) {
-            if (tradeOrderNum < 30) {
-                throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 30);
-            }
-
-
-        } else if (registerDay >= 180 && registerDay < 365) {
-            if (counterFee < 10000) {
-                throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
-            }
-
-        } else if (registerDay >= 365) {
-            if (counterFee < 20000) {
-                throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
-            }
-
         }
 
     }

@@ -51,6 +51,9 @@ public class EnergyTaskConfig extends Model<EnergyTaskConfig> {
     @ApiModelProperty(value = "链接")
     private String hrefUrl;
 
+    @ApiModelProperty(value = "图标地址")
+    private String icoUrl;
+
     private LocalDateTime createTime;
     @JSONField(serialize = false)
     private LocalDateTime updateTime;
