@@ -5,12 +5,12 @@ import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.exception.ErrorEnum;
 import com.zwl.common.exception.SysException;
-import com.zwl.common.utils.BigDecimalUtil;
 import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.controller.vo.HomepageVo;
 import com.zwl.mall.dao.model.EnergyTaskConfig;
 import com.zwl.mall.dao.model.UserBase;
+import com.zwl.mall.service.impl.vo.NeedInfoVo;
 import com.zwl.mall.system.annotation.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -76,7 +76,6 @@ public class HomePageController {
     }
 
 
-
 //    @ApiOperation(value = "任务展示区")
 //    @GetMapping("/user/task/info")
 //    public Result<List<MyTaskInfo>> getMyTaskInfo(@ApiIgnore @CurrentUser UserBase userBase) {
@@ -110,14 +109,14 @@ public class HomePageController {
      * @Description: 充电
      */
     @GetMapping("/user/energy/consume")
-    @ApiOperation(value = "充电")
+    @ApiOperation(value = "充电，1009=需要邀请X好友 1010=需要X交易次数 1011=需要X交易手续费")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "hours", value = "1", required = true, paramType = "query", dataType = "int")
 
     })
-    public Result consume(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
-        iUserEnergyService.consume(userBase.getId(), hours,userBase.getOutOpenId());
-        return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
+    public Result<NeedInfoVo> consume(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("hours") int hours) {
+        iUserEnergyService.consume(userBase.getId(), hours, userBase.getOutOpenId());
+        return ResultUtil.ok(null);
     }
 
 

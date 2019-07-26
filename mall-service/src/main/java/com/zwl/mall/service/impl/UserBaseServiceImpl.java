@@ -196,7 +196,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
                     NeedInfoVo needInfoVo = new NeedInfoVo();
                     needInfoVo.setCompletedTimes(tradeOrderNum);
                     needInfoVo.setNeedTimes(NEED_5_TIMES);
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
+                    throw new BizException(ErrorEnum.NEED_TRADE_TIMES.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
             } else if (registerDay >= REGIST_DAYS_45 && registerDay < REGIST_DAYS_90) {
@@ -204,7 +204,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
                     NeedInfoVo needInfoVo = new NeedInfoVo();
                     needInfoVo.setCompletedTimes(tradeOrderNum);
                     needInfoVo.setNeedTimes(NEED_15_TIMES);
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
+                    throw new BizException(ErrorEnum.NEED_TRADE_TIMES.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
 
@@ -213,7 +213,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
                     NeedInfoVo needInfoVo = new NeedInfoVo();
                     needInfoVo.setCompletedTimes(tradeOrderNum);
                     needInfoVo.setNeedTimes(NEED_30_TIMES);
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
+                    throw new BizException(ErrorEnum.NEED_TRADE_TIMES.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
 
@@ -222,7 +222,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
                     NeedInfoVo needInfoVo = new NeedInfoVo();
                     needInfoVo.setCompletedMoney(counterFee);
                     needInfoVo.setNeedMoney(NEED_10000_USDT);
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
+                    throw new BizException(ErrorEnum.NEED_TRADE_MONEY.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
             } else if (registerDay >= REGIST_DAYS_365) {
@@ -230,7 +230,7 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
                     NeedInfoVo needInfoVo = new NeedInfoVo();
                     needInfoVo.setCompletedMoney(counterFee);
                     needInfoVo.setNeedMoney(NEED_20000_USDT);
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
+                    throw new BizException(ErrorEnum.NEED_TRADE_MONEY.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
             }
