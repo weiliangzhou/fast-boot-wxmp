@@ -1,22 +1,20 @@
 package com.zwl.mall.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.RegisterFrom;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
-import com.zwl.common.utils.HttpClientUtil;
 import com.zwl.common.utils.UUIDUtil;
 import com.zwl.mall.api.IUserBaseService;
 import com.zwl.mall.api.IUserCalculationPowerService;
-import com.zwl.mall.api.IUserEnergyService;
 import com.zwl.mall.api.model.AccessToken;
 import com.zwl.mall.dao.mapper.UserBaseMapper;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.dao.model.UserExpand;
+import com.zwl.mall.service.impl.vo.NeedInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
@@ -41,10 +39,22 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
     @Autowired
     private IUserCalculationPowerService iUserCalculationPowerService;
     @Autowired
-    private IUserEnergyService iUserEnergyService;
-    private final static String USER_INFO = "USER_INFO_";
-    @Autowired
     private UserBaseMapper userBaseMapper;
+
+    private final static String USER_INFO = "USER_INFO_";
+    private final static Integer NEED_10_REFER = 10;
+    private final static Integer NEED_5_TIMES = 5;
+    private final static Integer NEED_15_TIMES = 15;
+    private final static Integer NEED_30_TIMES = 30;
+    private final static Integer NEED_10000_USDT = 10000;
+    private final static Integer NEED_20000_USDT = 20000;
+
+    private final static Integer REGIST_DAYS_10 = 10;
+    private final static Integer REGIST_DAYS_20 = 20;
+    private final static Integer REGIST_DAYS_45 = 45;
+    private final static Integer REGIST_DAYS_90 = 90;
+    private final static Integer REGIST_DAYS_180 = 180;
+    private final static Integer REGIST_DAYS_365 = 365;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -58,7 +68,6 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         String city = wxMpUser.getCity();
         String province = wxMpUser.getProvince();
         String country = wxMpUser.getCountry();
-//        log.info(JSON.toJSONString(wxMpUser));
         UserBase userBaseData = selectOneByUnionId(unionId);
         //创建token
         String uuid32 = UUIDUtil.getUUID32();
@@ -158,47 +167,70 @@ public class UserBaseServiceImpl extends ServiceImpl<UserBaseMapper, UserBase> i
         //6. 用户登录365天，要求用户交易手续费累积到达 20,000 SUDT，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
         //查询用户注册时间
         int registerDay = countRegisterDayByUid(uid);
-        if (registerDay < 10) {
+        if (registerDay < REGIST_DAYS_10) {
             return;
         }
-        String result = HttpClientUtil.httpGetWithJSON(Constants.USER_INFO_URL + "?openid=" + openid, null);
-        JSONObject jsonObject = JSONObject.parseObject(result);
-        String code = jsonObject.getString("code");
-        Integer tradeOrderNum = jsonObject.getInteger("tradeOrderNum");
-        Integer counterFee = jsonObject.getInteger("counterFee");
-        if (!"0000".equals(code)) {
-            log.info("查询OMEX用户信息失败" + openid);
-        }
+//        String result = HttpClientUtil.httpGetWithJSON(Constants.USER_INFO_URL + "?openid=" + openid, null);
+//        JSONObject jsonObject = JSONObject.parseObject(result);
+//        String code = jsonObject.getString("code");
+//        Integer tradeOrderNum = jsonObject.getInteger("tradeOrderNum");
+//        Integer counterFee = jsonObject.getInteger("counterFee");
+//        if (!"0000".equals(code)) {
+//            log.info("查询OMEX用户信息失败" + openid);
+//        }
+
+
+        Integer tradeOrderNum = 5;
+        Integer counterFee = 9000;
+
 //        1.完成邀请十个好友
         int countRefer = countByReferUid(uid);
-        if (countRefer < 10) {
-            throw new BizException(ErrorEnum.NEED_10_REFER.getCode(), "" + countRefer);
+        if (countRefer < NEED_10_REFER) {
+            NeedInfoVo needInfoVo = new NeedInfoVo();
+            needInfoVo.setCompletedCount(countRefer);
+            needInfoVo.setNeedCount(NEED_10_REFER);
+            throw new BizException(ErrorEnum.NEED_10_REFER.getCode(), JSON.toJSONString(needInfoVo));
         } else {
-            if (registerDay >= 20 && registerDay < 45) {
-                if (tradeOrderNum < 5) {
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 5);
+            if (registerDay >= REGIST_DAYS_20 && registerDay < REGIST_DAYS_45) {
+                if (tradeOrderNum < NEED_5_TIMES) {
+                    NeedInfoVo needInfoVo = new NeedInfoVo();
+                    needInfoVo.setCompletedTimes(tradeOrderNum);
+                    needInfoVo.setNeedTimes(NEED_5_TIMES);
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
-            } else if (registerDay >= 45 && registerDay < 90) {
-                if (tradeOrderNum < 15) {
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 15);
+            } else if (registerDay >= REGIST_DAYS_45 && registerDay < REGIST_DAYS_90) {
+                if (tradeOrderNum < NEED_15_TIMES) {
+                    NeedInfoVo needInfoVo = new NeedInfoVo();
+                    needInfoVo.setCompletedTimes(tradeOrderNum);
+                    needInfoVo.setNeedTimes(NEED_15_TIMES);
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
 
-            } else if (registerDay >= 90 && registerDay < 180) {
-                if (tradeOrderNum < 30) {
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + 30);
+            } else if (registerDay >= REGIST_DAYS_90 && registerDay < REGIST_DAYS_180) {
+                if (tradeOrderNum < NEED_30_TIMES) {
+                    NeedInfoVo needInfoVo = new NeedInfoVo();
+                    needInfoVo.setCompletedTimes(tradeOrderNum);
+                    needInfoVo.setNeedTimes(NEED_30_TIMES);
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
 
-            } else if (registerDay >= 180 && registerDay < 365) {
-                if (counterFee < 10000) {
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
+            } else if (registerDay >= REGIST_DAYS_180 && registerDay < REGIST_DAYS_365) {
+                if (counterFee < NEED_10000_USDT) {
+                    NeedInfoVo needInfoVo = new NeedInfoVo();
+                    needInfoVo.setCompletedMoney(counterFee);
+                    needInfoVo.setNeedMoney(NEED_10000_USDT);
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
-            } else if (registerDay >= 365) {
-                if (counterFee < 20000) {
-                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), "" + counterFee);
+            } else if (registerDay >= REGIST_DAYS_365) {
+                if (counterFee < NEED_20000_USDT) {
+                    NeedInfoVo needInfoVo = new NeedInfoVo();
+                    needInfoVo.setCompletedMoney(counterFee);
+                    needInfoVo.setNeedMoney(NEED_20000_USDT);
+                    throw new BizException(ErrorEnum.NEED_TRADE.getCode(), JSON.toJSONString(needInfoVo));
                 }
 
             }
