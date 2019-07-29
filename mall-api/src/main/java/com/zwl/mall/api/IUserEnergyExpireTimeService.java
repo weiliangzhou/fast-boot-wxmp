@@ -4,8 +4,8 @@ package com.zwl.mall.api;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zwl.mall.dao.model.UserEnergyExpireTime;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -55,4 +55,10 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
      */
     List<Long> listTodayUid();
 
+    /**
+     * 获取当前用户当前时段的速率
+     * @param uid
+     * @return
+     */
+    BigDecimal getCurrentSpeedRateByUid(Long uid);
 }

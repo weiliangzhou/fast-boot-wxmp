@@ -109,10 +109,15 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             LocalDateTime finalStartTime = endTime;
             LocalDateTime finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, finalNeedHours, 0, 0);
 
+            //如果当前秒数+充电的秒数 超过24小时则需要设置到24小时
+            if (needSeconds < 60 * 60) {
+                finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, 0, needSeconds, 0);
+            }
             if (currentEnergyExpireSecond == 0) {
                 finalStartTime = LocalDateTime.now();
                 finalEndTime = LocalDateUtil.add(finalStartTime, 0, 0, 0, finalNeedHours, 0, 0);
             }
+
             UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
             newUserEnergy.setUid(uid);
             newUserEnergy.setStartTime(finalStartTime);

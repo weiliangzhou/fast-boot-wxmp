@@ -20,9 +20,9 @@ import java.math.BigDecimal;
  */
 @Service
 public class PowerOutputRateServiceImpl extends ServiceImpl<PowerOutputRateMapper, PowerOutputRate> implements IPowerOutputRateService {
-
     @Override
     public BigDecimal getCalculationPowerByPower(Integer ablePower) {
+        //根据当前时间在user_energy_expire_time表中获取
         PowerOutputRate powerOutputRate = new PowerOutputRate().selectOne(new QueryWrapper<PowerOutputRate>().eq("power", ablePower).eq("deleted", 0));
         return powerOutputRate == null ? new BigDecimal("0") : powerOutputRate.getOutputRate();
     }

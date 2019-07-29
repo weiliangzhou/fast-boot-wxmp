@@ -7,8 +7,8 @@ import com.zwl.mall.dao.model.UserEnergyExpireTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -54,6 +54,16 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
     @Override
     public List<Long> listTodayUid() {
         return userEnergyExpireTimeMapper.listTodayUid();
+    }
+
+    @Override
+    public BigDecimal getCurrentSpeedRateByUid(Long uid) {
+        BigDecimal currentSpeedRateByUid = userEnergyExpireTimeMapper.getCurrentSpeedRateByUid(uid);
+        if (currentSpeedRateByUid == null) {
+            return new BigDecimal("0.0000000001");
+        }
+        return currentSpeedRateByUid;
+
     }
 }
 
