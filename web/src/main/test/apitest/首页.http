@@ -20,6 +20,11 @@ Cache-Control: no-cache
 Authorization: {{token}}
 Content-Type: application/json
 ###
+GET {{host}}/api/user/energy/info
+Accept: */*
+Cache-Control: no-cache
+Authorization: {{token}}
+###
 
 GET {{host}}/api/user/energy/consume?hours=24
 Accept: */*

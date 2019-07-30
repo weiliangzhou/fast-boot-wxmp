@@ -75,6 +75,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         //4. 用户登录90天，要求用户交易实盘交易 30 次，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
         //5. 用户登录180天，要求用户交易手续费累积到达 10,000 USDT ，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
         //6. 用户登录365天，要求用户交易手续费累积到达 20,000 SUDT，可以进行继续挖矿（点击“去交易”按钮，跳转至omex交易页）
+
+        if (hours == 0) {
+            return;
+        }
         iUserBaseService.checkConditons(uid, outOpenId);
 
         //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
@@ -96,10 +100,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
 
             int needSeconds = 24 * 60 * 60 - currentEnergyExpireSecond;
             //needSecond>0 才可以充电
-            if (needSeconds <= 0) {
+            if (needSeconds < 3600) {
                 throw new BizException(ErrorEnum.LOW_FULL);
             }
-            if (needSeconds / 60 % 60 != 0) {
+            if (needSeconds % 60 != 0) {
                 finalNeedHours = needSeconds / 3600 + 1;
             } else {
                 finalNeedHours = needSeconds / 3600;
@@ -144,7 +148,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             UserEnergy userEnergy = new UserEnergy();
             userEnergy.setUid(uid);
             userEnergy.setEnergyType(EnergyType.TYPE_2.getType());
-            userEnergy.setEnergyValue(finalNeedHours);
+            userEnergy.setEnergyValue(hours);
             userEnergy.setTaskDesc(EnergyType.TYPE_2.getDesc());
             userEnergy.insert();
         }
