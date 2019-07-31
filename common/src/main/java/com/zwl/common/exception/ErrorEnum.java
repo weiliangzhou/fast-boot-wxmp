@@ -21,7 +21,7 @@ public enum ErrorEnum {
     CODE_INVALID(1003, "验证码无效"),
     CODE_ERROR(1004, "验证码错误"),
     LOW_POWER(1005, "电力不足"),
-    LOW_FULL(1006, "电力充沛，不需要充电"),
+    LOW_FULL(1006, "电力充沛"),
     BALANCE_INSUFFICIENT(1007, "余额不足"),
     NO_USER(1008, "用户不存在"),
     NEED_10_REFER(1009, "需要邀请X好友"),
