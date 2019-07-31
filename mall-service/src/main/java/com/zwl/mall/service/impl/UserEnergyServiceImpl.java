@@ -84,7 +84,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             return;
         }
         iUserBaseService.checkConditons(uid, outOpenId);
-
+        hours=hours>24?24:hours;
         //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
         int ableEnergy = getAbleEnergyValueByUid(uid);
         if (ableEnergy == 0 || hours > ableEnergy) {
@@ -118,7 +118,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             LocalDateTime finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, finalNeedHours, 0, 0);
 
             //如果当前秒数+充电的秒数 超过24小时则需要设置到24小时
-            if (needSeconds < 60 * 60) {
+            if ((currentEnergyExpireSecond + needSeconds) > 24*3600) {
                 finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, 0, needSeconds, 0);
             }
             if (currentEnergyExpireSecond == 0) {
