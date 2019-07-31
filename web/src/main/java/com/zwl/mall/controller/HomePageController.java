@@ -3,12 +3,9 @@ package com.zwl.mall.controller;
 import com.zwl.common.base.Result;
 import com.zwl.common.base.ResultUtil;
 import com.zwl.common.constants.Constants;
-import com.zwl.common.exception.ErrorEnum;
-import com.zwl.common.exception.SysException;
 import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
 import com.zwl.mall.controller.vo.HomepageVo;
-import com.zwl.mall.dao.model.EnergyTaskConfig;
 import com.zwl.mall.dao.model.UserBase;
 import com.zwl.mall.service.impl.vo.NeedInfoVo;
 import com.zwl.mall.system.annotation.CurrentUser;
@@ -76,14 +73,6 @@ public class HomePageController {
     }
 
 
-//    @ApiOperation(value = "任务展示区")
-//    @GetMapping("/user/task/info")
-//    public Result<List<MyTaskInfo>> getMyTaskInfo(@ApiIgnore @CurrentUser UserBase userBase) {
-//        Long uid = userBase.getId();
-//        List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-//        return ResultUtil.ok(myTaskInfo);
-//    }
-
     /**
      * @Date: 2019/6/24 14:17
      * @Author: 二师兄超级帅
@@ -95,10 +84,6 @@ public class HomePageController {
             @ApiImplicitParam(name = "taskId", value = "taskId", required = true, paramType = "query", dataType = "Long")
     })
     public Result clickComplete(@ApiIgnore @CurrentUser UserBase userBase, @RequestParam("taskId") Long taskId) {
-        EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(taskId);
-        if (energyTaskConfig == null) {
-            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
-        }
         iUserEnergyService.add(userBase.getId(), taskId);
         return ResultUtil.ok(Constants.HTTP_RES_CODE_200_VALUE);
     }

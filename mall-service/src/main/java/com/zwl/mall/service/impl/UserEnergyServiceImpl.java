@@ -5,6 +5,7 @@ import com.zwl.common.constants.Constants;
 import com.zwl.common.constants.EnergyType;
 import com.zwl.common.exception.BizException;
 import com.zwl.common.exception.ErrorEnum;
+import com.zwl.common.exception.SysException;
 import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.*;
 import com.zwl.mall.api.vo.MyTaskInfo;
@@ -52,6 +53,9 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
         //每日签到、每日分享需要防重控制   一次性任务需要防重
         isTodayCompleted(taskId, uid);
         EnergyTaskConfig energyTaskConfig = iEnergyTaskConfigService.selectOne(taskId);
+        if (energyTaskConfig == null) {
+            throw new SysException(ErrorEnum.ARGUMENT_ERROR);
+        }
         Integer taskValue = energyTaskConfig.getTaskValue();
         String description = energyTaskConfig.getDescription();
         Integer taskType = energyTaskConfig.getTaskType();
@@ -158,7 +162,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
     public List<MyTaskInfo> getMyTaskInfo(Long uid) {
         List<MyTaskInfo> myTaskInfoList = new ArrayList<>();
         List<EnergyTaskConfig> energyTaskConfigList = iEnergyTaskConfigService.listAll();
-
         for (EnergyTaskConfig energyTaskConfig : energyTaskConfigList) {
             Long id = energyTaskConfig.getId();
             String description = energyTaskConfig.getDescription();
@@ -169,7 +172,6 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             String icoUrl = energyTaskConfig.getIcoUrl();
             myTaskInfoList.add(new MyTaskInfo(id, taskValue, taskType, title, description, hrefUrl, false, Constants.BTN_NAME_1, icoUrl));
         }
-
         List<UserEnergy> todayCompleteList = getTodayCompleteList(uid);
         if (todayCompleteList != null) {
             for (UserEnergy userEnergy : todayCompleteList) {

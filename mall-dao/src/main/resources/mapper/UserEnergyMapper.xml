@@ -29,10 +29,14 @@
         (select IFNULL(sum(energy_value),0) as energy_value from user_energy where `energy_type` =-1 and uid =#{uid} ) t2
     </select>
     <select id="getTodayCompleteList" resultMap="BaseResultMap">
-        select
+        SELECT
         <include refid="Base_Column_List"/>
-        from user_energy where uid =#{uid} and DATE_FORMAT(create_time,'%y%m%d') =
-        DATE_FORMAT(now(),'%y%m%d') and energy_type =1
+        FROM
+        user_energy
+        WHERE
+        ( DATE_FORMAT( create_time, '%y%m%d' ) = DATE_FORMAT( now( ), '%y%m%d' AND uid =#{uid} ) AND energy_type = 2 )
+        OR ( energy_type != 2 AND energy_type !=- 1 AND uid = #{uid} )
+
     </select>
     <select id="isTodayCompleted" resultType="java.lang.Integer">
         select count(*) from user_energy where task_id = #{taskId} and DATE_FORMAT(create_time,'%y%m%d') =
