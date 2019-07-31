@@ -34,17 +34,17 @@ public class HomepageVo {
     private Integer currentPower;
     @ApiModelProperty(value = " 当前剩余电力时间(秒数)")
     private Integer currentEnergyExpireSecond;
-    //    @ApiModelProperty(value = " 当前剩余电力(小时)")
-//    private Integer currentEnergyHours;
+    @ApiModelProperty(value = " 当前剩余电力(小时)")
+    private Integer currentEnergyHours;
     @ApiModelProperty(value = "我的任务")
     private List<MyTaskInfo> myTaskInfoList;
 
-    public HomepageVo(BigDecimal btcInfo, BigDecimal currentSpeedRate, Integer currentPower, Integer currentEnergyExpireSecond, List<MyTaskInfo> myTaskInfoList) {
+    public HomepageVo(BigDecimal btcInfo, BigDecimal currentSpeedRate, Integer currentPower, Integer currentEnergyExpireSecond, Integer currentEnergyHours, List<MyTaskInfo> myTaskInfoList) {
         this.btcInfo = btcInfo;
         this.currentSpeedRate = currentSpeedRate;
         this.currentPower = currentPower;
         this.currentEnergyExpireSecond = currentEnergyExpireSecond;
-//        this.currentEnergyHours = currentEnergyHours;
+        this.currentEnergyHours = currentEnergyHours;
         this.myTaskInfoList = myTaskInfoList;
     }
 

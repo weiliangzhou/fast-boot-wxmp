@@ -64,12 +64,12 @@ public class HomePageController {
 //        当前剩余电力时间(秒数)
         int currentEnergyExpireSecond = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondByUid(uid);
 //        当前剩余电力（小时）
-//        int currentEnergyHours = iUserEnergyService.getAbleEnergyValueByUid(uid);
+        int currentEnergyHours = iUserEnergyService.getAbleEnergyValueByUid(uid);
 //        当前速率
         BigDecimal currentSpeedRate = iUserEnergyExpireTimeService.getCurrentSpeedRateByUid(uid);
 //        我的任务
         List<MyTaskInfo> myTaskInfo = iUserEnergyService.getMyTaskInfo(uid);
-        return ResultUtil.ok(new HomepageVo(btcInfo, currentSpeedRate, currentPower, currentEnergyExpireSecond, myTaskInfo));
+        return ResultUtil.ok(new HomepageVo(btcInfo, currentSpeedRate, currentPower, currentEnergyExpireSecond, currentEnergyHours, myTaskInfo));
     }
 
 
