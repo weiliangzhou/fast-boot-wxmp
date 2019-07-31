@@ -84,17 +84,18 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             return;
         }
         iUserBaseService.checkConditons(uid, outOpenId);
-        hours=hours>24?24:hours;
         //用户的可用电力不能低于充电电力  如果当前充电量不足1小时则按照一小时扣除，
         int ableEnergy = getAbleEnergyValueByUid(uid);
         if (ableEnergy == 0 || hours > ableEnergy) {
             throw new BizException(ErrorEnum.LOW_POWER);
         }
 
+
         // 算力配置表
         // 获取当前算力
         Integer ablePower = iUserCalculationPowerService.getAblePowerByUid(uid);
         BigDecimal calculationPower = iPowerOutputRateService.getCalculationPowerByPower(ablePower);
+        hours = hours > 24 ? 24 : hours;
         //需要消耗的时间
         int finalNeedHours = 0;
         UserEnergyExpireTime currentEnergyExpireSecondEndTimeByUid = iUserEnergyExpireTimeService.getCurrentEnergyExpireSecondEndTimeByUid(uid);
@@ -118,7 +119,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             LocalDateTime finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, finalNeedHours, 0, 0);
 
             //如果当前秒数+充电的秒数 超过24小时则需要设置到24小时
-            if ((currentEnergyExpireSecond + needSeconds) > 24*3600) {
+            if ((currentEnergyExpireSecond + finalNeedHours * 3600) > 24 * 3600) {
                 finalEndTime = LocalDateUtil.add(endTime, 0, 0, 0, 0, needSeconds, 0);
             }
             if (currentEnergyExpireSecond == 0) {
@@ -136,7 +137,7 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             UserEnergy userEnergy = new UserEnergy();
             userEnergy.setUid(uid);
             userEnergy.setEnergyType(EnergyType.TYPE_2.getType());
-            userEnergy.setEnergyValue(finalNeedHours);
+            userEnergy.setEnergyValue(finalNeedHours > 24 ? 24 : finalNeedHours);
             userEnergy.setTaskDesc(EnergyType.TYPE_2.getDesc());
             userEnergy.insert();
 
