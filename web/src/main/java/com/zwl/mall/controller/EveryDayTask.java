@@ -31,9 +31,9 @@ public class EveryDayTask {
     private AsyncDataToOmexService asyncDataToOmexService;
 
     //每隔1分钟执行一次
-    @Scheduled(cron = "0 */1 * * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
     //每天凌晨1点执行一次：0 0 1 * * ?
-//    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void everyDaySum() {
         log.info("开始结算挖矿收益============================>");
