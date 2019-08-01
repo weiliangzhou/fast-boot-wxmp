@@ -146,6 +146,10 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             userEnergy.insert();
 
         } else {
+            //当前过期时间==0 则重置算力到500
+            iUserCalculationPowerService.resetByUid(uid);
+            calculationPower = new BigDecimal("0.0000000001");
+
             //不存在记录则 新增
             UserEnergyExpireTime newUserEnergy = new UserEnergyExpireTime();
             newUserEnergy.setUid(uid);
