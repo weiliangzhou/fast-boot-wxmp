@@ -31,11 +31,12 @@ public interface IUserCalculationPowerService extends IService<UserCalculationPo
     Integer getAblePowerByUid(Long uid);
 
     /**
-     * 重置算力到500
+     * 当前过期时间距离当前时间24小时 则重置算力到500
      *
      * @param uid
+     * @return
      */
-    void resetByUid(Long uid);
+    boolean resetByUid(Long uid);
 
 
 }

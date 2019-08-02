@@ -1,11 +1,17 @@
 package com.zwl.mall.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zwl.common.constants.Constants;
+import com.zwl.common.utils.LocalDateUtil;
 import com.zwl.mall.api.IUserCalculationPowerService;
+import com.zwl.mall.api.IUserEnergyExpireTimeService;
 import com.zwl.mall.dao.mapper.UserCalculationPowerMapper;
 import com.zwl.mall.dao.model.UserCalculationPower;
+import com.zwl.mall.dao.model.UserEnergyExpireTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -20,6 +26,8 @@ import org.springframework.stereotype.Service;
 public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculationPowerMapper, UserCalculationPower> implements IUserCalculationPowerService {
     @Autowired
     private UserCalculationPowerMapper userCalculationPowerMapper;
+    @Autowired
+    private IUserEnergyExpireTimeService iUserEnergyExpireTimeService;
 
     @Override
     public void add(Long uid, String nickname, Integer type) {
@@ -47,8 +55,24 @@ public class UserCalculationPowerServiceImpl extends ServiceImpl<UserCalculation
     }
 
     @Override
-    public void resetByUid(Long uid) {
-        userCalculationPowerMapper.resetByUid(uid);
+    public boolean resetByUid(Long uid) {
+        //当前过期时间距离当前时间24小时 则重置算力到500
+        //查询用户最后一条充电时间，然后与now对比
+        UserEnergyExpireTime userEnergyExpireTime = iUserEnergyExpireTimeService.getLastEndTimeByUid(uid);
+
+        if (userEnergyExpireTime == null) {
+
+
+        } else {
+            LocalDateTime endTime = userEnergyExpireTime.getEndTime();
+            long diffSecond = LocalDateUtil.diffSecond(endTime, LocalDateTime.now());
+            if (diffSecond >= Constants.EXRP_DAY) {
+                userCalculationPowerMapper.resetByUid(uid);
+                return true;
+            }
+        }
+        return false;
+
     }
 }
 

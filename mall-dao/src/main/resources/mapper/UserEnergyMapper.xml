@@ -34,9 +34,17 @@
         FROM
         user_energy
         WHERE
-        ( DATE_FORMAT( create_time, '%y%m%d' ) = DATE_FORMAT( now( ), '%y%m%d' AND uid =#{uid} ) AND energy_type = 2 )
-        OR ( energy_type != 2 AND energy_type !=- 1 AND uid = #{uid} )
-
+        DATE_FORMAT( create_time, '%y%m%d' ) = DATE_FORMAT( now( ), '%y%m%d' )
+        AND uid = #{uid}
+        AND task_type = 2 UNION ALL
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        user_energy
+        WHERE
+        uid = #{uid}
+        AND task_type != 2
+        AND task_type != - 1
     </select>
     <select id="isTodayCompleted" resultType="java.lang.Integer">
         select count(*) from user_energy where task_id = #{taskId} and DATE_FORMAT(create_time,'%y%m%d') =

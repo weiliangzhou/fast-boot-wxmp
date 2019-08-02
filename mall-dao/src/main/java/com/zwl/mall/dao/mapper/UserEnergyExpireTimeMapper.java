@@ -54,4 +54,12 @@ public interface UserEnergyExpireTimeMapper extends BaseMapper<UserEnergyExpireT
      * @return
      */
     BigDecimal getCurrentSpeedRateByUid(Long uid);
+
+    /**
+     * 查询用户最后一条充电时间
+     *
+     * @param uid
+     * @return
+     */
+    UserEnergyExpireTime getLastEndTimeByUid(Long uid);
 }

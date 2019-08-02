@@ -23,19 +23,25 @@
     <select id="getCurrentEnergyExpireSecondEndTimeByUid" resultType="com.zwl.mall.dao.model.UserEnergyExpireTime">
         <![CDATA[
 
-                       SELECT
-                        CASE
 
-                        WHEN
-                            timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
-                            0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
-                                END as expireSecond,
-                            max( end_time )  as endTime
-                        FROM
-                            user_energy_expire_time
-                        WHERE
-                            uid = #{uid}
-                        AND deleted = 0
+
+
+                                               SELECT
+                                                CASE
+
+                                                WHEN
+                                                    timestampdiff( SECOND, now( ), max( end_time ) ) < 0 THEN
+                                                    0 ELSE timestampdiff( SECOND, now( ), max( end_time ) )
+                                                        END as expireSecond,
+                                                    max( end_time )  as endTime
+                                                FROM
+                                                    user_energy_expire_time
+                                                WHERE
+                                                    uid = #{uid}
+                                                AND deleted = 0
+
+
+
 
         ]]>
     </select>
@@ -69,9 +75,24 @@
     </select>
     <select id="getCurrentSpeedRateByUid" resultType="java.math.BigDecimal">
         <![CDATA[
-         select calculation_power from user_energy_expire_time where uid  =#{uid} and start_time <= now() and end_time >now()
+
+
+
+                                 select calculation_power from user_energy_expire_time where uid  =#{uid} and start_time <= now() and end_time >now()
+
+
+
         ]]>
 
+    </select>
+    <select id="getLastEndTimeByUid" resultMap="BaseResultMap">
+        SELECT
+            max( end_time) as endTime
+        FROM
+            user_energy_expire_time
+        WHERE
+            uid =#{uid}
+            AND deleted =0
     </select>
 
 

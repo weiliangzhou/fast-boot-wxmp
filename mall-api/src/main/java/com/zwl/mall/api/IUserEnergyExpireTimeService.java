@@ -57,8 +57,17 @@ public interface IUserEnergyExpireTimeService extends IService<UserEnergyExpireT
 
     /**
      * 获取当前用户当前时段的速率
+     *
      * @param uid
      * @return
      */
     BigDecimal getCurrentSpeedRateByUid(Long uid);
+
+    /**
+     * 查询用户最后一条充电时间
+     *
+     * @param uid
+     * @return
+     */
+    UserEnergyExpireTime getLastEndTimeByUid(Long uid);
 }

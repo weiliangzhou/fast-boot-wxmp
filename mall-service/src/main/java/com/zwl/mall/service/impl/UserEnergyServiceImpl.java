@@ -125,9 +125,11 @@ public class UserEnergyServiceImpl extends ServiceImpl<UserEnergyMapper, UserEne
             if (currentEnergyExpireSecond == 0) {
                 finalStartTime = LocalDateTime.now();
                 finalEndTime = LocalDateUtil.add(finalStartTime, 0, 0, 0, finalNeedHours, 0, 0);
-                //当前过期时间==0 则重置算力到500
-                iUserCalculationPowerService.resetByUid(uid);
-                calculationPower = new BigDecimal("0.0000000001");
+                //当前过期时间距离当前时间24小时 则重置算力到500
+                boolean reset = iUserCalculationPowerService.resetByUid(uid);
+                if (reset) {
+                    calculationPower = new BigDecimal("0.0000000001");
+                }
 
             }
 

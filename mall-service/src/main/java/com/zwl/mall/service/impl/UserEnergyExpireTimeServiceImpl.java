@@ -65,6 +65,11 @@ public class UserEnergyExpireTimeServiceImpl extends ServiceImpl<UserEnergyExpir
         return currentSpeedRateByUid;
 
     }
+
+    @Override
+    public UserEnergyExpireTime getLastEndTimeByUid(Long uid) {
+        return userEnergyExpireTimeMapper.getLastEndTimeByUid(uid);
+    }
 }
 
 
