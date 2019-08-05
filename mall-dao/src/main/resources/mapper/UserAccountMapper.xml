@@ -17,14 +17,16 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid,out_open_id,out_trade_no, money, type, create_time, update_time, deleted
+        id, uid,out_open_id,out_trade_no, money, `type`, create_time, update_time, deleted
     </sql>
 
     <select id="getBTCInfoByUid" resultType="decimal">
-       SELECT t1.money - t2.money
+        SELECT
+            ifnull(sum( money * `type` ),0)
         FROM
-        (select IFNULL(sum(money),0)  as money from user_account where `type` =1 and uid =#{uid} ) t1 ,
-        (select IFNULL(sum(money),0) as money from user_account where `type` =-1 and uid =#{uid} ) t2
+            user_account
+        WHERE
+            uid = #{uid}
     </select>
     <select id="isTodayComplete" resultType="int">
 SELECT

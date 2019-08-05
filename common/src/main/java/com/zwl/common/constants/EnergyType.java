@@ -5,7 +5,7 @@ package com.zwl.common.constants;
  */
 public enum EnergyType {
     TYPE_1(1, "获得"),
-    TYPE_2(-1, "消耗");
+    TYPE_2(-1, "挖矿扣除");
 
     private Integer type;
     private String desc;
