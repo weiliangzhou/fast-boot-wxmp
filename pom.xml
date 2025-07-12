@@ -119,7 +119,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>3.18.0</version>
         </dependency>
         <!-- mybatis数据库字段类型映射，此处是重点 -->
         <!--<dependency>-->
